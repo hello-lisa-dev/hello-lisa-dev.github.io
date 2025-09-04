@@ -46,10 +46,53 @@ The current `index.md` contains TipSmart app support content, but this should be
 - Post defaults include reading time, comments, sharing, and related posts
 - Site identity: "LISA" (hello.lisa.dev@gmail.com)
 
+## SEO Configuration
+
+### Custom SEO Titles
+When you need different titles for SEO vs. page display:
+
+```yaml
+---
+title: "Display Title"
+seo_title: "SEO Optimized Title for Search Engines"
+description: "Page description for meta tags"
+---
+
+{% seo title=false %}
+<title>{{ page.seo_title | default: page.title }} - {{ site.title }}</title>
+```
+
+- `title`: Shows on the page itself
+- `seo_title`: Used for HTML `<title>` tag and SEO
+- `description`: Used for meta description
+- `{% seo title=false %}`: Disables Jekyll SEO Tag's default title generation
+
+## Page-Specific CSS
+
+### Setup (Already Configured)
+- Custom CSS support via `_includes/head/custom.html`
+- Automatically includes CSS files based on front matter
+
+### Usage
+Add to page front matter:
+
+```yaml
+# Single CSS file
+custom_css_file: filename
+
+# Multiple CSS files  
+custom_css:
+  - file1
+  - file2
+```
+
+CSS files should be placed in `/assets/css/` directory (e.g., `/assets/css/tipsmart.css`).
+
 ## Content Guidelines
 
 When working with content:
 - **Blog content**: Use Jekyll posts in `_posts/` with proper front matter
-- **TipSmart pages**: Keep under `tip-smart/` directory with appropriate layouts
+- **TipSmart pages**: Keep under `_pages/` with `/tip-smart/` permalinks
 - Follow existing Korean/English mixed documentation style
 - Maintain consistent front matter: `layout: single` and `author_profile: true`
+- Use `custom_css_file` or `custom_css` for page-specific styling
