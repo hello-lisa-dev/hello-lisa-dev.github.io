@@ -215,7 +215,7 @@ When working with content:
 
 ### Implementation Details
 - **Analytics Provider**: Google Analytics 4 (GA4)
-- **Measurement ID**: `G-6BGXFPTH8H`
+- **Measurement ID**: `G-`
 - **Implementation Method**: Manual implementation (Minimal Mistakes built-in analytics had issues)
 
 ### File Structure

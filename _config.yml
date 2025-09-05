@@ -41,10 +41,11 @@ baseurl: "" # GitHub Pages용
 url: "https://hello-lisa-dev.github.io" # username을 본인 ID로 변경
 
 # Google Analytics 설정 (Minimal Mistakes 공식 방법)
+# 실제 측정 ID는 GitHub Actions에서 환경변수로 주입됩니다
 analytics:
   provider: "google-gtag"
   google:
-    tracking_id: "G-6BGXFPTH8H"  # 실제 측정 ID
+    tracking_id: ""  # GitHub Actions에서 주입
     anonymize_ip: false
 
 # Open Graph 설정 (소셜 미디어 공유 최적화)

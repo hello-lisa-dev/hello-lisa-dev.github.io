@@ -91,7 +91,7 @@ CSS files should be placed in `/assets/css/` directory (e.g., `/assets/css/tipsm
 
 **📋 For detailed Google Analytics configuration, see [ARCHITECTURE.md](./ARCHITECTURE.md)**
 
-- **Status**: Configured with GA4 (Measurement ID: `G-6BGXFPTH8H`)
+- **Status**: Configured with GA4 (Measurement ID: `G-`)
 - **Implementation**: Manual setup via `_includes/head/google-analytics.html`
 - **Note**: Data collection starts after GitHub Pages deployment
 
