@@ -47,6 +47,11 @@ analytics:
     tracking_id: "G-6BGXFPTH8H"  # 실제 측정 ID
     anonymize_ip: false
 
+# Open Graph 설정 (소셜 미디어 공유 최적화)
+og_image: "/assets/images/og-image.jpg"
+twitter:
+  username: "@lisa_dev"  # 실제 트위터 계정으로 변경
+
 # Author 정보
 author:
   name: "LISA"

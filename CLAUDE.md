@@ -95,6 +95,70 @@ CSS files should be placed in `/assets/css/` directory (e.g., `/assets/css/tipsm
 - **Implementation**: Manual setup via `_includes/head/google-analytics.html`
 - **Note**: Data collection starts after GitHub Pages deployment
 
+## Image Assets Creation
+
+### Required Images (Currently Placeholders)
+
+The following image files need to be created to replace current placeholders:
+
+#### 1. Favicon Files
+- **`favicon.ico`** (16x16, 32x32, 48x48 pixels)
+  - **Purpose**: Browser tab icon, bookmarks
+  - **Content**: LISA logo or "L" monogram
+  - **Format**: ICO (multi-size)
+  - **Prompt**: "Create a favicon.ico with LISA logo or stylized 'L' letter in blue (#007AFF) on white background, 16x16, 32x32, and 48x48 pixel sizes"
+
+- **`apple-touch-icon.png`** (180x180 pixels)
+  - **Purpose**: iOS home screen icon
+  - **Content**: LISA logo with rounded corners
+  - **Format**: PNG with transparency
+  - **Prompt**: "Create an Apple touch icon 180x180px with LISA logo in blue (#007AFF) on white background, iOS style with subtle shadow and rounded corners"
+
+#### 2. Open Graph Image
+- **`assets/images/og-image.jpg`** (1200x630 pixels)
+  - **Purpose**: Social media sharing preview (Facebook, Twitter, LinkedIn)
+  - **Content**: LISA blog branding with title
+  - **Format**: JPG
+  - **Prompt**: "Create a social media sharing image 1200x630px with 'LISA Development Team Blog' title, LISA logo, and tagline 'Development insights, tutorials, and updates' in modern design with blue (#007AFF) and white color scheme"
+
+#### 3. Additional Recommended Images
+- **`assets/images/logo.png`** (512x512 pixels)
+  - **Purpose**: Site logo for structured data and branding
+  - **Content**: LISA logo in high resolution
+  - **Format**: PNG with transparency
+  - **Prompt**: "Create a high-resolution LISA logo 512x512px in blue (#007AFF) with clean, modern design suitable for web use"
+
+- **`assets/images/bio-photo.jpg`** (400x400 pixels)
+  - **Purpose**: Author profile photo
+  - **Content**: Professional headshot or avatar
+  - **Format**: JPG
+  - **Prompt**: "Create a professional author photo 400x400px - either a clean avatar illustration or placeholder for team photo"
+
+### Image Creation Guidelines
+
+#### Design Requirements
+- **Primary Color**: Blue (#007AFF) - matches iOS/system blue
+- **Secondary Color**: White (#FFFFFF)
+- **Typography**: Clean, modern sans-serif fonts
+- **Style**: Minimalist, professional, tech-focused
+
+#### Technical Requirements
+- **Favicon**: Must work at small sizes (16px)
+- **OG Image**: Must be readable when scaled down in social feeds
+- **All Images**: Optimized for web (compressed but high quality)
+- **Formats**: Use appropriate formats (ICO for favicon, PNG for logos, JPG for photos)
+
+#### Brand Consistency
+- **Logo**: Consistent across all image assets
+- **Colors**: Maintain blue/white color scheme
+- **Typography**: Use consistent font family
+- **Style**: Professional, clean, modern aesthetic
+
+### Implementation Priority
+1. **High Priority**: `favicon.ico`, `apple-touch-icon.png`, `og-image.jpg`
+2. **Medium Priority**: `logo.png`, `bio-photo.jpg`
+3. **Future**: Additional social media images, blog post featured images
+
 ## Content Guidelines
 
 When working with content:
