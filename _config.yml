@@ -18,6 +18,7 @@ include:
 exclude:
   - CLAUDE.md
   - ARCHITECTURE.md
+  - docs/
   - Gemfile
   - Gemfile.lock
   - README.md
