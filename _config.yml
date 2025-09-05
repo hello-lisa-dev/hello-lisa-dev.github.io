@@ -18,13 +18,18 @@ include:
 exclude:
   - CLAUDE.md
   - ARCHITECTURE.md
-  
   - Gemfile
   - Gemfile.lock
   - README.md
   - LICENSE
   - CHANGELOG.md
   - .gitignore
+  - vendor/
+  - .bundle/
+  - node_modules/
+  - .sass-cache/
+  - .jekyll-cache/
+  - .jekyll-metadata
 
 # CSS 파일 포함 설정
 sass:
