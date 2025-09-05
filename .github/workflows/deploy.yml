@@ -3,6 +3,7 @@ name: Deploy Jekyll site to GitHub Pages
 on:
   push:
     branches: [ main ]
+  # pull_request에서는 배포하지 않고 빌드만 테스트
   pull_request:
     branches: [ main ]
 
@@ -56,8 +57,9 @@ jobs:
         with:
           path: ./_site
 
-  # Deployment job
+  # Deployment job (main 브랜치에서만 실행)
   deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
