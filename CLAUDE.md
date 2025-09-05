@@ -23,28 +23,27 @@ This is a Jekyll-based blog site with dual purposes:
 
 ## Site Architecture
 
-### Content Structure
+**📋 For detailed architecture information, see [ARCHITECTURE.md](./ARCHITECTURE.md)**
+
+### Quick Reference
 - `index.md` - **Main blog landing page** (currently contains TipSmart content but should be blog-focused)
 - `_pages/` - Static pages (about, categories, tags, portfolio, year-archive)
+- `_posts/` - Blog posts with Jekyll naming convention (YYYY-MM-DD-title.md)
 - `_data/navigation.yml` - Site navigation configuration
 - `_config.yml` - Jekyll configuration with site metadata and author info
 - `assets/` - Static assets (CSS, JS, images)
-- **Planned**: `tip-smart/` directory for TipSmart app support pages
 
-### Current Issue
-The current `index.md` contains TipSmart app support content, but this should be moved to a dedicated `tip-smart/` subdirectory. The main `index.md` should serve as the blog's homepage.
+### Minimal Mistakes Layouts
+**✅ IMPORTANT**: Use `layout: single` for blog posts (NOT `layout: post`)
 
-### TipSmart Integration
-- TipSmart support pages should be organized under `/tip-smart/` URL path
-- Move current TipSmart content from `index.md` to `tip-smart/index.md`
-- Move `privacy-policy.html` to `tip-smart/privacy-policy.html`
-- Create proper blog homepage for main `index.md`
+Available layouts:
+- `home` - Homepage layout
+- `single` - **Posts and pages** (recommended for all content)
+- `archive` - Category/tag pages
+- `splash` - Landing pages
+- `page` - General pages
 
-### Theme Configuration
-- Uses Minimal Mistakes remote theme
-- Author profile enabled on all pages
-- Post defaults include reading time, comments, sharing, and related posts
-- Site identity: "LISA" (hello.lisa.dev@gmail.com)
+**See [ARCHITECTURE.md](./ARCHITECTURE.md) for complete layout guide and usage examples.**
 
 ## SEO Configuration
 

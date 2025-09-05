@@ -17,6 +17,8 @@ include:
 # Jekyll 빌드에서 제외할 파일들
 exclude:
   - CLAUDE.md
+  - ARCHITECTURE.md
+  
   - Gemfile
   - Gemfile.lock
   - README.md
@@ -37,6 +39,13 @@ description: >-
   LISA Development Team
 baseurl: "" # GitHub Pages용
 url: "https://hello-lisa-dev.github.io" # username을 본인 ID로 변경
+
+# Google Analytics 설정 (Minimal Mistakes 공식 방법)
+analytics:
+  provider: "google-gtag"
+  google:
+    tracking_id: "G-6BGXFPTH8H"  # 실제 측정 ID
+    anonymize_ip: false
 
 # Author 정보
 author:
