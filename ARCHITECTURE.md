@@ -211,6 +211,37 @@ When working with content:
 - Maintain consistent front matter: `layout: single` and `author_profile: true`
 - Use `custom_css_file` or `custom_css` for page-specific styling
 
+## Google Analytics Integration
+
+### Implementation Details
+- **Analytics Provider**: Google Analytics 4 (GA4)
+- **Measurement ID**: `G-6BGXFPTH8H`
+- **Implementation Method**: Manual implementation (Minimal Mistakes built-in analytics had issues)
+
+### File Structure
+```
+_includes/
+├── head/
+│   ├── custom.html              # Includes GA script
+│   └── google-analytics.html    # GA4 tracking script
+```
+
+### Configuration Files
+- `_config.yml` - Analytics configuration
+- `_includes/head/google-analytics.html` - GA4 tracking implementation
+- `_includes/head/custom.html` - Script inclusion in page head
+
+### Analytics Features
+- **Page Views**: Automatic tracking of all page visits
+- **User Behavior**: Session duration, bounce rate, user flow
+- **Real-time Data**: Live visitor tracking
+- **Custom Events**: Can be added via GTM if needed in future
+
+### Deployment Notes
+- **Local Development**: No data sent to GA (prevents test data pollution)
+- **Production**: Data collection starts after GitHub Pages deployment
+- **Domain**: Configured for `hello-lisa-dev.github.io`
+
 ## Troubleshooting
 
 ### Common Issues
@@ -226,3 +257,11 @@ When working with content:
 #### Navigation Issues
 - **Problem**: Pages not showing in navigation
 - **Solution**: Update `_data/navigation.yml` and ensure correct permalinks
+
+#### Google Analytics Not Working
+- **Problem**: No data appearing in GA dashboard
+- **Solution**: 
+  1. Verify measurement ID in `_config.yml`
+  2. Check if site is deployed to GitHub Pages
+  3. Confirm GA data stream URL matches site domain
+  4. Check browser console for GA script errors

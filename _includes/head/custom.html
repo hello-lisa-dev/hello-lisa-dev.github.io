@@ -9,5 +9,8 @@
   <link rel="stylesheet" href="{{ '/assets/css/' | append: page.custom_css_file | append: '.css' | relative_url }}">
 {% endif %}
 
+{% comment %}Favicon 설정{% endcomment %}
+{% include head/favicon.html %}
+
 {% comment %}Google Analytics 스크립트{% endcomment %}
 {% include head/google-analytics.html %}

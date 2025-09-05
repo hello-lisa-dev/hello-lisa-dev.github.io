@@ -87,6 +87,14 @@ custom_css:
 
 CSS files should be placed in `/assets/css/` directory (e.g., `/assets/css/tipsmart.css`).
 
+## Google Analytics
+
+**📋 For detailed Google Analytics configuration, see [ARCHITECTURE.md](./ARCHITECTURE.md)**
+
+- **Status**: Configured with GA4 (Measurement ID: `G-6BGXFPTH8H`)
+- **Implementation**: Manual setup via `_includes/head/google-analytics.html`
+- **Note**: Data collection starts after GitHub Pages deployment
+
 ## Content Guidelines
 
 When working with content:
