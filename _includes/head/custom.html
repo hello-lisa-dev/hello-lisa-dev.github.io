@@ -1,0 +1,22 @@
+{% if page.custom_css %}
+  {% for stylesheet in page.custom_css %}
+    <link rel="stylesheet" href="{{ '/assets/css/' | append: stylesheet | append: '.css' | relative_url }}">
+  {% endfor %}
+{% endif %}
+
+{% comment %}Single custom CSS file support{% endcomment %}
+{% if page.custom_css_file %}
+  <link rel="stylesheet" href="{{ '/assets/css/' | append: page.custom_css_file | append: '.css' | relative_url }}">
+{% endif %}
+
+{% comment %}Favicon 설정{% endcomment %}
+{% include head/favicon.html %}
+
+{% comment %}Open Graph 태그 (소셜 미디어 공유 최적화){% endcomment %}
+{% include head/og-tags.html %}
+
+{% comment %}Google Analytics 스크립트{% endcomment %}
+{% include head/google-analytics.html %}
+
+{% comment %}구조화된 데이터 (JSON-LD){% endcomment %}
+{% include structured-data.html %}

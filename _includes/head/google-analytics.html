@@ -1,0 +1,18 @@
+{% comment %}
+Google Analytics (GA4) 스크립트
+로컬 환경에서는 비활성화 (JEKYLL_ENV가 development가 아닐 때만)
+{% endcomment %}
+
+{% if site.analytics.provider == "google-gtag" and site.analytics.google.tracking_id %}
+  {% unless jekyll.environment == "development" %}
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ site.analytics.google.tracking_id }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ site.analytics.google.tracking_id }}'{% if site.analytics.google.anonymize_ip == true %}, { 'anonymize_ip': true }{% endif %});
+</script>
+<!-- End Google Analytics -->
+  {% endunless %}
+{% endif %}

@@ -1,0 +1,16 @@
+main:
+  - title: "Home"
+    url: /
+  - title: "About"
+    url: /about/
+  - title: "Posts"
+    url: /posts/
+    children:
+      - title: "By Category"
+        url: /categories/
+      - title: "By Tag"
+        url: /tags/
+      - title: "By Year"
+        url: /year-archive/
+  - title: "Portfolio"
+    url: /portfolio/

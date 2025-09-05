@@ -1,0 +1,103 @@
+# 테마 설정
+remote_theme: "mmistakes/minimal-mistakes@4.27.3"
+
+# 플러그인 설정
+plugins:
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-gist
+  - jekyll-feed
+  - jekyll-include-cache
+  - jekyll-seo-tag
+
+# Jekyll이 처리할 디렉토리 설정
+include:
+  - _pages
+
+# Jekyll 빌드에서 제외할 파일들
+exclude:
+  - CLAUDE.md
+  - ARCHITECTURE.md
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - LICENSE
+  - CHANGELOG.md
+  - .gitignore
+  - vendor/
+  - .bundle/
+  - node_modules/
+  - .sass-cache/
+  - .jekyll-cache/
+  - .jekyll-metadata
+
+# CSS 파일 포함 설정
+sass:
+  load_paths:
+    - _sass
+    - assets/css
+
+# 사이트 기본 정보
+title: "LISA"
+email: hello.lisa.dev@gmail.com
+description: >- 
+  LISA Development Team
+baseurl: "" # GitHub Pages용
+url: "https://hello-lisa-dev.github.io" # username을 본인 ID로 변경
+
+# Google Analytics 설정 (Minimal Mistakes 공식 방법)
+# 실제 측정 ID는 GitHub Actions에서 환경변수로 주입됩니다
+analytics:
+  provider: "google-gtag"
+  google:
+    tracking_id: ""  # GitHub Actions에서 주입
+    anonymize_ip: false
+
+# Open Graph 설정 (소셜 미디어 공유 최적화)
+og_image: "/assets/images/og-image.jpg"
+twitter:
+  username: "@lisa_dev"  # 실제 트위터 계정으로 변경
+
+# Author 정보
+author:
+  name: "LISA"
+  avatar: "/assets/images/bio-photo.jpg"
+  bio: "I am an amazing developer."
+  links:
+    - label: "Email"
+      icon: "fas fa-fw fa-envelope-square"
+      url: "mailto:hello.lisa.dev@gmail.com"
+    - label: "Website"
+      icon: "fas fa-fw fa-link"
+      url: "https://hello-lisa-dev.github.io"
+    - label: "Twitter"
+      icon: "fab fa-fw fa-twitter-square"
+      url: "https://twitter.com/"
+
+# 기본 설정
+defaults:
+  # _posts
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: true
+      share: true
+      related: true
+  # _pages
+  - scope:
+      path: "_pages"
+      type: pages
+    values:
+      layout: single
+      author_profile: true
+
+category_archive:
+  type: liquid
+  path: /categories/
+tag_archive:
+  type: liquid
+  path: /tags/
