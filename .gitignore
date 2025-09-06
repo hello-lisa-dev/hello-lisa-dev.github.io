@@ -43,3 +43,5 @@ yarn-error.log*
 .env
 .env.local
 .env.*.local
+# 페르소나 및 전략 문서 (비공개)
+docs/persona/
