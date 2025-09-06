@@ -55,8 +55,6 @@ analytics:
 
 # Open Graph 설정 (소셜 미디어 공유 최적화)
 og_image: "/assets/images/og-image.jpg"
-twitter:
-  username: "@lisa_dev"  # 실제 트위터 계정으로 변경
 
 # Author 정보
 author:
@@ -69,9 +67,6 @@ author:
     - label: "Website"
       icon: "fas fa-fw fa-link"
       url: "https://hello-lisa-dev.github.io"
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/hello-lisa-dev"
