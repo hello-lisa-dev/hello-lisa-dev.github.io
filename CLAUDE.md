@@ -195,12 +195,110 @@ plugins:
 
 This plugin uses Git commit history to automatically track file modifications.
 
+## SEO/AEO Optimization Guidelines
+
+### Critical Importance
+**SEO/AEO optimization is ESSENTIAL for blog post success**. Proper keyword strategy directly impacts search visibility and organic traffic growth.
+
+### Front Matter SEO Fields
+**ALWAYS include these fields in every blog post:**
+
+```yaml
+---
+title: "Display Title (under 60 characters)"
+date: YYYY-MM-DD
+last_modified_at: YYYY-MM-DD HH:MM:SS +0900  # Update when content changes
+categories: [primary_category, secondary_category]
+tags: [keyword1, keyword2, keyword3, ...]  # 8-15 targeted keywords
+seo_title: "SEO Optimized Title - Under 60 chars with main keyword"
+description: "Meta description under 160 characters including target keywords and value proposition"
+---
+```
+
+### Keyword Strategy
+
+#### Primary Keywords (Must Include)
+- **Year Keywords**: "2025년", "최신" - for freshness signals
+- **Topic Keywords**: Main subject (e.g., "바이브코딩", "AI개발도구")
+- **Intent Keywords**: "가이드", "비교", "방법", "후기"
+- **Geo Keywords**: "한국", "국내" - for local relevance
+- **Audience Keywords**: "개발자", "초보자", "입문자"
+
+#### Secondary Keywords (Expand Coverage)  
+- **Long-tail**: "2025년 AI 개발 도구 비교"
+- **Related Terms**: Synonyms and variations
+- **Brand Names**: Specific tools/technologies mentioned
+- **Problem-solving**: "문제해결", "오류", "팁"
+
+#### Tag Optimization Guidelines
+- **Quantity**: 8-15 tags per post (optimal range)
+- **Mix Types**: Brand names, topics, intents, geo terms
+- **Consistency**: Use consistent tag format across posts
+- **Relevance**: Every tag must be directly relevant to content
+
+### AEO (Answer Engine Optimization)
+
+#### Content Structure
+- **Clear Q&A Format**: Use question headings ("~란?", "어떻게?", "왜?")
+- **Step-by-step Instructions**: Numbered lists for processes
+- **Comparison Tables**: For tool/method comparisons  
+- **Concrete Examples**: Real use cases and code snippets
+- **Summary Sections**: Key takeaways and conclusions
+
+#### Featured Snippet Optimization
+- **Definition Boxes**: Start with clear definitions
+- **How-to Lists**: Structured step-by-step guides
+- **Comparison Charts**: Side-by-side feature comparisons
+- **FAQ Sections**: Common questions with direct answers
+
+### Search Intent Matching
+
+#### Informational Queries
+- "바이브 코딩이란"
+- "AI 개발 도구 종류"
+- "개발 방법 설명"
+
+#### Comparison Queries  
+- "Cursor vs Claude Code"
+- "AI 도구 비교"
+- "장단점 분석"
+
+#### Problem-solving Queries
+- "AI 코딩 오류 해결"
+- "개발 도구 선택 방법"
+- "설정 문제 해결"
+
+### Content Optimization Checklist
+
+#### Pre-Publishing
+- [ ] Target keyword in title (within first 60 characters)
+- [ ] Target keyword in first paragraph
+- [ ] LSI keywords distributed throughout content
+- [ ] Headings include question-based keywords
+- [ ] Meta description includes target keyword + value proposition
+- [ ] Tags cover primary + secondary keywords
+- [ ] Internal links to related posts
+- [ ] External links to authoritative sources
+
+#### Post-Publishing
+- [ ] Monitor search performance in GA4
+- [ ] Update `last_modified_at` when content changes  
+- [ ] Add new relevant tags as content evolves
+- [ ] Link from new posts to boost older content
+
+### Performance Tracking
+- **Google Analytics 4**: Monitor organic traffic and keyword rankings
+- **Search Console**: Track click-through rates and impressions
+- **Tag Performance**: Analyze which tags drive most traffic
+- **Content Updates**: Refresh underperforming posts with new keywords
+
 ## Content Guidelines
 
 When working with content:
 - **Blog content**: Use Jekyll posts in `_posts/` with proper front matter
-- **TipSmart pages**: Keep under `_pages/` with `/tip-smart/` permalinks
+- **TipSmart pages**: Keep under `_pages/` with `/tip-smart/` permalinks  
 - Follow existing Korean/English mixed documentation style
 - Maintain consistent front matter: `layout: single` and `author_profile: true`
 - Use `custom_css_file` or `custom_css` for page-specific styling
 - **Date Management**: Always include `date` field, optionally add `last_modified_at` for content updates
+- **⭐ SEO/AEO CRITICAL**: Follow SEO optimization guidelines above for every post
