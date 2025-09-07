@@ -159,6 +159,42 @@ The following image files need to be created to replace current placeholders:
 2. **Medium Priority**: `logo.png`, `bio-photo.jpg`
 3. **Future**: Additional social media images, blog post featured images
 
+## Post Date Management
+
+### Front Matter Date Fields
+Jekyll supports comprehensive date management through front matter:
+
+```yaml
+---
+title: "Post Title"
+date: 2025-09-06                    # Publication date
+last_modified_at: 2025-09-07 13:40:00 +0900  # Last modification timestamp
+---
+```
+
+### Date Management Guidelines
+- **`date`**: Required field for post publication date
+- **`last_modified_at`**: Optional field for tracking content updates
+- **Format**: Use `YYYY-MM-DD HH:MM:SS ±TTTT` for precise timestamps
+- **Timezone**: Use `+0900` for Korean Standard Time (KST)
+- **Manual Updates**: Update `last_modified_at` whenever post content is modified
+
+### Automatic Date Management (Advanced)
+For automatic modification tracking, consider using `jekyll-last-modified-at` plugin:
+
+```ruby
+# Gemfile
+gem 'jekyll-last-modified-at'
+```
+
+```yaml
+# _config.yml
+plugins:
+  - jekyll-last-modified-at
+```
+
+This plugin uses Git commit history to automatically track file modifications.
+
 ## Content Guidelines
 
 When working with content:
@@ -167,3 +203,4 @@ When working with content:
 - Follow existing Korean/English mixed documentation style
 - Maintain consistent front matter: `layout: single` and `author_profile: true`
 - Use `custom_css_file` or `custom_css` for page-specific styling
+- **Date Management**: Always include `date` field, optionally add `last_modified_at` for content updates
