@@ -49,14 +49,14 @@
   - Ensure category URLs reflect the selected language
   - _Implements Requirements: 4.3, 4.4_
 
-- [ ] 8. Create directory structure for translated posts
+- [x] 8. Create directory structure for translated posts
   - Create `_posts/en/` directory for English translations
   - Create `_posts/es/` directory for Spanish translations
   - Set up proper Jekyll collection configuration for language directories
   - Test post discovery and URL generation for translated content
   - _Implements Requirements: 3.1, 4.1_
 
-- [ ] 9. Implement SEO optimization for multilingual content
+- [x] 9. Implement SEO optimization for multilingual content
   - Create `_includes/hreflang-tags.html` for automatic hreflang generation
   - Update `_includes/seo.html` to include language-specific meta tags
   - Add language information to structured data (JSON-LD)

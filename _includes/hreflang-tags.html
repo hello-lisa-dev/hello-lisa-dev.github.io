@@ -1,0 +1,44 @@
+{% comment %}
+Automatic hreflang tag generation for multilingual SEO
+This include generates proper hreflang tags for all available translations
+Uses language prefix URL structure (/ko/, /en/, /es/)
+{% endcomment %}
+
+{% assign current_lang = page.lang | default: site.default_language | default: 'ko' %}
+
+{% comment %}Generate hreflang tags for posts with translations{% endcomment %}
+{% if page.translation_key %}
+  {% comment %}Find all posts with the same translation_key{% endcomment %}
+  {% assign translations = site.posts | where: "translation_key", page.translation_key %}
+  
+  {% comment %}Generate hreflang for each available language{% endcomment %}
+  {% for translation in translations %}
+    {% if translation.lang %}
+      <link rel="alternate" hreflang="{{ translation.lang }}" href="{{ translation.url | absolute_url }}">
+    {% endif %}
+  {% endfor %}
+  
+  {% comment %}Add x-default hreflang pointing to the default language{% endcomment %}
+  {% assign default_translation = translations | where: "lang", site.default_language | first %}
+  {% if default_translation %}
+    <link rel="alternate" hreflang="x-default" href="{{ default_translation.url | absolute_url }}">
+  {% endif %}
+{% endif %}
+
+{% comment %}Generate hreflang tags for pages with explicit translations{% endcomment %}
+{% if page.translations %}
+  {% for translation in page.translations %}
+    {% assign trans_lang = translation[0] %}
+    {% assign trans_url = translation[1] %}
+    {% if trans_lang != current_lang %}
+      <link rel="alternate" hreflang="{{ trans_lang }}" href="{{ trans_url | absolute_url }}">
+    {% endif %}
+  {% endfor %}
+  
+  {% comment %}Add x-default hreflang{% endcomment %}
+  {% assign default_url = page.translations[site.default_language] | default: page.url %}
+  <link rel="alternate" hreflang="x-default" href="{{ default_url | absolute_url }}">
+{% endif %}
+
+{% comment %}Self-referencing hreflang for current page{% endcomment %}
+<link rel="alternate" hreflang="{{ current_lang }}" href="{{ page.url | absolute_url }}">

@@ -52,23 +52,31 @@ default_language: "ko"
 ```yaml
 ---
 title: "포스트 제목"
+categories: [vibe-coding]  # 모든 언어에서 영어 카테고리 사용
 lang: "ko"
 translation_key: "unique-post-identifier"
+permalink: /ko/vibe-coding/2025/09/06/what-is-vibe-coding.html  # 언어 prefix
 translations:
-  ko: "/path/to/korean/post.html"
-  en: "/path/to/english/post.html"
-  es: "/path/to/spanish/post.html"
+  ko: "/ko/vibe-coding/2025/09/06/what-is-vibe-coding.html"
+  en: "/en/vibe-coding/2025/09/06/what-is-vibe-coding.html"
+  es: "/es/vibe-coding/2025/09/06/what-is-vibe-coding.html"
 ---
 ```
 
-#### 3. 디렉토리 구조
+#### 3. URL 구조 (언어 prefix 방식)
 ```
+# URL 구조
+/ko/vibe-coding/2025/09/06/what-is-vibe-coding.html    # 한국어
+/en/vibe-coding/2025/09/06/what-is-vibe-coding.html    # 영어
+/es/vibe-coding/2025/09/06/what-is-vibe-coding.html    # 스페인어 (향후)
+
+# 디렉토리 구조
 _posts/
-├── 2025-09-06-korean-post.md          # 한국어 (기본)
+├── 2025-09-06-korean-post.md          # 한국어 (permalink: /ko/...)
 ├── en/
-│   └── 2025-09-06-english-post.md     # 영어 번역
+│   └── 2025-09-06-english-post.md     # 영어 번역 (permalink: /en/...)
 └── es/
-    └── 2025-09-06-spanish-post.md     # 스페인어 번역
+    └── 2025-09-06-spanish-post.md     # 스페인어 번역 (permalink: /es/...)
 ```
 
 ## Implementation Progress
@@ -109,7 +117,7 @@ _posts/
 - 언어별 디렉토리 기본값 설정 (`_posts/en/`, `_posts/es/`)
 - 번역 검증 스크립트 생성 (`_scripts/check-translations.rb`)
 
-### ✅ Recently Completed (Task 7 + SEO Improvements)
+### ✅ Recently Completed (Tasks 7-9 + SEO Improvements)
 
 #### Task 7: 카테고리 번역 시스템 ✅
 - **Liquid 필터 구현**: `_plugins/category_translator.rb`로 카테고리 번역 필터 생성
@@ -121,6 +129,20 @@ _posts/
   - `_includes/page__taxonomy.html`: 포스트 하단 카테고리 번역 표시
   - `_includes/archive-single.html`: 포스트 미리보기에서 번역된 카테고리 표시
 - **JavaScript 연동**: 언어 변경 시 카테고리 해시 URL 자동 업데이트
+
+#### Task 8: URL 구조 개선 (언어 prefix 방식) ✅
+- **언어 prefix 도입**: `/ko/`, `/en/`, `/es/` 방식으로 URL 구조 통일
+- **카테고리 통일**: 모든 언어에서 영어 카테고리 사용 (`vibe-coding`, `ai-tools`)
+- **확장성 개선**: 새로운 언어 추가 시 일관된 구조 유지
+- **SEO 최적화**: 언어별 독립적인 URL로 검색엔진 최적화
+
+#### Task 9: SEO 최적화 및 다국어 메타데이터 ✅
+- **hreflang 태그 시스템**: `_includes/hreflang-tags.html` 생성
+  - 언어 prefix 방식에 맞는 자동 hreflang 태그 생성
+  - x-default 태그로 기본 언어 지정
+- **HTML lang 속성 개선**: 커스텀 `_layouts/default.html`에서 서버사이드 lang 속성 설정
+- **언어별 메타 태그 강화**: `content-language`, `dc.language`, `locale` 메타 태그 추가
+- **JSON-LD 구조화 데이터**: `inLanguage` 속성 및 `workTranslation` 배열로 번역 정보 포함
 
 #### SEO 시스템 통합 및 개선 ✅
 - **통합 SEO 관리**: `_includes/seo.html` 생성으로 모든 SEO 메타데이터 통합
@@ -137,11 +159,11 @@ _posts/
   - `_includes/head/custom.html` 간소화 (핵심 기능만 유지)
 - **언어 선택기 개선**: 드롭다운 메뉴 동적 업데이트 기능 추가
 
-### 🚧 In Progress (Tasks 8-18)
+### 🚧 In Progress (Tasks 10-18)
 
 #### Task 10: 콘텐츠 전환 기능
-- 언어 파라미터 기반 콘텐츠 전환 JavaScript 함수
-- 번역 사용 가능 시 AJAX 로딩
+- 언어 prefix 기반 페이지 리다이렉션 JavaScript 함수
+- 번역 사용 가능 시 해당 언어 페이지로 이동
 - 번역 누락 시 폴백 콘텐츠 및 알림 표시
 
 ## Technical Architecture
@@ -226,8 +248,14 @@ category_translations:
 ## Current Translation Status
 
 ### Available Translations
-- **what-is-vibe-coding**: 한국어 ✅, 영어 ✅, 스페인어 ❌
-- **ai-development-tools-comparison**: 한국어 ✅, 영어 ❌, 스페인어 ❌
+- **what-is-vibe-coding**: 
+  - 한국어 ✅ (`/ko/vibe-coding/2025/09/06/what-is-vibe-coding.html`)
+  - 영어 ✅ (`/en/vibe-coding/2025/09/06/what-is-vibe-coding.html`)
+  - 스페인어 ❌
+- **ai-development-tools-comparison**: 
+  - 한국어 ✅ (`/ko/vibe-coding/ai-tools/2025/09/07/ai-development-tools-comparison.html`)
+  - 영어 ❌
+  - 스페인어 ❌
 
 ### Translation Workflow
 1. **원본 작성**: 한국어로 포스트 작성
@@ -263,7 +291,8 @@ category_translations:
 
 ### Challenge 2: URL 구조 설계
 - **문제**: 언어별 URL 구조 결정 (서브도메인 vs 경로 vs 파라미터)
-- **해결**: URL 파라미터 방식 채택 (`?lang=en`)으로 GitHub Pages 호환성 확보
+- **초기 시도**: URL 파라미터 방식 (`?lang=en`) - Jekyll 정적 사이트 특성상 불가능
+- **최종 해결**: 언어 prefix 방식 (`/ko/`, `/en/`, `/es/`) 채택으로 확장성과 SEO 최적화
 
 ### Challenge 3: 번역 일관성 관리
 - **문제**: 번역 간 내용 동기화 및 누락 방지
@@ -333,4 +362,4 @@ category_translations:
 
 **문서 작성**: 2025-09-09  
 **작성자**: LISA Development Team  
-**구현 상태**: Tasks 1-6 완료, Tasks 7-18 진행 중
+**구현 상태**: Tasks 1-9 완료, Tasks 10-18 진행 중

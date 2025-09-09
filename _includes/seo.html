@@ -30,6 +30,11 @@ Overrides the default Minimal Mistakes SEO
 <meta name="description" content="{{ seo_description | escape }}">
 <meta name="language" content="{{ current_lang }}">
 <meta http-equiv="content-language" content="{{ current_lang }}">
+<meta name="content-language" content="{{ current_lang }}">
+<meta name="dc.language" content="{{ current_lang }}">
+{% if lang_metadata.locale %}
+<meta name="locale" content="{{ lang_metadata.locale }}">
+{% endif %}
 
 {% if page.author %}
   <meta name="author" content="{{ page.author | escape }}">
@@ -95,17 +100,8 @@ Overrides the default Minimal Mistakes SEO
 <!-- Canonical URL -->
 <link rel="canonical" href="{{ page.url | absolute_url }}{% unless current_lang == site.default_language %}?lang={{ current_lang }}{% endunless %}">
 
-<!-- Language alternates -->
-{% if page.translations %}
-  {% for translation in page.translations %}
-    {% assign trans_lang = translation[0] %}
-    {% assign trans_url = translation[1] %}
-    {% if trans_lang != current_lang %}
-      <link rel="alternate" hreflang="{{ trans_lang }}" href="{{ trans_url | absolute_url }}">
-    {% endif %}
-  {% endfor %}
-  <link rel="alternate" hreflang="x-default" href="{{ page.translations[site.default_language] | default: page.url | absolute_url }}">
-{% endif %}
+<!-- Language alternates and hreflang tags -->
+{% include hreflang-tags.html %}
 
 <!-- JSON-LD Structured Data -->
 <script type="application/ld+json">
@@ -146,6 +142,38 @@ Overrides the default Minimal Mistakes SEO
   "url": "{{ page.url | absolute_url }}{% unless current_lang == site.default_language %}?lang={{ current_lang }}{% endunless %}"
   {% if page.tags %}
   ,"keywords": "{{ page.tags | join: ', ' | escape }}"
+  {% endif %}
+  {% comment %}Add translation information to structured data{% endcomment %}
+  {% if page.translation_key %}
+    {% assign translations = site.posts | where: "translation_key", page.translation_key %}
+    {% if translations.size > 1 %}
+      ,"workTranslation": [
+        {% for translation in translations %}
+          {% unless translation.lang == current_lang %}
+            {
+              "@type": "CreativeWork",
+              "url": "{{ translation.url | absolute_url }}?lang={{ translation.lang }}",
+              "inLanguage": "{{ translation.lang }}",
+              "name": "{{ translation.title | escape }}"
+            }{% unless forloop.last %},{% endunless %}
+          {% endunless %}
+        {% endfor %}
+      ]
+    {% endif %}
+  {% elsif page.translations %}
+    ,"workTranslation": [
+      {% for translation in page.translations %}
+        {% assign trans_lang = translation[0] %}
+        {% assign trans_url = translation[1] %}
+        {% unless trans_lang == current_lang %}
+          {
+            "@type": "CreativeWork",
+            "url": "{{ trans_url | absolute_url }}?lang={{ trans_lang }}",
+            "inLanguage": "{{ trans_lang }}"
+          }{% unless forloop.last %},{% endunless %}
+        {% endunless %}
+      {% endfor %}
+    ]
   {% endif %}
 }
 </script>

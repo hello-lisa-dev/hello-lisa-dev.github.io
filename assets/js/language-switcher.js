@@ -206,31 +206,18 @@ class LanguageSwitcher {
   updateCategoryHash(url, langCode) {
     const hash = url.hash.substring(1); // Remove # prefix
     
-    // Category translation mappings (should match Jekyll config)
+    // Category translation mappings (now all URLs use English categories)
+    // Only display names are translated, URLs remain consistent
     const categoryTranslations = {
-      '바이브코딩': {
-        'en': 'vibe-coding',
-        'es': 'codificacion-vibe'
-      },
-      'ai도구': {
-        'en': 'ai-tools', 
-        'es': 'herramientas-ia'
-      },
       'vibe-coding': {
-        'ko': '바이브코딩',
-        'es': 'codificacion-vibe'
+        'ko': 'vibe-coding', // URL stays the same
+        'en': 'vibe-coding',
+        'es': 'vibe-coding'
       },
       'ai-tools': {
-        'ko': 'ai도구',
-        'es': 'herramientas-ia'
-      },
-      'codificacion-vibe': {
-        'ko': '바이브코딩',
-        'en': 'vibe-coding'
-      },
-      'herramientas-ia': {
-        'ko': 'ai도구',
-        'en': 'ai-tools'
+        'ko': 'ai-tools', // URL stays the same
+        'en': 'ai-tools',
+        'es': 'ai-tools'
       }
     };
     

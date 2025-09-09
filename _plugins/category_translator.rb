@@ -27,13 +27,13 @@ module Jekyll
       end
     end
     
-    # Get category URL with language parameter
+    # Get category URL with language parameter (URL uses English category, display uses translation)
     def category_url_with_lang(category, lang = nil)
       current_lang = lang || @context.registers[:page]['lang'] || @context.registers[:site].config['default_language'] || 'ko'
-      translated_category = translate_category(category, current_lang)
       
-      # Create URL-friendly version of category
-      category_slug = translated_category.downcase.gsub(/[^a-z0-9\-_가-힣]/, '-').gsub(/-+/, '-').gsub(/^-|-$/, '')
+      # Always use the original English category for URL consistency
+      # This ensures all languages use the same URL structure
+      category_slug = category.downcase.gsub(/[^a-z0-9\-_]/, '-').gsub(/-+/, '-').gsub(/^-|-$/, '')
       
       base_url = "/categories/##{category_slug}"
       
