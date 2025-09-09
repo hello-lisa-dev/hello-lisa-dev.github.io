@@ -1,3 +1,4 @@
+{% comment %}Custom CSS files support{% endcomment %}
 {% if page.custom_css %}
   {% for stylesheet in page.custom_css %}
     <link rel="stylesheet" href="{{ '/assets/css/' | append: stylesheet | append: '.css' | relative_url }}">
@@ -12,17 +13,19 @@
 {% comment %}Favicon 설정{% endcomment %}
 {% include head/favicon.html %}
 
-{% comment %}Open Graph 태그 (소셜 미디어 공유 최적화){% endcomment %}
-{% include head/og-tags.html %}
-
 {% comment %}Google Analytics 스크립트{% endcomment %}
 {% include head/google-analytics.html %}
-
-{% comment %}구조화된 데이터 (JSON-LD){% endcomment %}
-{% include structured-data.html %}
 
 {% comment %}Language Switcher CSS{% endcomment %}
 <link rel="stylesheet" href="{{ '/assets/css/language-switcher.css' | relative_url }}">
 
 {% comment %}Language Switcher JavaScript{% endcomment %}
 <script src="{{ '/assets/js/language-switcher.js' | relative_url }}" defer></script>
+
+{% comment %}HTML lang 속성 설정 (JavaScript로 동적 설정){% endcomment %}
+{% assign current_lang = page.lang | default: site.default_language | default: 'ko' %}
+{% assign lang_metadata = site.language_metadata[current_lang] %}
+<script>
+  document.documentElement.lang = '{{ current_lang }}';
+  document.documentElement.setAttribute('dir', '{{ lang_metadata.direction | default: "ltr" }}');
+</script>

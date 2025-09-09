@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function() {
     languageOptions.classList.remove('show');
   }
   
-  // Update current language display
+  // Update current language display and dropdown options
   function updateCurrentLanguage(langCode) {
     const languages = {
       'ko': { name: '한국어', flag: '🇰🇷' },
@@ -262,6 +262,40 @@ document.addEventListener('DOMContentLoaded', function() {
       currentFlag.textContent = langData.flag;
       currentLang.textContent = langData.name;
     }
+    
+    // Update dropdown options to exclude current language
+    updateDropdownOptions(langCode);
+  }
+  
+  // Update dropdown options
+  function updateDropdownOptions(currentLang) {
+    const languages = {
+      'ko': { name: '한국어', flag: '🇰🇷' },
+      'en': { name: 'English', flag: '🇺🇸' },
+      'es': { name: 'Español', flag: '🇪🇸' }
+    };
+    
+    // Clear existing options
+    languageOptions.innerHTML = '';
+    
+    // Add options for all languages except current
+    Object.keys(languages).forEach(langCode => {
+      if (langCode !== currentLang) {
+        const langData = languages[langCode];
+        const option = document.createElement('button');
+        option.className = 'language-option';
+        option.setAttribute('data-lang', langCode);
+        option.setAttribute('role', 'menuitem');
+        option.setAttribute('aria-label', `Switch to ${langData.name}`);
+        
+        option.innerHTML = `
+          <span class="language-flag">${langData.flag}</span>
+          <span class="language-name">${langData.name}</span>
+        `;
+        
+        languageOptions.appendChild(option);
+      }
+    });
   }
   
   // Handle language selection

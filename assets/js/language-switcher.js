@@ -180,6 +180,12 @@ class LanguageSwitcher {
   updateURLWithLanguage(langCode) {
     const url = new URL(window.location);
     
+    // Handle category page URLs with hash fragments
+    if (url.pathname.includes('/categories/') && url.hash) {
+      // For category pages, we need to update the hash fragment for translated categories
+      this.updateCategoryHash(url, langCode);
+    }
+    
     if (langCode === this.defaultLanguage) {
       // Remove language parameter for default language
       url.searchParams.delete('lang');
@@ -192,6 +198,58 @@ class LanguageSwitcher {
     
     // Update URL without reloading
     window.history.replaceState({}, '', url);
+  }
+
+  /**
+   * Update category hash fragment for language changes
+   */
+  updateCategoryHash(url, langCode) {
+    const hash = url.hash.substring(1); // Remove # prefix
+    
+    // Category translation mappings (should match Jekyll config)
+    const categoryTranslations = {
+      '바이브코딩': {
+        'en': 'vibe-coding',
+        'es': 'codificacion-vibe'
+      },
+      'ai도구': {
+        'en': 'ai-tools', 
+        'es': 'herramientas-ia'
+      },
+      'vibe-coding': {
+        'ko': '바이브코딩',
+        'es': 'codificacion-vibe'
+      },
+      'ai-tools': {
+        'ko': 'ai도구',
+        'es': 'herramientas-ia'
+      },
+      'codificacion-vibe': {
+        'ko': '바이브코딩',
+        'en': 'vibe-coding'
+      },
+      'herramientas-ia': {
+        'ko': 'ai도구',
+        'en': 'ai-tools'
+      }
+    };
+    
+    // Find translation for current hash
+    if (categoryTranslations[hash] && categoryTranslations[hash][langCode]) {
+      const translatedCategory = categoryTranslations[hash][langCode];
+      url.hash = '#' + this.slugify(translatedCategory);
+    }
+  }
+
+  /**
+   * Create URL-friendly slug from text
+   */
+  slugify(text) {
+    return text
+      .toLowerCase()
+      .replace(/[^a-z0-9가-힣\-_]/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
   }
 
   /**

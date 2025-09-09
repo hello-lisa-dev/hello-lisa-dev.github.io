@@ -1,0 +1,51 @@
+{% comment %}
+  Custom taxonomy display with category translation support
+{% endcomment %}
+
+{% assign current_lang = page.lang | default: site.default_language | default: 'ko' %}
+
+{% if site.tag_archive.type and page.tags[0] %}
+  {% unless site.tag_archive.type == "liquid" %}
+    <p class="page__taxonomy">
+      <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> {{ site.data.ui-text[site.locale].tags_label | default: "Tags:" }} </strong>
+      <span itemprop="keywords">
+      {% for tag_word in page.tags %}
+        <a href="{{ tag_word | slugify | prepend: site.tag_archive.path | relative_url }}" class="page__taxonomy-item p-category" rel="tag">{{ tag_word }}</a>{% unless forloop.last %}<span class="sep">, </span>{% endunless %}
+      {% endfor %}
+      </span>
+    </p>
+  {% else %}
+    <p class="page__taxonomy">
+      <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> {{ site.data.ui-text[site.locale].tags_label | default: "Tags:" }} </strong>
+      <span itemprop="keywords">
+      {% for tag_word in page.tags %}
+        <a href="{{ site.tag_archive.path }}#{{ tag_word | slugify }}" class="page__taxonomy-item p-category" rel="tag">{{ tag_word }}</a>{% unless forloop.last %}<span class="sep">, </span>{% endunless %}
+      {% endfor %}
+      </span>
+    </p>
+  {% endunless %}
+{% endif %}
+
+{% if site.category_archive.type and page.categories[0] %}
+  {% unless site.category_archive.type == "liquid" %}
+    <p class="page__taxonomy">
+      <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> {{ site.data.ui-text[site.locale].categories_label | default: "Categories:" }} </strong>
+      <span itemprop="about">
+      {% for category_word in page.categories %}
+        {% assign translated_category = category_word | translate_category: current_lang %}
+        <a href="{{ category_word | category_url_with_lang: current_lang }}" class="page__taxonomy-item p-category">{{ translated_category }}</a>{% unless forloop.last %}<span class="sep">, </span>{% endunless %}
+      {% endfor %}
+      </span>
+    </p>
+  {% else %}
+    <p class="page__taxonomy">
+      <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> {{ site.data.ui-text[site.locale].categories_label | default: "Categories:" }} </strong>
+      <span itemprop="about">
+      {% for category_word in page.categories %}
+        {% assign translated_category = category_word | translate_category: current_lang %}
+        <a href="{{ site.category_archive.path }}#{{ translated_category | slugify }}" class="page__taxonomy-item p-category">{{ translated_category }}</a>{% unless forloop.last %}<span class="sep">, </span>{% endunless %}
+      {% endfor %}
+      </span>
+    </p>
+  {% endunless %}
+{% endif %}

@@ -42,7 +42,7 @@
   - Update existing posts with new front matter fields
   - _Implements Requirements: 3.1, 3.2, 3.3_
 
-- [ ] 7. Implement category translation system
+- [x] 7. Implement category translation system
   - Create Liquid filter for category name translation
   - Update category archive pages to use translated names
   - Modify post display templates to show translated categories
