@@ -102,6 +102,55 @@ tag_archive:
   type: liquid
   path: /tags/
 
+# 다국어 설정
+languages:
+  ko:
+    name: "한국어"
+    flag: "🇰🇷"
+    default: true
+  en:
+    name: "English"
+    flag: "🇺🇸"
+  es:
+    name: "Español"
+    flag: "🇪🇸"
+
+# 기본 언어
+default_language: "ko"
+
+# 언어별 메타데이터
+language_metadata:
+  ko:
+    locale: "ko-KR"
+    direction: "ltr"
+  en:
+    locale: "en-US"
+    direction: "ltr"
+  es:
+    locale: "es-ES"
+    direction: "ltr"
+
+# 카테고리 번역 매핑
+category_translations:
+  "바이브코딩":
+    en: "vibe-coding"
+    es: "codificacion-vibe"
+  "AI도구":
+    en: "ai-tools"
+    es: "herramientas-ia"
+  "Mobile":
+    en: "mobile"
+    es: "movil"
+  "Development":
+    en: "development"
+    es: "desarrollo"
+  "Story":
+    en: "story"
+    es: "historia"
+  "Jekyll":
+    en: "jekyll"
+    es: "jekyll"
+
 # 사이트 설정
 locale: "ko-KR"
 timezone: "Asia/Seoul"
