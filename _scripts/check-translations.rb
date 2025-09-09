@@ -1,76 +1,86 @@
 #!/usr/bin/env ruby
 # Simple Translation Checker
+# Usage: ruby _scripts/check-translations.rb
 
 require 'yaml'
 require 'find'
 
-puts "🔍 Checking translation status..."
+puts "🔍 Checking translations..."
 
-posts_by_key = {}
-errors = []
-warnings = []
+translation_groups = {}
+issues = []
 
-# Find all posts
-Find.find('_posts') do |path|
-  next unless path.end_with?('.md')
+# Find all posts and pages
+['_posts', '_pages'].each do |directory|
+  next unless Dir.exist?(directory)
   
-  begin
-    content = File.read(path)
-    next unless content.start_with?('---')
+  Find.find(directory) do |path|
+    next unless File.file?(path) && path.end_with?('.md')
     
-    parts = content.split('---', 3)
-    next if parts.length < 3
-    
-    front_matter = YAML.safe_load(parts[1], permitted_classes: [Date, Time])
-    next unless front_matter
-    
-    translation_key = front_matter['translation_key']
-    lang = front_matter['lang']
-    
-    if translation_key
-      posts_by_key[translation_key] ||= []
-      posts_by_key[translation_key] << {
-        path: path,
-        lang: lang,
-        title: front_matter['title']
-      }
-    else
-      warnings << "⚠️  No translation_key in #{path}"
+    begin
+      content = File.read(path)
+      next unless content =~ /\A(---\s*\n.*?\n?)^(---\s*$\n?)/m
+      
+      front_matter = YAML.load($1)
+      
+      # Check for translation template markers
+      if front_matter['title']&.include?('[TRANSLATE]')
+        issues << "#{path}: Title needs translation"
+      end
+      
+      if front_matter['description']&.include?('[TRANSLATE]')
+        issues << "#{path}: Description needs translation"
+      end
+      
+      if content.include?('<!-- TRANSLATE THE CONTENT BELOW -->')
+        issues << "#{path}: Content needs translation"
+      end
+      
+      # Collect translation groups
+      if front_matter['translation_key']
+        key = front_matter['translation_key']
+        lang = front_matter['lang'] || 'ko'
+        
+        translation_groups[key] ||= []
+        translation_groups[key] << {
+          lang: lang,
+          file: path,
+          title: front_matter['title']
+        }
+      end
+      
+    rescue => e
+      issues << "#{path}: Error reading file - #{e.message}"
     end
-    
-  rescue => e
-    errors << "❌ Error reading #{path}: #{e.message}"
   end
 end
 
-puts "\n📊 Translation Status:"
-puts "=" * 50
-
-posts_by_key.each do |key, posts|
-  puts "\n🔗 #{key}:"
-  posts.each do |post|
-    puts "   #{post[:lang]}: #{post[:title]} (#{post[:path]})"
+# Show translation groups
+puts "\n📋 Translation Groups:"
+translation_groups.each do |key, translations|
+  puts "  #{key}:"
+  translations.each do |t|
+    puts "    #{t[:lang]}: #{t[:title]} (#{File.basename(t[:file])})"
   end
   
-  languages = posts.map { |p| p[:lang] }.compact
-  missing = ['ko', 'en', 'es'] - languages
-  if missing.any?
-    puts "   ⚠️  Missing: #{missing.join(', ')}"
+  # Check for missing languages
+  existing_langs = translations.map { |t| t[:lang] }
+  missing_langs = ['ko', 'en', 'es'] - existing_langs
+  unless missing_langs.empty?
+    puts "    Missing: #{missing_langs.join(', ')}"
   end
+  puts
 end
 
-if warnings.any?
-  puts "\n⚠️  Warnings:"
-  warnings.each { |w| puts "   #{w}" }
+# Show issues
+if issues.any?
+  puts "⚠️  Issues found:"
+  issues.each { |issue| puts "  #{issue}" }
+else
+  puts "✅ No issues found!"
 end
 
-if errors.any?
-  puts "\n❌ Errors:"
-  errors.each { |e| puts "   #{e}" }
-end
-
-puts "\n📈 Summary:"
-puts "   Translation groups: #{posts_by_key.length}"
-puts "   Total posts: #{posts_by_key.values.flatten.length}"
-puts "   Errors: #{errors.length}"
-puts "   Warnings: #{warnings.length}"
+puts "\n📊 Summary:"
+puts "  Translation groups: #{translation_groups.size}"
+puts "  Total files: #{translation_groups.values.flatten.size}"
+puts "  Issues: #{issues.size}"

@@ -77,21 +77,21 @@
   - Test sitemap validation with Google Search Console format
   - _Implements Requirements: 5.3_
 
-- [ ] 12. Implement error handling and fallback mechanisms
+- [x] 12. Implement error handling and fallback mechanisms
   - Create fallback chain logic (Spanish → English → Korean)
   - Add user-friendly error messages for missing translations
   - Implement graceful degradation when JavaScript is disabled
   - Add logging for translation errors and missing content
   - _Implements Requirements: 1.3, 2.3_
 
-- [ ] 13. Add language preference persistence
+- [x] 13. Add language preference persistence
   - Implement cookie-based language preference storage
   - Add session storage backup for language selection
   - Create user preference detection from browser language
   - Ensure language preference survives page navigation
   - _Implements Requirements: 2.4, 4.2_
 
-- [ ] 14. Create translation workflow helpers
+- [x] 14. Create translation workflow helpers
   - Create Jekyll plugin or script to generate translation templates
   - Add front matter validation for translation consistency
   - Create helper script to identify posts missing translations

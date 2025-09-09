@@ -9,10 +9,19 @@ class LanguageSwitcher {
     this.supportedLanguages = ['ko', 'en', 'es'];
     this.defaultLanguage = 'ko';
     
-    // Storage keys
+    // Storage keys and configuration
     this.storageKeys = {
       language: 'preferred-language',
-      fallback: 'language-fallback'
+      fallback: 'language-fallback',
+      session: 'session-language',
+      cookie: 'lang-pref'
+    };
+    
+    // Storage configuration
+    this.storageConfig = {
+      cookieExpireDays: 365, // 1 year
+      cookiePath: '/',
+      cookieSameSite: 'Lax'
     };
     
     // Initialize language detection and setup
@@ -93,27 +102,149 @@ class LanguageSwitcher {
   }
 
   /**
-   * Get stored language preference from localStorage
+   * Get stored language preference from multiple sources
+   * Priority: localStorage > sessionStorage > cookie
    */
   getStoredLanguage() {
+    // Try localStorage first
     try {
-      return localStorage.getItem(this.storageKeys.language);
+      const localStorageValue = localStorage.getItem(this.storageKeys.language);
+      if (localStorageValue) {
+        return localStorageValue;
+      }
     } catch (error) {
       console.warn('Failed to access localStorage:', error);
-      return null;
     }
+    
+    // Try sessionStorage as backup
+    try {
+      const sessionStorageValue = sessionStorage.getItem(this.storageKeys.session);
+      if (sessionStorageValue) {
+        return sessionStorageValue;
+      }
+    } catch (error) {
+      console.warn('Failed to access sessionStorage:', error);
+    }
+    
+    // Try cookie as final fallback
+    try {
+      const cookieValue = this.getCookie(this.storageKeys.cookie);
+      if (cookieValue) {
+        return cookieValue;
+      }
+    } catch (error) {
+      console.warn('Failed to access cookie:', error);
+    }
+    
+    return null;
   }
 
   /**
-   * Get browser language preference
+   * Get cookie value by name
    */
-  getBrowserLanguage() {
-    const browserLang = navigator.language || navigator.userLanguage;
-    if (browserLang) {
-      // Extract language code (e.g., 'ko-KR' -> 'ko')
-      return browserLang.split('-')[0].toLowerCase();
+  getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === ' ') {
+        c = c.substring(1, c.length);
+      }
+      if (c.indexOf(nameEQ) === 0) {
+        return c.substring(nameEQ.length, c.length);
+      }
     }
     return null;
+  }
+
+  /**
+   * Set cookie with expiration and security settings
+   */
+  setCookie(name, value, days = null) {
+    const expireDays = days || this.storageConfig.cookieExpireDays;
+    const date = new Date();
+    date.setTime(date.getTime() + (expireDays * 24 * 60 * 60 * 1000));
+    
+    const expires = `expires=${date.toUTCString()}`;
+    const path = `path=${this.storageConfig.cookiePath}`;
+    const sameSite = `SameSite=${this.storageConfig.cookieSameSite}`;
+    
+    // Add Secure flag if using HTTPS
+    const secure = location.protocol === 'https:' ? 'Secure' : '';
+    
+    const cookieString = [
+      `${name}=${value}`,
+      expires,
+      path,
+      sameSite,
+      secure
+    ].filter(Boolean).join('; ');
+    
+    document.cookie = cookieString;
+  }
+
+  /**
+   * Delete cookie
+   */
+  deleteCookie(name) {
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${this.storageConfig.cookiePath};`;
+  }
+
+  /**
+   * Get browser language preference with enhanced detection
+   */
+  getBrowserLanguage() {
+    // Get all available browser languages
+    const languages = navigator.languages || [navigator.language || navigator.userLanguage];
+    
+    // Try to find a supported language from browser preferences
+    for (const lang of languages) {
+      if (lang) {
+        // Extract language code (e.g., 'ko-KR' -> 'ko')
+        const langCode = lang.split('-')[0].toLowerCase();
+        
+        // Return first supported language
+        if (this.isValidLanguage(langCode)) {
+          console.log(`Browser language detected: ${langCode} (from ${lang})`);
+          return langCode;
+        }
+      }
+    }
+    
+    // If no supported language found, try regional fallbacks
+    for (const lang of languages) {
+      if (lang) {
+        const langCode = lang.split('-')[0].toLowerCase();
+        const fallback = this.getBrowserLanguageFallback(langCode);
+        if (fallback) {
+          console.log(`Browser language fallback: ${fallback} (from ${lang})`);
+          return fallback;
+        }
+      }
+    }
+    
+    return null;
+  }
+
+  /**
+   * Get fallback language for unsupported browser languages
+   */
+  getBrowserLanguageFallback(langCode) {
+    const fallbackMap = {
+      'zh': 'ko', // Chinese speakers might prefer Korean
+      'ja': 'ko', // Japanese speakers might prefer Korean
+      'fr': 'en', // French speakers likely prefer English
+      'de': 'en', // German speakers likely prefer English
+      'it': 'en', // Italian speakers likely prefer English
+      'pt': 'en', // Portuguese speakers likely prefer English
+      'ru': 'en', // Russian speakers likely prefer English
+      'ar': 'en', // Arabic speakers likely prefer English
+      'hi': 'en', // Hindi speakers likely prefer English
+    };
+    
+    const fallback = fallbackMap[langCode];
+    return fallback && this.isValidLanguage(fallback) ? fallback : null;
   }
 
   /**
@@ -124,7 +255,7 @@ class LanguageSwitcher {
   }
 
   /**
-   * Store language preference in localStorage
+   * Store language preference in multiple storage mechanisms
    */
   storeLanguagePreference(langCode) {
     if (!this.isValidLanguage(langCode)) {
@@ -132,12 +263,106 @@ class LanguageSwitcher {
       return false;
     }
 
+    let success = false;
+    const errors = [];
+
+    // Store in localStorage (primary)
     try {
       localStorage.setItem(this.storageKeys.language, langCode);
-      return true;
+      success = true;
     } catch (error) {
-      console.warn('Failed to store language preference:', error);
-      return false;
+      errors.push(`localStorage: ${error.message}`);
+      console.warn('Failed to store language preference in localStorage:', error);
+    }
+
+    // Store in sessionStorage (backup)
+    try {
+      sessionStorage.setItem(this.storageKeys.session, langCode);
+      success = true;
+    } catch (error) {
+      errors.push(`sessionStorage: ${error.message}`);
+      console.warn('Failed to store language preference in sessionStorage:', error);
+    }
+
+    // Store in cookie (persistent backup)
+    try {
+      this.setCookie(this.storageKeys.cookie, langCode);
+      success = true;
+    } catch (error) {
+      errors.push(`cookie: ${error.message}`);
+      console.warn('Failed to store language preference in cookie:', error);
+    }
+
+    // Log storage results
+    if (success) {
+      console.log(`Language preference stored: ${langCode}`);
+    } else {
+      console.error('Failed to store language preference in any storage mechanism:', errors);
+      
+      // Track storage failures
+      this.logStorageError('preference_storage_failed', {
+        language: langCode,
+        errors: errors
+      });
+    }
+
+    return success;
+  }
+
+  /**
+   * Clear all stored language preferences
+   */
+  clearLanguagePreferences() {
+    const errors = [];
+
+    // Clear localStorage
+    try {
+      localStorage.removeItem(this.storageKeys.language);
+      localStorage.removeItem(this.storageKeys.fallback);
+    } catch (error) {
+      errors.push(`localStorage: ${error.message}`);
+    }
+
+    // Clear sessionStorage
+    try {
+      sessionStorage.removeItem(this.storageKeys.session);
+    } catch (error) {
+      errors.push(`sessionStorage: ${error.message}`);
+    }
+
+    // Clear cookie
+    try {
+      this.deleteCookie(this.storageKeys.cookie);
+    } catch (error) {
+      errors.push(`cookie: ${error.message}`);
+    }
+
+    if (errors.length > 0) {
+      console.warn('Some storage mechanisms could not be cleared:', errors);
+    } else {
+      console.log('All language preferences cleared');
+    }
+  }
+
+  /**
+   * Log storage-related errors
+   */
+  logStorageError(errorType, details) {
+    const errorData = {
+      type: errorType,
+      timestamp: new Date().toISOString(),
+      userAgent: navigator.userAgent,
+      ...details
+    };
+
+    console.error('Storage Error:', errorData);
+
+    // Send to analytics if available
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'storage_error', {
+        'error_type': errorType,
+        'storage_errors': details.errors?.join(', ') || 'unknown'
+      });
     }
   }
 
@@ -237,22 +462,165 @@ class LanguageSwitcher {
   }
 
   /**
-   * Reload page with language prefix
+   * Reload page with language prefix (with translation checking)
    */
   reloadPageWithLanguage(langCode) {
     const currentPath = window.location.pathname;
-    let targetPath;
     
-    // Remove current language prefix if exists
-    const languagePrefixRegex = /^\/(ko|en|es)\//;
-    if (languagePrefixRegex.test(currentPath)) {
-      targetPath = currentPath.replace(languagePrefixRegex, `/${langCode}/`);
+    // Always check if translation exists first
+    const translationExists = this.checkTranslationExists(langCode);
+    
+    if (translationExists) {
+      // Navigate to translated content
+      const targetPath = this.getTranslatedPath(currentPath, langCode);
+      console.log(`Navigating to translated content: ${targetPath}`);
+      window.location.href = targetPath;
     } else {
-      // If no language prefix, add one
-      targetPath = `/${langCode}${currentPath}`;
+      // Show error message and provide smart fallback
+      console.warn(`Translation not available for ${langCode}, showing fallback`);
+      this.handleMissingTranslation(langCode, currentPath);
+      
+      // Find a safe fallback page after delay
+      setTimeout(() => {
+        const fallbackUrl = this.getSafeFallbackUrl(langCode);
+        console.log(`Redirecting to safe fallback: ${fallbackUrl}`);
+        window.location.href = fallbackUrl;
+      }, 3000);
+    }
+  }
+
+
+
+  /**
+   * Check if translation exists for current page/post
+   */
+  checkTranslationExists(targetLang) {
+    // Look for translation links in current page
+    const translationLinks = document.querySelectorAll(`[data-lang="${targetLang}"]`);
+    
+    if (translationLinks.length > 0) {
+      console.log(`Translation link found for ${targetLang}`);
+      return true;
     }
     
-    window.location.href = targetPath;
+    // Check if we have translation metadata in page
+    const pageTranslations = this.getPageTranslations();
+    if (pageTranslations && pageTranslations[targetLang]) {
+      console.log(`Translation metadata found for ${targetLang}`);
+      return true;
+    }
+    
+    console.log(`No translation found for ${targetLang}`);
+    return false;
+  }
+
+  /**
+   * Get translated path for current page/post
+   */
+  getTranslatedPath(currentPath, targetLang) {
+    // Look for translation link with target language
+    const translationLink = document.querySelector(`[data-lang="${targetLang}"]`);
+    
+    if (translationLink) {
+      const href = translationLink.getAttribute('href') || translationLink.getAttribute('data-fallback-url');
+      console.log(`Found translation link: ${href}`);
+      return href;
+    }
+    
+    // Check page translations metadata
+    const pageTranslations = this.getPageTranslations();
+    if (pageTranslations && pageTranslations[targetLang]) {
+      console.log(`Found translation in metadata: ${pageTranslations[targetLang]}`);
+      return pageTranslations[targetLang];
+    }
+    
+    // Fallback: try to construct path (this might lead to 404)
+    const languagePrefixRegex = /^\/(ko|en|es)\//;
+    let targetPath;
+    
+    if (languagePrefixRegex.test(currentPath)) {
+      targetPath = currentPath.replace(languagePrefixRegex, `/${targetLang}/`);
+    } else {
+      targetPath = `/${targetLang}${currentPath}`;
+    }
+    
+    console.log(`Constructed fallback path: ${targetPath}`);
+    return targetPath;
+  }
+
+  /**
+   * Get page translations from meta tags or global variable
+   */
+  getPageTranslations() {
+    // Try to get from global variable set by Jekyll
+    if (window.pageTranslations) {
+      return window.pageTranslations;
+    }
+    
+    // Try to get from meta tag
+    const translationMeta = document.querySelector('meta[name="page-translations"]');
+    if (translationMeta) {
+      try {
+        return JSON.parse(translationMeta.getAttribute('content'));
+      } catch (error) {
+        console.warn('Failed to parse page translations meta:', error);
+      }
+    }
+    
+    return null;
+  }
+
+  /**
+   * Get safe fallback URL that actually exists
+   */
+  getSafeFallbackUrl(requestedLang) {
+    // First, try to find any existing page in the requested language
+    const existingLinks = document.querySelectorAll(`[data-lang="${requestedLang}"]`);
+    if (existingLinks.length > 0) {
+      const firstLink = existingLinks[0];
+      const href = firstLink.getAttribute('href') || firstLink.getAttribute('data-fallback-url');
+      if (href) {
+        console.log(`Found existing ${requestedLang} page: ${href}`);
+        return href;
+      }
+    }
+
+    // If no pages exist in requested language, use fallback chain
+    const fallbackLang = this.getFallbackLanguage(requestedLang);
+    console.log(`No ${requestedLang} pages found, using fallback language: ${fallbackLang}`);
+
+    // Try to find a page in the fallback language
+    if (fallbackLang !== requestedLang) {
+      const fallbackLinks = document.querySelectorAll(`[data-lang="${fallbackLang}"]`);
+      if (fallbackLinks.length > 0) {
+        const firstFallbackLink = fallbackLinks[0];
+        const href = firstFallbackLink.getAttribute('href') || firstFallbackLink.getAttribute('data-fallback-url');
+        if (href) {
+          console.log(`Found ${fallbackLang} page: ${href}`);
+          return href;
+        }
+      }
+
+      // Try fallback language home page only if it's a supported language with content
+      if (this.hasLanguageContent(fallbackLang)) {
+        const fallbackHomePage = `/${fallbackLang}/`;
+        console.log(`Trying fallback home page: ${fallbackHomePage}`);
+        return fallbackHomePage;
+      }
+    }
+
+    // Final fallback: current page (stay where we are)
+    console.log('No safe fallback found, staying on current page');
+    return window.location.pathname;
+  }
+
+  /**
+   * Check if a language has any content available
+   */
+  hasLanguageContent(langCode) {
+    // Check if there are any links to pages in this language
+    const languageLinks = document.querySelectorAll(`[data-lang="${langCode}"]`);
+    return languageLinks.length > 0;
   }
 
   /**
@@ -272,13 +640,18 @@ class LanguageSwitcher {
 
   /**
    * Get fallback language for unsupported language
+   * Implements fallback chain: Spanish → English → Korean
    */
   getFallbackLanguage(unsupportedLang) {
-    // Fallback chain: unsupported -> English -> Korean
+    // Enhanced fallback chain with more comprehensive logic
     const fallbackChain = {
       'es': ['en', 'ko'],
       'en': ['ko'],
-      'ko': []
+      'ko': [],
+      'fr': ['en', 'ko'],
+      'de': ['en', 'ko'],
+      'ja': ['ko', 'en'],
+      'zh': ['ko', 'en']
     };
     
     // If we have a specific fallback chain for this language
@@ -290,32 +663,259 @@ class LanguageSwitcher {
       }
     }
     
-    // Default fallback to Korean
+    // For unknown languages, try English first, then Korean
+    if (this.isValidLanguage('en')) {
+      return 'en';
+    }
+    
+    // Final fallback to default language
     return this.defaultLanguage;
   }
 
   /**
-   * Handle unsupported language with fallback
+   * Handle unsupported language with enhanced error handling
    */
   handleUnsupportedLanguage(unsupportedLang) {
-    console.warn(`Unsupported language: ${unsupportedLang}`);
+    console.warn(`Unsupported language requested: ${unsupportedLang}`);
     
     const fallbackLang = this.getFallbackLanguage(unsupportedLang);
     console.log(`Using fallback language: ${fallbackLang}`);
+    
+    // Log error for analytics
+    this.logTranslationError('unsupported_language', {
+      requested: unsupportedLang,
+      fallback: fallbackLang,
+      userAgent: navigator.userAgent,
+      url: window.location.href
+    });
     
     // Store fallback information
     try {
       localStorage.setItem(this.storageKeys.fallback, JSON.stringify({
         requested: unsupportedLang,
         fallback: fallbackLang,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        reason: 'unsupported_language'
       }));
     } catch (error) {
       console.warn('Failed to store fallback information:', error);
     }
     
+    // Show user-friendly error message
+    this.showLanguageErrorMessage(unsupportedLang, fallbackLang);
+    
     // Switch to fallback language
     return this.switchLanguage(fallbackLang);
+  }
+
+  /**
+   * Handle missing translation with fallback
+   */
+  handleMissingTranslation(targetLang, currentPath) {
+    console.warn(`Translation not available: ${targetLang} for ${currentPath}`);
+    
+    const fallbackLang = this.getFallbackLanguage(targetLang);
+    
+    // Log error for analytics
+    this.logTranslationError('missing_translation', {
+      requested: targetLang,
+      fallback: fallbackLang,
+      path: currentPath,
+      url: window.location.href
+    });
+    
+    // Show user-friendly error message
+    this.showTranslationNotAvailableMessage(targetLang, fallbackLang);
+    
+    // Try fallback language or stay on current page
+    if (fallbackLang !== this.currentLanguage) {
+      setTimeout(() => {
+        this.switchLanguage(fallbackLang);
+      }, 3000); // Give user time to read the message
+    }
+  }
+
+  /**
+   * Log translation errors for monitoring
+   */
+  logTranslationError(errorType, details) {
+    const errorData = {
+      type: errorType,
+      timestamp: new Date().toISOString(),
+      currentLanguage: this.currentLanguage,
+      ...details
+    };
+    
+    // Log to console for development
+    console.error('Translation Error:', errorData);
+    
+    // Send to analytics if available
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'translation_error', {
+        'error_type': errorType,
+        'requested_language': details.requested,
+        'fallback_language': details.fallback,
+        'current_url': window.location.href
+      });
+    }
+    
+    // Store in localStorage for debugging
+    try {
+      const errors = JSON.parse(localStorage.getItem('translation_errors') || '[]');
+      errors.push(errorData);
+      
+      // Keep only last 10 errors
+      if (errors.length > 10) {
+        errors.splice(0, errors.length - 10);
+      }
+      
+      localStorage.setItem('translation_errors', JSON.stringify(errors));
+    } catch (error) {
+      console.warn('Failed to store error log:', error);
+    }
+  }
+
+  /**
+   * Show user-friendly error message for unsupported language
+   */
+  showLanguageErrorMessage(requestedLang, fallbackLang) {
+    const message = this.createErrorMessage({
+      title: 'Language Not Supported',
+      message: `The requested language "${requestedLang}" is not supported yet.`,
+      fallbackMessage: `Switching to ${this.getLanguageDisplayName(fallbackLang)} instead.`,
+      type: 'warning'
+    });
+    
+    this.displayErrorMessage(message);
+  }
+
+  /**
+   * Show user-friendly message for missing translation
+   */
+  showTranslationNotAvailableMessage(requestedLang, fallbackLang) {
+    // Check if we have any content in the requested language
+    const hasContent = this.hasLanguageContent(requestedLang);
+    
+    let fallbackMessage;
+    if (hasContent) {
+      fallbackMessage = `Redirecting to available ${this.getLanguageDisplayName(requestedLang)} content...`;
+    } else if (fallbackLang !== this.currentLanguage) {
+      fallbackMessage = `No ${this.getLanguageDisplayName(requestedLang)} content available. Redirecting to ${this.getLanguageDisplayName(fallbackLang)}...`;
+    } else {
+      fallbackMessage = 'Staying on current page.';
+    }
+
+    const message = this.createErrorMessage({
+      title: 'Translation Not Available',
+      message: `This specific content is not available in ${this.getLanguageDisplayName(requestedLang)}.`,
+      fallbackMessage: fallbackMessage,
+      type: 'info'
+    });
+    
+    this.displayErrorMessage(message);
+  }
+
+  /**
+   * Create error message object
+   */
+  createErrorMessage({ title, message, fallbackMessage, type = 'error' }) {
+    return {
+      title,
+      message,
+      fallbackMessage,
+      type,
+      timestamp: new Date().toISOString()
+    };
+  }
+
+  /**
+   * Display error message to user
+   */
+  displayErrorMessage(errorMessage) {
+    // Remove existing error messages
+    const existingMessages = document.querySelectorAll('.language-error-message');
+    existingMessages.forEach(msg => msg.remove());
+    
+    // Create error message element
+    const messageElement = document.createElement('div');
+    messageElement.className = `language-error-message language-error-${errorMessage.type}`;
+    messageElement.innerHTML = `
+      <div class="error-content">
+        <div class="error-header">
+          <strong>${errorMessage.title}</strong>
+          <button class="error-close" onclick="this.parentElement.parentElement.parentElement.remove()">×</button>
+        </div>
+        <div class="error-body">
+          <p>${errorMessage.message}</p>
+          ${errorMessage.fallbackMessage ? `<p class="error-fallback">${errorMessage.fallbackMessage}</p>` : ''}
+        </div>
+      </div>
+    `;
+    
+    // Add styles
+    this.styleErrorMessage(messageElement, errorMessage.type);
+    
+    // Add to page
+    document.body.appendChild(messageElement);
+    
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+      if (messageElement.parentElement) {
+        messageElement.remove();
+      }
+    }, 5000);
+  }
+
+  /**
+   * Style error message based on type
+   */
+  styleErrorMessage(element, type) {
+    const baseStyles = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      max-width: 350px;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 1000;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 14px;
+      line-height: 1.4;
+    `;
+    
+    const typeStyles = {
+      error: 'background: #fee; border-left: 4px solid #e53e3e; color: #742a2a;',
+      warning: 'background: #fffbeb; border-left: 4px solid #f6ad55; color: #744210;',
+      info: 'background: #ebf8ff; border-left: 4px solid #4299e1; color: #2a4365;'
+    };
+    
+    element.style.cssText = baseStyles + (typeStyles[type] || typeStyles.error);
+    
+    // Style close button
+    const closeButton = element.querySelector('.error-close');
+    if (closeButton) {
+      closeButton.style.cssText = `
+        float: right;
+        background: none;
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+        color: inherit;
+        opacity: 0.7;
+        margin-left: 10px;
+      `;
+    }
+    
+    // Style fallback message
+    const fallbackMessage = element.querySelector('.error-fallback');
+    if (fallbackMessage) {
+      fallbackMessage.style.cssText = `
+        margin-top: 0.5rem;
+        font-style: italic;
+        opacity: 0.8;
+      `;
+    }
   }
 
   /**
@@ -339,10 +939,83 @@ class LanguageSwitcher {
       if (event.key === this.storageKeys.language && event.newValue) {
         const newLanguage = event.newValue;
         if (this.isValidLanguage(newLanguage) && newLanguage !== this.currentLanguage) {
+          console.log(`Language changed in another tab: ${newLanguage}`);
+          this.syncLanguagePreference(newLanguage);
           this.switchLanguage(newLanguage);
         }
       }
     });
+
+    // Listen for beforeunload to ensure preferences are saved
+    window.addEventListener('beforeunload', () => {
+      this.syncLanguagePreference(this.currentLanguage);
+    });
+
+    // Listen for visibility change to sync preferences when tab becomes visible
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) {
+        this.syncLanguagePreferences();
+      }
+    });
+  }
+
+  /**
+   * Synchronize language preference across all storage mechanisms
+   */
+  syncLanguagePreference(langCode) {
+    if (!this.isValidLanguage(langCode)) {
+      return;
+    }
+
+    // Ensure all storage mechanisms have the same value
+    this.storeLanguagePreference(langCode);
+  }
+
+  /**
+   * Synchronize language preferences from all sources
+   */
+  syncLanguagePreferences() {
+    const storedLanguage = this.getStoredLanguage();
+    
+    if (storedLanguage && this.isValidLanguage(storedLanguage) && storedLanguage !== this.currentLanguage) {
+      console.log(`Syncing language preference: ${storedLanguage}`);
+      this.currentLanguage = storedLanguage;
+      this.applyLanguageToDocument(storedLanguage);
+      
+      // Update UI if language switcher is visible
+      this.updateLanguageSwitcherUI(storedLanguage);
+    }
+  }
+
+  /**
+   * Update language switcher UI to reflect current language
+   */
+  updateLanguageSwitcherUI(langCode) {
+    const currentFlag = document.getElementById('currentFlag');
+    const currentLang = document.getElementById('currentLang');
+    
+    if (currentFlag && currentLang) {
+      const langData = this.getLanguageData(langCode);
+      if (langData) {
+        currentFlag.textContent = langData.flag || '🌐';
+        currentLang.textContent = langData.name || langCode;
+      }
+    }
+  }
+
+  /**
+   * Get language data for a given language code
+   */
+  getLanguageData(langCode) {
+    // This would typically come from site configuration
+    // For now, return basic data
+    const languageData = {
+      'ko': { name: '한국어', flag: '🇰🇷' },
+      'en': { name: 'English', flag: '🇺🇸' },
+      'es': { name: 'Español', flag: '🇪🇸' }
+    };
+    
+    return languageData[langCode] || null;
   }
 
   /**
@@ -393,6 +1066,97 @@ class LanguageSwitcher {
   }
 
   /**
+   * Get language preference statistics
+   */
+  getLanguagePreferenceStats() {
+    const stats = {
+      localStorage: null,
+      sessionStorage: null,
+      cookie: null,
+      browser: this.getBrowserLanguage(),
+      current: this.currentLanguage,
+      default: this.defaultLanguage
+    };
+
+    // Check localStorage
+    try {
+      stats.localStorage = localStorage.getItem(this.storageKeys.language);
+    } catch (error) {
+      stats.localStorage = 'error';
+    }
+
+    // Check sessionStorage
+    try {
+      stats.sessionStorage = sessionStorage.getItem(this.storageKeys.session);
+    } catch (error) {
+      stats.sessionStorage = 'error';
+    }
+
+    // Check cookie
+    try {
+      stats.cookie = this.getCookie(this.storageKeys.cookie);
+    } catch (error) {
+      stats.cookie = 'error';
+    }
+
+    return stats;
+  }
+
+  /**
+   * Export language preferences for backup
+   */
+  exportLanguagePreferences() {
+    const preferences = {
+      language: this.currentLanguage,
+      timestamp: new Date().toISOString(),
+      stats: this.getLanguagePreferenceStats(),
+      userAgent: navigator.userAgent,
+      url: window.location.href
+    };
+
+    return JSON.stringify(preferences, null, 2);
+  }
+
+  /**
+   * Import language preferences from backup
+   */
+  importLanguagePreferences(preferencesJson) {
+    try {
+      const preferences = JSON.parse(preferencesJson);
+      
+      if (preferences.language && this.isValidLanguage(preferences.language)) {
+        this.switchLanguage(preferences.language);
+        console.log(`Language preferences imported: ${preferences.language}`);
+        return true;
+      } else {
+        console.warn('Invalid language in preferences:', preferences.language);
+        return false;
+      }
+    } catch (error) {
+      console.error('Failed to import language preferences:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Reset language preferences to default
+   */
+  resetLanguagePreferences() {
+    console.log('Resetting language preferences to default');
+    
+    this.clearLanguagePreferences();
+    this.switchLanguage(this.defaultLanguage);
+    
+    // Log reset action
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'language_preferences_reset', {
+        'previous_language': this.currentLanguage,
+        'default_language': this.defaultLanguage
+      });
+    }
+  }
+
+  /**
    * Debug method to get current state
    */
   getDebugInfo() {
@@ -403,7 +1167,10 @@ class LanguageSwitcher {
       urlLanguage: this.getLanguageFromURL(),
       storedLanguage: this.getStoredLanguage(),
       browserLanguage: this.getBrowserLanguage(),
-      isDefaultLanguage: this.isDefaultLanguage()
+      isDefaultLanguage: this.isDefaultLanguage(),
+      preferenceStats: this.getLanguagePreferenceStats(),
+      storageKeys: this.storageKeys,
+      storageConfig: this.storageConfig
     };
   }
 }
@@ -424,6 +1191,27 @@ document.addEventListener('DOMContentLoaded', function() {
   
   window.getSupportedLanguages = function() {
     return window.languageSwitcher.getSupportedLanguages();
+  };
+
+  // Language preference management utilities
+  window.getLanguagePreferenceStats = function() {
+    return window.languageSwitcher.getLanguagePreferenceStats();
+  };
+
+  window.exportLanguagePreferences = function() {
+    return window.languageSwitcher.exportLanguagePreferences();
+  };
+
+  window.importLanguagePreferences = function(preferencesJson) {
+    return window.languageSwitcher.importLanguagePreferences(preferencesJson);
+  };
+
+  window.resetLanguagePreferences = function() {
+    return window.languageSwitcher.resetLanguagePreferences();
+  };
+
+  window.syncLanguagePreferences = function() {
+    return window.languageSwitcher.syncLanguagePreferences();
   };
 });
 
