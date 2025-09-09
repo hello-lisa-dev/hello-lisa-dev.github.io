@@ -1,0 +1,573 @@
+--- ---
+/* Language Switcher Styles for Minimal Mistakes Theme Integration */
+
+/* Base language switcher styles */
+.language-switcher {
+  position: relative;
+  display: inline-block;
+  font-family: inherit;
+  margin-left: 1rem;
+}
+
+.language-dropdown {
+  position: relative;
+}
+
+.language-current {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: inherit;
+  transition: all 0.2s ease;
+  min-width: 120px;
+  justify-content: space-between;
+  text-decoration: none;
+}
+
+.language-current:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  text-decoration: none;
+}
+
+.language-current:focus {
+  outline: 2px solid #007acc;
+  outline-offset: 2px;
+}
+
+.language-flag {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.language-name {
+  flex: 1;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.language-arrow {
+  font-size: 0.75rem;
+  transition: transform 0.2s ease;
+  opacity: 0.7;
+}
+
+.language-current[aria-expanded="true"] .language-arrow {
+  transform: rotate(180deg);
+}
+
+.language-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-0.5rem);
+  transition: all 0.2s ease;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 0.25rem;
+}
+
+.language-options.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.language-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: #333;
+  transition: background-color 0.2s ease;
+  text-align: left;
+}
+
+.language-option:hover {
+  background: #f5f5f5;
+}
+
+.language-option:focus {
+  background: #e3f2fd;
+  outline: none;
+}
+
+.language-option .language-flag {
+  font-size: 1rem;
+}
+
+.language-option .language-name {
+  white-space: nowrap;
+}
+
+/* Masthead integration */
+.masthead .language-switcher {
+  margin-left: 1rem;
+  order: 10;
+  /* Place after search but before mobile toggle */
+}
+
+.masthead .greedy-nav .language-switcher {
+  display: flex;
+  align-items: center;
+}
+
+/* Ensure proper spacing in navigation */
+.greedy-nav .visible-links {
+  display: flex;
+  align-items: center;
+}
+
+.greedy-nav .visible-links .language-switcher {
+  margin-left: auto;
+  margin-right: 1rem;
+}
+
+/* Dark theme support */
+.dark .language-current {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.dark .language-current:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.dark .language-options {
+  background: #2d2d2d;
+  border-color: #555;
+  color: #fff;
+}
+
+.dark .language-option {
+  color: #fff;
+}
+
+.dark .language-option:hover {
+  background: #3d3d3d;
+}
+
+.dark .language-option:focus {
+  background: #1e3a5f;
+}
+
+/* Mobile responsive design */
+@media (max-width: 1024px) {
+  .masthead .language-switcher {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+
+  .language-current {
+    min-width: 100px;
+    font-size: 0.8rem;
+    padding: 0.4rem 0.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .masthead .language-switcher {
+    position: relative;
+  }
+
+  .language-options {
+    position: fixed;
+    top: auto;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    max-height: 150px;
+    border-radius: 0.5rem;
+  }
+
+  .language-current {
+    min-width: 90px;
+    font-size: 0.75rem;
+    padding: 0.3rem 0.5rem;
+  }
+
+  .language-flag {
+    font-size: 0.9rem;
+  }
+}
+
+/* Hidden links integration for mobile menu */
+.greedy-nav .hidden-links .language-switcher {
+  display: block;
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+.greedy-nav .hidden-links .language-current {
+  width: 100%;
+  justify-content: flex-start;
+  background: transparent;
+  border: none;
+  color: inherit;
+  padding: 0.5rem 0;
+}
+
+.greedy-nav .hidden-links .language-current:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.greedy-nav .hidden-links .language-options {
+  position: static;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  margin-left: 1rem;
+}
+
+.greedy-nav .hidden-links .language-option {
+  padding: 0.25rem 0;
+  color: inherit;
+}
+
+.greedy-nav .hidden-links .language-option:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* Animation improvements */
+.language-switcher * {
+  box-sizing: border-box;
+}
+
+.language-options {
+  animation-duration: 0.2s;
+  animation-timing-function: ease-out;
+}
+
+.language-options.show {
+  animation-name: fadeInUp;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Focus management */
+.language-switcher:focus-within .language-options {
+  /* Keep dropdown visible when focused */
+}
+
+.language-option:focus {
+  position: relative;
+  z-index: 1;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .language-current {
+    border-width: 2px;
+  }
+
+  .language-options {
+    border-width: 2px;
+  }
+
+  .language-option:focus {
+    outline: 2px solid;
+    outline-offset: -2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+
+  .language-current,
+  .language-options,
+  .language-arrow {
+    transition: none;
+  }
+
+  .language-options {
+    animation: none;
+  }
+}
+/
+* Translation Links Component Styles */
+.translation-links {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-left: 4px solid #007acc;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.translation-header {
+  margin-bottom: 1rem;
+}
+
+.translation-title {
+  margin: 0;
+  font-size: 1rem;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.translation-title i {
+  color: #007acc;
+  font-size: 0.9rem;
+}
+
+.translation-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.translation-item {
+  display: inline-block;
+}
+
+.translation-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.translation-link:hover {
+  background: #007acc;
+  color: #fff;
+  border-color: #007acc;
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 122, 204, 0.2);
+}
+
+.translation-link:focus {
+  outline: 2px solid #007acc;
+  outline-offset: 2px;
+}
+
+.translation-flag {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.translation-name {
+  font-weight: inherit;
+  white-space: nowrap;
+}
+
+.translation-date {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  font-weight: normal;
+}
+
+.original-language-notice {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.original-language-notice small {
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.original-language-notice i {
+  color: #007acc;
+}
+
+.original-link {
+  color: #007acc;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.original-link:hover {
+  text-decoration: underline;
+}
+
+/* Translation Notice Styles */
+.translation-notice {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.translation-status,
+.no-translation-key {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #856404;
+}
+
+.translation-status i,
+.no-translation-key i {
+  color: #f39c12;
+}
+
+/* Dark theme support */
+.dark .translation-links {
+  background: #2d2d2d;
+  border-left-color: #4a9eff;
+}
+
+.dark .translation-title {
+  color: #fff;
+}
+
+.dark .translation-title i {
+  color: #4a9eff;
+}
+
+.dark .translation-link {
+  background: #3d3d3d;
+  border-color: #555;
+  color: #fff;
+}
+
+.dark .translation-link:hover {
+  background: #4a9eff;
+  border-color: #4a9eff;
+}
+
+.dark .original-language-notice {
+  border-top-color: #555;
+}
+
+.dark .original-language-notice small {
+  color: #ccc;
+}
+
+.dark .original-link {
+  color: #4a9eff;
+}
+
+.dark .translation-notice {
+  background: #3d2f00;
+  border-color: #5d4e00;
+}
+
+.dark .translation-status,
+.dark .no-translation-key {
+  color: #ffd93d;
+}
+
+/* Mobile responsive design */
+@media (max-width: 768px) {
+  .translation-links {
+    margin: 1.5rem 0;
+    padding: 1rem;
+  }
+
+  .translation-list {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .translation-link {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .translation-title {
+    font-size: 0.9rem;
+  }
+
+  .original-language-notice small {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .translation-links {
+    background: none;
+    border: 1px solid #ccc;
+    page-break-inside: avoid;
+  }
+
+  .translation-link {
+    background: none;
+    border: 1px solid #ccc;
+  }
+
+  .translation-link:hover {
+    background: none;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .translation-links {
+    border-width: 3px;
+  }
+
+  .translation-link {
+    border-width: 2px;
+  }
+
+  .translation-link:focus {
+    outline-width: 3px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .translation-link {
+    transition: none;
+  }
+
+  .translation-link:hover {
+    transform: none;
+  }
+}

@@ -1,0 +1,365 @@
+<!-- Language Switcher Component -->
+<!-- Implements Requirements: 2.1, 2.2 - Language selector in navigation with click handlers -->
+
+{% assign current_lang = page.lang | default: site.default_language %}
+{% assign ui_text = site.data.ui-text[current_lang] | default: site.data.ui-text[site.default_language] %}
+
+<div class="language-switcher">
+  <div class="language-dropdown">
+    <!-- Current Language Button -->
+    <button class="language-current" id="languageToggle" aria-label="{{ ui_text.language_selector }}" aria-expanded="false">
+      <span class="language-flag" id="currentFlag">{{ site.languages[current_lang].flag | default: "🌐" }}</span>
+      <span class="language-name" id="currentLang">{{ site.languages[current_lang].name | default: current_lang }}</span>
+      <span class="language-arrow" aria-hidden="true">▼</span>
+    </button>
+    
+    <!-- Language Options Dropdown -->
+    <div class="language-options" id="languageOptions" role="menu" aria-labelledby="languageToggle">
+      {% for lang_pair in site.languages %}
+        {% assign lang_code = lang_pair[0] %}
+        {% assign lang_data = lang_pair[1] %}
+        
+        <!-- Skip current language in dropdown -->
+        {% unless lang_code == current_lang %}
+          <button 
+            class="language-option" 
+            data-lang="{{ lang_code }}"
+            role="menuitem"
+            aria-label="{{ ui_text.language_selector }}: {{ lang_data.name }}"
+          >
+            <span class="language-flag">{{ lang_data.flag | default: "🌐" }}</span>
+            <span class="language-name">{{ lang_data.name }}</span>
+          </button>
+        {% endunless %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- Language Switcher Styles -->
+<style>
+.language-switcher {
+  position: relative;
+  display: inline-block;
+  font-family: inherit;
+}
+
+.language-dropdown {
+  position: relative;
+}
+
+.language-current {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--background-color, #fff);
+  border: 1px solid var(--border-color, #e0e0e0);
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: var(--text-color, #333);
+  transition: all 0.2s ease;
+  min-width: 120px;
+  justify-content: space-between;
+}
+
+.language-current:hover {
+  background: var(--hover-background-color, #f5f5f5);
+  border-color: var(--hover-border-color, #ccc);
+}
+
+.language-current:focus {
+  outline: 2px solid var(--focus-color, #007acc);
+  outline-offset: 2px;
+}
+
+.language-flag {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.language-name {
+  flex: 1;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.language-arrow {
+  font-size: 0.75rem;
+  transition: transform 0.2s ease;
+  color: var(--muted-text-color, #666);
+}
+
+.language-current[aria-expanded="true"] .language-arrow {
+  transform: rotate(180deg);
+}
+
+.language-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--background-color, #fff);
+  border: 1px solid var(--border-color, #e0e0e0);
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-0.5rem);
+  transition: all 0.2s ease;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.language-options.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.language-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: var(--text-color, #333);
+  transition: background-color 0.2s ease;
+  text-align: left;
+}
+
+.language-option:hover {
+  background: var(--hover-background-color, #f5f5f5);
+}
+
+.language-option:focus {
+  background: var(--focus-background-color, #e3f2fd);
+  outline: none;
+}
+
+.language-option .language-flag {
+  font-size: 1rem;
+}
+
+.language-option .language-name {
+  white-space: nowrap;
+}
+
+/* Minimal Mistakes Theme Integration */
+.masthead .language-switcher {
+  margin-left: 1rem;
+}
+
+.masthead .language-current {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.2);
+  color: inherit;
+}
+
+.masthead .language-current:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.masthead .language-options {
+  background: var(--background-color, #fff);
+  color: var(--text-color, #333);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .language-current {
+    background: var(--dark-background-color, #2d2d2d);
+    border-color: var(--dark-border-color, #555);
+    color: var(--dark-text-color, #fff);
+  }
+  
+  .language-current:hover {
+    background: var(--dark-hover-background-color, #3d3d3d);
+    border-color: var(--dark-hover-border-color, #666);
+  }
+  
+  .language-options {
+    background: var(--dark-background-color, #2d2d2d);
+    border-color: var(--dark-border-color, #555);
+    color: var(--dark-text-color, #fff);
+  }
+  
+  .language-option:hover {
+    background: var(--dark-hover-background-color, #3d3d3d);
+  }
+  
+  .language-option:focus {
+    background: var(--dark-focus-background-color, #1e3a5f);
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .language-switcher {
+    position: static;
+  }
+  
+  .language-current {
+    min-width: 100px;
+    font-size: 0.8rem;
+    padding: 0.4rem 0.6rem;
+  }
+  
+  .language-options {
+    position: fixed;
+    top: auto;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    max-height: 150px;
+  }
+}
+</style>
+
+<!-- Language Switcher JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const languageToggle = document.getElementById('languageToggle');
+  const languageOptions = document.getElementById('languageOptions');
+  const currentFlag = document.getElementById('currentFlag');
+  const currentLang = document.getElementById('currentLang');
+  
+  if (!languageToggle || !languageOptions) {
+    console.warn('Language switcher elements not found');
+    return;
+  }
+  
+  // Toggle dropdown visibility
+  function toggleDropdown() {
+    const isExpanded = languageToggle.getAttribute('aria-expanded') === 'true';
+    languageToggle.setAttribute('aria-expanded', !isExpanded);
+    languageOptions.classList.toggle('show', !isExpanded);
+  }
+  
+  // Close dropdown
+  function closeDropdown() {
+    languageToggle.setAttribute('aria-expanded', 'false');
+    languageOptions.classList.remove('show');
+  }
+  
+  // Update current language display
+  function updateCurrentLanguage(langCode) {
+    const languages = {
+      'ko': { name: '한국어', flag: '🇰🇷' },
+      'en': { name: 'English', flag: '🇺🇸' },
+      'es': { name: 'Español', flag: '🇪🇸' }
+    };
+    
+    const langData = languages[langCode];
+    if (langData && currentFlag && currentLang) {
+      currentFlag.textContent = langData.flag;
+      currentLang.textContent = langData.name;
+    }
+  }
+  
+  // Handle language selection
+  function handleLanguageSelection(langCode) {
+    console.log('Language selected:', langCode);
+    
+    // Update display immediately
+    updateCurrentLanguage(langCode);
+    
+    // Close dropdown
+    closeDropdown();
+    
+    // Switch language using global function
+    if (typeof window.switchLanguage === 'function') {
+      window.switchLanguage(langCode);
+    } else if (typeof window.languageSwitcher !== 'undefined') {
+      window.languageSwitcher.switchLanguage(langCode);
+    } else {
+      // Fallback: reload page with language parameter
+      const url = new URL(window.location);
+      if (langCode === 'ko') {
+        url.searchParams.delete('lang');
+      } else {
+        url.searchParams.set('lang', langCode);
+      }
+      window.location.href = url.toString();
+    }
+  }
+  
+  // Event listeners
+  languageToggle.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleDropdown();
+  });
+  
+  // Handle language option clicks
+  languageOptions.addEventListener('click', function(e) {
+    const option = e.target.closest('.language-option');
+    if (option) {
+      e.preventDefault();
+      e.stopPropagation();
+      const langCode = option.getAttribute('data-lang');
+      if (langCode) {
+        handleLanguageSelection(langCode);
+      }
+    }
+  });
+  
+  // Handle keyboard navigation
+  languageToggle.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleDropdown();
+    } else if (e.key === 'Escape') {
+      closeDropdown();
+    }
+  });
+  
+  languageOptions.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeDropdown();
+      languageToggle.focus();
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      const option = e.target.closest('.language-option');
+      if (option) {
+        e.preventDefault();
+        const langCode = option.getAttribute('data-lang');
+        if (langCode) {
+          handleLanguageSelection(langCode);
+        }
+      }
+    }
+  });
+  
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!languageToggle.contains(e.target) && !languageOptions.contains(e.target)) {
+      closeDropdown();
+    }
+  });
+  
+  // Initialize current language display
+  if (typeof window.languageSwitcher !== 'undefined') {
+    const currentLanguage = window.languageSwitcher.getCurrentLanguage();
+    updateCurrentLanguage(currentLanguage);
+  } else {
+    // Fallback: detect from URL or use default
+    const urlParams = new URLSearchParams(window.location.search);
+    const langParam = urlParams.get('lang') || 'ko';
+    updateCurrentLanguage(langParam);
+  }
+  
+  // Listen for language change events
+  document.addEventListener('languageChanged', function(e) {
+    if (e.detail && e.detail.newLanguage) {
+      updateCurrentLanguage(e.detail.newLanguage);
+    }
+  });
+});
+</script>

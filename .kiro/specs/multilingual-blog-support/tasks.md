@@ -21,14 +21,14 @@
   - Create language validation functions
   - _Implements Requirements: 1.2, 4.1, 4.2_
 
-- [ ] 4. Build language switcher UI component
+- [x] 4. Build language switcher UI component
   - Create `_includes/language-switcher.html` with dropdown interface
   - Add language flags and native names display
   - Implement click handlers for language selection
   - Style the component to match Minimal Mistakes theme
   - _Implements Requirements: 2.1, 2.2_
 
-- [ ] 5. Create translation linking system
+- [x] 5. Create translation linking system
   - Create `_includes/translation-links.html` for cross-language navigation
   - Implement `translation_key` matching logic using Liquid templates
   - Add "Available in other languages" section to posts

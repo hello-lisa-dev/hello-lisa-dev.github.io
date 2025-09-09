@@ -387,3 +387,359 @@ document.addEventListener('DOMContentLoaded', function() {
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = LanguageSwitcher;
 }
+
+/**
+ * Translation Links Enhancement
+ * Adds interactive functionality to translation links
+ */
+class TranslationLinksManager {
+  constructor(languageSwitcher) {
+    this.languageSwitcher = languageSwitcher;
+    this.init();
+  }
+
+  /**
+   * Initialize translation links functionality
+   */
+  init() {
+    this.setupTranslationLinks();
+    this.setupKeyboardNavigation();
+    this.setupAnalytics();
+  }
+
+  /**
+   * Set up translation links click handlers
+   */
+  setupTranslationLinks() {
+    const translationLinks = document.querySelectorAll('.translation-link');
+    
+    translationLinks.forEach(link => {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        
+        const targetLang = link.getAttribute('data-lang');
+        const targetUrl = link.getAttribute('href');
+        
+        if (targetLang && targetUrl) {
+          this.handleTranslationLinkClick(targetLang, targetUrl, link);
+        }
+      });
+
+      // Add hover effects
+      link.addEventListener('mouseenter', () => {
+        this.showTranslationPreview(link);
+      });
+
+      link.addEventListener('mouseleave', () => {
+        this.hideTranslationPreview();
+      });
+    });
+  }
+
+  /**
+   * Handle translation link click
+   */
+  handleTranslationLinkClick(targetLang, targetUrl, linkElement) {
+    // Track analytics
+    this.trackTranslationClick(targetLang, targetUrl);
+    
+    // Show loading state
+    this.showLoadingState(linkElement);
+    
+    // Update language preference
+    this.languageSwitcher.storeLanguagePreference(targetLang);
+    
+    // Navigate to translation
+    setTimeout(() => {
+      window.location.href = targetUrl;
+    }, 100); // Small delay for visual feedback
+  }
+
+  /**
+   * Show loading state on clicked link
+   */
+  showLoadingState(linkElement) {
+    const originalContent = linkElement.innerHTML;
+    linkElement.setAttribute('data-original-content', originalContent);
+    
+    const flag = linkElement.querySelector('.translation-flag');
+    const name = linkElement.querySelector('.translation-name');
+    
+    if (flag && name) {
+      name.textContent = 'Loading...';
+      linkElement.style.opacity = '0.7';
+      linkElement.style.pointerEvents = 'none';
+    }
+  }
+
+  /**
+   * Show translation preview on hover
+   */
+  showTranslationPreview(linkElement) {
+    const targetLang = linkElement.getAttribute('data-lang');
+    
+    // Create preview tooltip
+    const preview = document.createElement('div');
+    preview.className = 'translation-preview';
+    preview.innerHTML = `
+      <div class="preview-content">
+        <strong>Switch to ${this.languageSwitcher.getLanguageDisplayName(targetLang)}</strong>
+        <small>View this content in ${targetLang.toUpperCase()}</small>
+      </div>
+    `;
+    
+    // Position and show preview
+    document.body.appendChild(preview);
+    this.positionPreview(preview, linkElement);
+    
+    // Store reference for cleanup
+    this.currentPreview = preview;
+  }
+
+  /**
+   * Hide translation preview
+   */
+  hideTranslationPreview() {
+    if (this.currentPreview) {
+      this.currentPreview.remove();
+      this.currentPreview = null;
+    }
+  }
+
+  /**
+   * Position preview tooltip
+   */
+  positionPreview(preview, linkElement) {
+    const rect = linkElement.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    preview.style.position = 'absolute';
+    preview.style.top = `${rect.bottom + scrollTop + 5}px`;
+    preview.style.left = `${rect.left}px`;
+    preview.style.zIndex = '1000';
+    preview.style.background = '#333';
+    preview.style.color = '#fff';
+    preview.style.padding = '0.5rem';
+    preview.style.borderRadius = '0.25rem';
+    preview.style.fontSize = '0.8rem';
+    preview.style.boxShadow = '0 2px 8px rgba(0,0,0,0.2)';
+    preview.style.opacity = '0';
+    preview.style.transform = 'translateY(-5px)';
+    preview.style.transition = 'all 0.2s ease';
+    
+    // Animate in
+    setTimeout(() => {
+      preview.style.opacity = '1';
+      preview.style.transform = 'translateY(0)';
+    }, 10);
+  }
+
+  /**
+   * Set up keyboard navigation for translation links
+   */
+  setupKeyboardNavigation() {
+    document.addEventListener('keydown', (event) => {
+      // Alt + number keys for quick language switching
+      if (event.altKey && !event.ctrlKey && !event.shiftKey) {
+        const keyMap = {
+          '1': 'ko', // Alt+1 for Korean
+          '2': 'en', // Alt+2 for English
+          '3': 'es'  // Alt+3 for Spanish
+        };
+        
+        const targetLang = keyMap[event.key];
+        if (targetLang && this.languageSwitcher.isValidLanguage(targetLang)) {
+          event.preventDefault();
+          
+          // Find corresponding translation link
+          const translationLink = document.querySelector(`[data-lang="${targetLang}"]`);
+          if (translationLink) {
+            translationLink.click();
+          } else {
+            // If no translation link, switch language anyway
+            this.languageSwitcher.switchLanguage(targetLang);
+          }
+        }
+      }
+    });
+  }
+
+  /**
+   * Set up analytics tracking
+   */
+  setupAnalytics() {
+    // Track when translation links are visible
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          this.trackTranslationLinksVisible();
+        }
+      });
+    });
+
+    const translationContainer = document.querySelector('.translation-links');
+    if (translationContainer) {
+      observer.observe(translationContainer);
+    }
+  }
+
+  /**
+   * Track translation link click
+   */
+  trackTranslationClick(targetLang, targetUrl) {
+    // Google Analytics 4
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'translation_click', {
+        'target_language': targetLang,
+        'target_url': targetUrl,
+        'source_language': this.languageSwitcher.getCurrentLanguage()
+      });
+    }
+
+    // Custom analytics
+    if (typeof window.analytics !== 'undefined') {
+      window.analytics.track('Translation Link Clicked', {
+        targetLanguage: targetLang,
+        sourceLanguage: this.languageSwitcher.getCurrentLanguage(),
+        targetUrl: targetUrl,
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    console.log(`Translation click tracked: ${this.languageSwitcher.getCurrentLanguage()} -> ${targetLang}`);
+  }
+
+  /**
+   * Track when translation links are visible
+   */
+  trackTranslationLinksVisible() {
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'translation_links_viewed', {
+        'current_language': this.languageSwitcher.getCurrentLanguage(),
+        'page_url': window.location.href
+      });
+    }
+  }
+
+  /**
+   * Add visual indicators for available translations
+   */
+  enhanceTranslationIndicators() {
+    const translationLinks = document.querySelectorAll('.translation-link');
+    
+    translationLinks.forEach(link => {
+      const targetLang = link.getAttribute('data-lang');
+      
+      // Add language-specific styling
+      link.classList.add(`translation-link--${targetLang}`);
+      
+      // Add accessibility attributes
+      link.setAttribute('aria-label', 
+        `Read this content in ${this.languageSwitcher.getLanguageDisplayName(targetLang)}`);
+      
+      // Add keyboard shortcut hint
+      const shortcutMap = { 'ko': '1', 'en': '2', 'es': '3' };
+      const shortcut = shortcutMap[targetLang];
+      if (shortcut) {
+        link.setAttribute('title', 
+          `${link.getAttribute('title')} (Alt+${shortcut})`);
+      }
+    });
+  }
+
+  /**
+   * Handle missing translations gracefully
+   */
+  handleMissingTranslations() {
+    const currentLang = this.languageSwitcher.getCurrentLanguage();
+    const translationNotice = document.querySelector('.translation-notice');
+    
+    if (translationNotice && currentLang !== this.languageSwitcher.defaultLanguage) {
+      // Add suggestion to view original
+      const suggestion = document.createElement('div');
+      suggestion.className = 'translation-suggestion';
+      suggestion.innerHTML = `
+        <p>
+          <a href="?lang=${this.languageSwitcher.defaultLanguage}" class="original-link">
+            ${this.languageSwitcher.getLanguageFlag(this.languageSwitcher.defaultLanguage)}
+            View original in ${this.languageSwitcher.getLanguageDisplayName(this.languageSwitcher.defaultLanguage)}
+          </a>
+        </p>
+      `;
+      
+      translationNotice.appendChild(suggestion);
+    }
+  }
+}
+
+// Initialize translation links manager when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+  // Wait for language switcher to be ready
+  if (window.languageSwitcher) {
+    window.translationLinksManager = new TranslationLinksManager(window.languageSwitcher);
+    
+    // Enhance translation indicators
+    window.translationLinksManager.enhanceTranslationIndicators();
+    
+    // Handle missing translations
+    window.translationLinksManager.handleMissingTranslations();
+  }
+});
+
+// CSS for translation preview (injected via JavaScript)
+const translationPreviewCSS = `
+  .translation-preview {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    max-width: 200px;
+    white-space: nowrap;
+  }
+  
+  .translation-preview .preview-content strong {
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+  
+  .translation-preview .preview-content small {
+    opacity: 0.8;
+    font-size: 0.7rem;
+  }
+  
+  .translation-link--ko:hover {
+    border-color: #cd212a;
+    background-color: #cd212a;
+  }
+  
+  .translation-link--en:hover {
+    border-color: #0052cc;
+    background-color: #0052cc;
+  }
+  
+  .translation-link--es:hover {
+    border-color: #c60b1e;
+    background-color: #c60b1e;
+  }
+  
+  .translation-suggestion {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e0e0e0;
+  }
+  
+  .translation-suggestion .original-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #007acc;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .translation-suggestion .original-link:hover {
+    text-decoration: underline;
+  }
+`;
+
+// Inject CSS
+const style = document.createElement('style');
+style.textContent = translationPreviewCSS;
+document.head.appendChild(style);
