@@ -8,13 +8,13 @@
   - Configure language metadata including locales and text direction
   - _Implements Requirements: 6.1, 6.2_
 
-- [ ] 2. Create language data files and UI text translations
+- [x] 2. Create language data files and UI text translations
   - Create `_data/languages.yml` with language definitions and native names
   - Create `_data/ui-text.yml` with interface text translations for each language
   - Add language-specific navigation text and common UI elements
   - _Implements Requirements: 2.2, 6.1_
 
-- [ ] 3. Implement core language detection and switching logic
+- [x] 3. Implement core language detection and switching logic
   - Create `assets/js/language-switcher.js` with URL parameter detection
   - Implement localStorage-based language preference storage
   - Add fallback logic for unsupported languages

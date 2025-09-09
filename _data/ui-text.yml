@@ -1,0 +1,134 @@
+# UI Text Translations for Multilingual Support
+
+# Korean (Default)
+ko: &DEFAULT_KO
+  # Language switcher
+  language_selector: "언어 선택"
+  current_language: "현재 언어"
+  
+  # Translation links
+  translations_available: "다른 언어로 보기"
+  original_language: "원본 언어"
+  translation_notice: "이 글은 AI로 번역되었습니다"
+  no_translation: "번역이 없습니다"
+  
+  # Navigation
+  home: "홈"
+  about: "소개"
+  posts: "포스트"
+  categories: "카테고리"
+  tags: "태그"
+  portfolio: "포트폴리오"
+  
+  # Common UI elements
+  read_more: "더 읽기"
+  share: "공유"
+  edit: "편집"
+  search: "검색"
+  menu: "메뉴"
+  close: "닫기"
+  
+  # Post metadata
+  published: "게시일"
+  updated: "수정일"
+  reading_time: "읽는 시간"
+  words: "단어"
+  minute_read: "분 읽기"
+  
+  # Comments and social
+  comments: "댓글"
+  share_on: "공유하기"
+  
+  # Error messages
+  page_not_found: "페이지를 찾을 수 없습니다"
+  translation_error: "번역을 불러오는 중 오류가 발생했습니다"
+
+# English
+en:
+  <<: *DEFAULT_KO
+  
+  # Language switcher
+  language_selector: "Language"
+  current_language: "Current Language"
+  
+  # Translation links
+  translations_available: "Available in other languages"
+  original_language: "Original Language"
+  translation_notice: "This post has been translated using AI"
+  no_translation: "Translation not available"
+  
+  # Navigation
+  home: "Home"
+  about: "About"
+  posts: "Posts"
+  categories: "Categories"
+  tags: "Tags"
+  portfolio: "Portfolio"
+  
+  # Common UI elements
+  read_more: "Read More"
+  share: "Share"
+  edit: "Edit"
+  search: "Search"
+  menu: "Menu"
+  close: "Close"
+  
+  # Post metadata
+  published: "Published"
+  updated: "Updated"
+  reading_time: "Reading Time"
+  words: "words"
+  minute_read: "min read"
+  
+  # Comments and social
+  comments: "Comments"
+  share_on: "Share on"
+  
+  # Error messages
+  page_not_found: "Page Not Found"
+  translation_error: "Error loading translation"
+
+# Spanish
+es:
+  <<: *DEFAULT_KO
+  
+  # Language switcher
+  language_selector: "Idioma"
+  current_language: "Idioma Actual"
+  
+  # Translation links
+  translations_available: "Disponible en otros idiomas"
+  original_language: "Idioma Original"
+  translation_notice: "Esta publicación ha sido traducida usando IA"
+  no_translation: "Traducción no disponible"
+  
+  # Navigation
+  home: "Inicio"
+  about: "Acerca de"
+  posts: "Publicaciones"
+  categories: "Categorías"
+  tags: "Etiquetas"
+  portfolio: "Portafolio"
+  
+  # Common UI elements
+  read_more: "Leer Más"
+  share: "Compartir"
+  edit: "Editar"
+  search: "Buscar"
+  menu: "Menú"
+  close: "Cerrar"
+  
+  # Post metadata
+  published: "Publicado"
+  updated: "Actualizado"
+  reading_time: "Tiempo de Lectura"
+  words: "palabras"
+  minute_read: "min de lectura"
+  
+  # Comments and social
+  comments: "Comentarios"
+  share_on: "Compartir en"
+  
+  # Error messages
+  page_not_found: "Página No Encontrada"
+  translation_error: "Error al cargar la traducción"
