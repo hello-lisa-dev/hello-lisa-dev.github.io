@@ -1,134 +1,229 @@
 # UI Text Translations for Multilingual Support
 
-# Korean (Default)
-ko: &DEFAULT_KO
-  # Language switcher
-  language_selector: "언어 선택"
-  current_language: "현재 언어"
-  
-  # Translation links
-  translations_available: "다른 언어로 보기"
-  original_language: "원본 언어"
-  translation_notice: "이 글은 AI로 번역되었습니다"
-  no_translation: "번역이 없습니다"
+ko:
+  # Site metadata
+  site_title: "LISA의 바이브 코딩 일기"
+  site_description: "이제 막 시작한 앱 개발, 출시... 아직 멀기만 한 수익화를 위한 좌충우돌 경험담"
   
   # Navigation
-  home: "홈"
-  about: "소개"
-  posts: "포스트"
-  categories: "카테고리"
-  tags: "태그"
-  portfolio: "포트폴리오"
+  navigation:
+    home: "홈"
+    about: "소개"
+    portfolio: "포트폴리오"
+    posts: "포스트"
+    categories: "카테고리"
+    tags: "태그"
+    year_archive: "연도별 아카이브"
   
-  # Common UI elements
-  read_more: "더 읽기"
-  share: "공유"
-  edit: "편집"
-  search: "검색"
-  menu: "메뉴"
-  close: "닫기"
+  # Sidebar
+  sidebar:
+    author_bio: "주니어 개발자 (iOS 개발은 처음). 바이브 코딩으로 첫 번째 iOS 앱을 개발하고 출시한 경험을 공유합니다. 앱을 통한 소소한 수익화를 꿈꾸며 좌충우돌하는 개발자의 성장 스토리."
+    follow_me: "팔로우하기"
+    recent_posts: "최근 포스트"
+    latest_posts: "최신 포스트"
+  
+  # Footer
+  footer:
+    copyright: "© 2025 LISA의 바이브 코딩 일기. 모든 권리 보유."
+    powered_by: "Jekyll & Minimal Mistakes로 제작"
+  
+  # Buttons and UI elements
+  buttons:
+    read_more: "더 읽기"
+    back_to_top: "맨 위로"
+    share: "공유하기"
+    edit_page: "페이지 편집"
+    follow: "팔로우"
   
   # Post metadata
-  published: "게시일"
-  updated: "수정일"
-  reading_time: "읽는 시간"
-  words: "단어"
-  minute_read: "분 읽기"
+  post:
+    published: "게시일"
+    updated: "수정일"
+    read_time: "읽는 시간"
+    words: "단어"
+    minute_read: "분 읽기"
+    less_than: "1분 미만"
   
-  # Comments and social
-  comments: "댓글"
-  share_on: "공유하기"
+  # Comments
+  comments:
+    title: "댓글"
+    new: "새 댓글"
+    loading: "댓글을 불러오는 중..."
   
-  # Error messages
-  page_not_found: "페이지를 찾을 수 없습니다"
-  translation_error: "번역을 불러오는 중 오류가 발생했습니다"
+  # Search
+  search:
+    placeholder: "검색어를 입력하세요..."
+    results: "검색 결과"
+    no_results: "검색 결과가 없습니다."
+  
+  # Translations
+  translations:
+    available_in: "다른 언어로 보기"
+    translation_notice: "이 페이지는 아직 번역되지 않았습니다."
+    switch_language: "언어 변경"
+    original_language: "원본 언어"
+  
+  # Categories and Tags
+  categories:
+    title: "카테고리"
+    all: "모든 카테고리"
+  tags:
+    title: "태그"
+    all: "모든 태그"
+  
+  # Archive
+  archive:
+    title: "아카이브"
+    posts_in: "포스트"
 
-# English
 en:
-  <<: *DEFAULT_KO
-  
-  # Language switcher
-  language_selector: "Language"
-  current_language: "Current Language"
-  
-  # Translation links
-  translations_available: "Available in other languages"
-  original_language: "Original Language"
-  translation_notice: "This post has been translated using AI"
-  no_translation: "Translation not available"
+  # Site metadata
+  site_title: "LISA's Vibe Coding Journey"
+  site_description: "A beginner's journey into app development, launch, and the long road to monetization"
   
   # Navigation
-  home: "Home"
-  about: "About"
-  posts: "Posts"
-  categories: "Categories"
-  tags: "Tags"
-  portfolio: "Portfolio"
+  navigation:
+    home: "Home"
+    about: "About"
+    portfolio: "Portfolio"
+    posts: "Posts"
+    categories: "Categories"
+    tags: "Tags"
+    year_archive: "Year Archive"
   
-  # Common UI elements
-  read_more: "Read More"
-  share: "Share"
-  edit: "Edit"
-  search: "Search"
-  menu: "Menu"
-  close: "Close"
+  # Sidebar
+  sidebar:
+    author_bio: "Junior developer (first time with iOS development). Sharing experiences of developing and launching my first iOS app with Vibe Coding. A developer's growth story dreaming of small monetization through apps."
+    follow_me: "Follow Me"
+    recent_posts: "Recent Posts"
+    latest_posts: "Latest Posts"
+  
+  # Footer
+  footer:
+    copyright: "© 2025 LISA's Vibe Coding Journey. All rights reserved."
+    powered_by: "Powered by Jekyll & Minimal Mistakes"
+  
+  # Buttons and UI elements
+  buttons:
+    read_more: "Read More"
+    back_to_top: "Back to Top"
+    share: "Share"
+    edit_page: "Edit Page"
+    follow: "Follow"
   
   # Post metadata
-  published: "Published"
-  updated: "Updated"
-  reading_time: "Reading Time"
-  words: "words"
-  minute_read: "min read"
+  post:
+    published: "Published"
+    updated: "Updated"
+    read_time: "Read time"
+    words: "words"
+    minute_read: "minute read"
+    less_than: "less than"
   
-  # Comments and social
-  comments: "Comments"
-  share_on: "Share on"
+  # Comments
+  comments:
+    title: "Comments"
+    new: "New Comment"
+    loading: "Loading comments..."
   
-  # Error messages
-  page_not_found: "Page Not Found"
-  translation_error: "Error loading translation"
+  # Search
+  search:
+    placeholder: "Enter search terms..."
+    results: "Search Results"
+    no_results: "No results found."
+  
+  # Translations
+  translations:
+    available_in: "Available in other languages"
+    translation_notice: "This page is not yet translated."
+    switch_language: "Switch Language"
+    original_language: "Original Language"
+  
+  # Categories and Tags
+  categories:
+    title: "Categories"
+    all: "All Categories"
+  tags:
+    title: "Tags"
+    all: "All Tags"
+  
+  # Archive
+  archive:
+    title: "Archive"
+    posts_in: "posts in"
 
-# Spanish
 es:
-  <<: *DEFAULT_KO
-  
-  # Language switcher
-  language_selector: "Idioma"
-  current_language: "Idioma Actual"
-  
-  # Translation links
-  translations_available: "Disponible en otros idiomas"
-  original_language: "Idioma Original"
-  translation_notice: "Esta publicación ha sido traducida usando IA"
-  no_translation: "Traducción no disponible"
+  # Site metadata
+  site_title: "El Viaje de Codificación Vibe de LISA"
+  site_description: "El viaje de un principiante en el desarrollo de aplicaciones, lanzamiento y el largo camino hacia la monetización"
   
   # Navigation
-  home: "Inicio"
-  about: "Acerca de"
-  posts: "Publicaciones"
-  categories: "Categorías"
-  tags: "Etiquetas"
-  portfolio: "Portafolio"
+  navigation:
+    home: "Inicio"
+    about: "Acerca de"
+    portfolio: "Portafolio"
+    posts: "Publicaciones"
+    categories: "Categorías"
+    tags: "Etiquetas"
+    year_archive: "Archivo por Año"
   
-  # Common UI elements
-  read_more: "Leer Más"
-  share: "Compartir"
-  edit: "Editar"
-  search: "Buscar"
-  menu: "Menú"
-  close: "Cerrar"
+  # Sidebar
+  sidebar:
+    author_bio: "Desarrolladora junior (primera vez con desarrollo iOS). Compartiendo experiencias de desarrollar y lanzar mi primera aplicación iOS con Codificación Vibe. Historia de crecimiento de una desarrolladora soñando con pequeña monetización a través de aplicaciones."
+    follow_me: "Sígueme"
+    recent_posts: "Publicaciones Recientes"
+    latest_posts: "Últimas Publicaciones"
+  
+  # Footer
+  footer:
+    copyright: "© 2025 El Viaje de Codificación Vibe de LISA. Todos los derechos reservados."
+    powered_by: "Desarrollado con Jekyll & Minimal Mistakes"
+  
+  # Buttons and UI elements
+  buttons:
+    read_more: "Leer Más"
+    back_to_top: "Volver Arriba"
+    share: "Compartir"
+    edit_page: "Editar Página"
+    follow: "Seguir"
   
   # Post metadata
-  published: "Publicado"
-  updated: "Actualizado"
-  reading_time: "Tiempo de Lectura"
-  words: "palabras"
-  minute_read: "min de lectura"
+  post:
+    published: "Publicado"
+    updated: "Actualizado"
+    read_time: "Tiempo de lectura"
+    words: "palabras"
+    minute_read: "minutos de lectura"
+    less_than: "menos de"
   
-  # Comments and social
-  comments: "Comentarios"
-  share_on: "Compartir en"
+  # Comments
+  comments:
+    title: "Comentarios"
+    new: "Nuevo Comentario"
+    loading: "Cargando comentarios..."
   
-  # Error messages
-  page_not_found: "Página No Encontrada"
-  translation_error: "Error al cargar la traducción"
+  # Search
+  search:
+    placeholder: "Ingrese términos de búsqueda..."
+    results: "Resultados de Búsqueda"
+    no_results: "No se encontraron resultados."
+  
+  # Translations
+  translations:
+    available_in: "Disponible en otros idiomas"
+    translation_notice: "Esta página aún no está traducida."
+    switch_language: "Cambiar Idioma"
+    original_language: "Idioma Original"
+  
+  # Categories and Tags
+  categories:
+    title: "Categorías"
+    all: "Todas las Categorías"
+  tags:
+    title: "Etiquetas"
+    all: "Todas las Etiquetas"
+  
+  # Archive
+  archive:
+    title: "Archivo"
+    posts_in: "publicaciones en"

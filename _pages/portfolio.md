@@ -3,6 +3,12 @@ title: "Portfolio"
 layout: single
 permalink: /portfolio/
 author_profile: true
+lang: ko
+translation_key: "portfolio"
+translations:
+  ko: "/portfolio/"
+  en: "/en/portfolio/"
+  es: "/es/portfolio/"
 ---
 
 # LISA의 앱 포트폴리오 📱

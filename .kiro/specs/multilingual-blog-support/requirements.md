@@ -72,3 +72,25 @@
 2. WHEN adding a new language THEN the system SHALL automatically include it in language selectors
 3. WHEN removing a language THEN the system SHALL gracefully handle existing content in that language
 4. WHEN setting default language THEN the system SHALL use it as fallback for missing translations
+
+### Requirement 7
+
+**User Story:** As a blog visitor, I want to view static pages (Home, About, Portfolio) in my preferred language, so that I can understand the site navigation and information in my language.
+
+#### Acceptance Criteria
+
+1. WHEN a user visits the homepage THEN the system SHALL display the site title, description, and navigation in the selected language
+2. WHEN a user visits static pages (About, Portfolio, etc.) THEN the system SHALL display the page content in the selected language if available
+3. IF a static page translation is not available THEN the system SHALL display the default language version with a translation notice
+4. WHEN a user switches languages THEN the system SHALL update all static page content and navigation elements
+
+### Requirement 8
+
+**User Story:** As a blog visitor, I want the site's UI elements (sidebar, navigation, footer) to be displayed in my preferred language, so that I can navigate the site comfortably.
+
+#### Acceptance Criteria
+
+1. WHEN a user selects a language THEN the system SHALL display the site title and tagline in that language
+2. WHEN viewing any page THEN the system SHALL display sidebar author bio and social links descriptions in the selected language
+3. WHEN navigating the site THEN the system SHALL display menu items, buttons, and labels in the selected language
+4. WHEN viewing category and tag pages THEN the system SHALL display category/tag names and descriptions in the selected language

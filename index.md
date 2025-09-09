@@ -1,6 +1,12 @@
 ---
 layout: home
 author_profile: true
+lang: ko
+translation_key: "home"
+translations:
+  ko: "/"
+  en: "/en/"
+  es: "/es/"
 ---
 
 안녕하세요, LISA입니다! 👋

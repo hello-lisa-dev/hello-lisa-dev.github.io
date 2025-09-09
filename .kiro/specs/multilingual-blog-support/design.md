@@ -326,7 +326,135 @@ const fallbackChain = {
 - AI 번역 워크플로우 구축
 - 첫 번째 영어 번역 생성
 
-### Phase 5: Testing & Optimization
+### Phase 5: Static Pages & UI Localization
+- 정적 페이지 다국어 버전 생성
+- 사이트 전체 UI 텍스트 번역
+- 네비게이션 및 사이드바 다국어 처리
+
+### Phase 6: Testing & Optimization
 - 크로스 브라우저 테스트
 - SEO 검증 및 최적화
 - 성능 튜닝
+
+## Static Pages and UI Localization
+
+### Static Page Structure
+
+**Directory Structure for Static Pages:**
+```
+_pages/
+├── index.md                    # 한국어 홈페이지
+├── about.md                   # 한국어 소개 페이지
+├── portfolio.md               # 한국어 포트폴리오
+├── en/
+│   ├── index.md              # 영어 홈페이지
+│   ├── about.md              # 영어 소개 페이지
+│   └── portfolio.md          # 영어 포트폴리오
+└── es/
+    ├── index.md              # 스페인어 홈페이지
+    ├── about.md              # 스페인어 소개 페이지
+    └── portfolio.md          # 스페인어 포트폴리오
+```
+
+### UI Text Localization
+
+**UI Text Configuration (`_data/ui-text.yml`):**
+```yaml
+ko:
+  site_title: "개발자 블로그"
+  site_description: "AI와 함께하는 개발 이야기"
+  navigation:
+    home: "홈"
+    about: "소개"
+    portfolio: "포트폴리오"
+    posts: "포스트"
+    categories: "카테고리"
+    tags: "태그"
+  sidebar:
+    author_bio: "AI 도구와 함께 개발하는 iOS 개발자입니다."
+    follow_me: "팔로우하기"
+    recent_posts: "최근 포스트"
+  footer:
+    copyright: "© 2025 개발자 블로그. 모든 권리 보유."
+  buttons:
+    read_more: "더 읽기"
+    back_to_top: "맨 위로"
+    share: "공유하기"
+  translations:
+    available_in: "다른 언어로 보기"
+    translation_notice: "이 페이지는 아직 번역되지 않았습니다."
+
+en:
+  site_title: "Developer Blog"
+  site_description: "Development stories with AI"
+  navigation:
+    home: "Home"
+    about: "About"
+    portfolio: "Portfolio"
+    posts: "Posts"
+    categories: "Categories"
+    tags: "Tags"
+  sidebar:
+    author_bio: "iOS developer working with AI tools."
+    follow_me: "Follow Me"
+    recent_posts: "Recent Posts"
+  footer:
+    copyright: "© 2025 Developer Blog. All rights reserved."
+  buttons:
+    read_more: "Read More"
+    back_to_top: "Back to Top"
+    share: "Share"
+  translations:
+    available_in: "Available in other languages"
+    translation_notice: "This page is not yet translated."
+
+es:
+  site_title: "Blog de Desarrollador"
+  site_description: "Historias de desarrollo con IA"
+  navigation:
+    home: "Inicio"
+    about: "Acerca de"
+    portfolio: "Portafolio"
+    posts: "Publicaciones"
+    categories: "Categorías"
+    tags: "Etiquetas"
+  sidebar:
+    author_bio: "Desarrollador iOS trabajando con herramientas de IA."
+    follow_me: "Sígueme"
+    recent_posts: "Publicaciones Recientes"
+  footer:
+    copyright: "© 2025 Blog de Desarrollador. Todos los derechos reservados."
+  buttons:
+    read_more: "Leer Más"
+    back_to_top: "Volver Arriba"
+    share: "Compartir"
+  translations:
+    available_in: "Disponible en otros idiomas"
+    translation_notice: "Esta página aún no está traducida."
+```
+
+### Site Configuration Updates
+
+**Enhanced `_config.yml` for UI Localization:**
+```yaml
+# 언어별 사이트 메타데이터
+site_metadata:
+  ko:
+    title: "개발자 블로그"
+    description: "AI와 함께하는 개발 이야기"
+    author:
+      name: "개발자"
+      bio: "AI 도구와 함께 개발하는 iOS 개발자입니다."
+  en:
+    title: "Developer Blog"
+    description: "Development stories with AI"
+    author:
+      name: "Developer"
+      bio: "iOS developer working with AI tools."
+  es:
+    title: "Blog de Desarrollador"
+    description: "Historias de desarrollo con IA"
+    author:
+      name: "Desarrollador"
+      bio: "Desarrollador iOS trabajando con herramientas de IA."
+```

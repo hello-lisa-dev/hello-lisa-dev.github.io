@@ -7,12 +7,23 @@
         {% unless logo_path == empty %}
           <a class="site-logo" href="{{ '/' | relative_url }}"><img src="{{ logo_path | relative_url }}" alt="{{ site.masthead_title | default: site.title }}"></a>
         {% endunless %}
-        <a class="site-title" href="{{ '/' | relative_url }}">
-          {{ site.masthead_title | default: site.title }}
+        {% assign current_lang = page.lang | default: site.default_language | default: 'ko' %}
+        {% assign lang_metadata = site.language_metadata[current_lang] %}
+        {% assign ui_text = site.data.ui-text[current_lang] %}
+        
+        <a class="site-title" href="{% if current_lang == site.default_language %}{{ '/' | relative_url }}{% else %}{{ '/' | append: current_lang | append: '/' | relative_url }}{% endif %}">
+          {{ lang_metadata.site_title | default: site.masthead_title | default: site.title }}
           {% if site.subtitle %}<span class="site-subtitle">{{ site.subtitle }}</span>{% endif %}
         </a>
         <ul class="visible-links">
-          {%- for link in site.data.navigation.main -%}
+          {% assign nav_key = 'main' %}
+          {% if current_lang == 'en' %}
+            {% assign nav_key = 'main_en' %}
+          {% elsif current_lang == 'es' %}
+            {% assign nav_key = 'main_es' %}
+          {% endif %}
+          
+          {%- for link in site.data.navigation[nav_key] -%}
             <li class="masthead__menu-item">
               <a href="{{ link.url | relative_url }}"{% if link.description %} title="{{ link.description }}"{% endif %}>{{ link.title }}</a>
             </li>

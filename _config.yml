@@ -152,16 +152,25 @@ language_metadata:
     direction: "ltr"
     site_title: "LISA의 바이브 코딩 일기"
     site_description: "이제 막 시작한 앱 개발, 출시... 아직 멀기만 한 수익화를 위한 좌충우돌 경험담"
+    author:
+      name: "LISA"
+      bio: "주니어 개발자 (iOS 개발은 처음). 바이브 코딩으로 첫 번째 iOS 앱을 개발하고 출시한 경험을 공유합니다. 앱을 통한 소소한 수익화를 꿈꾸며 좌충우돌하는 개발자의 성장 스토리."
   en:
     locale: "en-US"
     direction: "ltr"
     site_title: "LISA's Vibe Coding Journey"
     site_description: "A beginner's journey into app development, launch, and the long road to monetization"
+    author:
+      name: "LISA"
+      bio: "Junior developer (first time with iOS development). Sharing experiences of developing and launching my first iOS app with Vibe Coding. A developer's growth story dreaming of small monetization through apps."
   es:
     locale: "es-ES"
     direction: "ltr"
     site_title: "El Viaje de Codificación Vibe de LISA"
     site_description: "El viaje de un principiante en el desarrollo de aplicaciones, lanzamiento y el largo camino hacia la monetización"
+    author:
+      name: "LISA"
+      bio: "Desarrolladora junior (primera vez con desarrollo iOS). Compartiendo experiencias de desarrollar y lanzar mi primera aplicación iOS con Codificación Vibe. Historia de crecimiento de una desarrolladora soñando con pequeña monetización a través de aplicaciones."
 
 # 카테고리 번역 매핑
 category_translations:
