@@ -35,7 +35,7 @@
   - Handle missing translation scenarios gracefully
   - _Implements Requirements: 1.3, 3.2_
 
-- [ ] 6. Extend post front matter structure for multilingual support
+- [x] 6. Extend post front matter structure for multilingual support
   - Add `lang` field to identify post language
   - Add `translation_key` field to link related translations
   - Add `translations` hash with available language URLs

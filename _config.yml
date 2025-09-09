@@ -76,7 +76,7 @@ author:
 
 # 기본 설정
 defaults:
-  # _posts
+  # Korean posts (default)
   - scope:
       path: ""
       type: posts
@@ -87,6 +87,31 @@ defaults:
       comments: true
       share: true
       related: true
+      lang: "ko"
+  # English posts
+  - scope:
+      path: "_posts/en"
+      type: posts
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: true
+      share: true
+      related: true
+      lang: "en"
+  # Spanish posts
+  - scope:
+      path: "_posts/es"
+      type: posts
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: true
+      share: true
+      related: true
+      lang: "es"
   # _pages
   - scope:
       path: "_pages"

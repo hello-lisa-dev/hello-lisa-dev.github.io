@@ -12,6 +12,9 @@ This document serves as an index for all Architecture Decision Records (ADRs) an
 - **[ADR-005-file-structure-organization.md](./docs/ADR-005-file-structure-organization.md)** - 파일 구조 및 디렉토리 조직화
 - **[ADR-006-troubleshooting-common-issues.md](./docs/ADR-006-troubleshooting-common-issues.md)** - 일반적인 문제들 및 해결 방법
 
+### 🌐 Feature Enhancements
+- **[ADR-007-multilingual-blog-support.md](./docs/ADR-007-multilingual-blog-support.md)** - 다국어 블로그 지원 시스템 구현 (한국어/영어/스페인어)
+
 ### 📋 ADR Status Overview
 | ADR | Title | Status | Date | Priority |
 |-----|-------|--------|------|----------|
@@ -21,6 +24,7 @@ This document serves as an index for all Architecture Decision Records (ADRs) an
 | 004 | SEO Meta Tags Setup | ✅ Accepted | 2025-09-05 | Medium |
 | 005 | File Structure Organization | ✅ Accepted | 2025-09-05 | Medium |
 | 006 | Troubleshooting Common Issues | ✅ Accepted | 2025-09-05 | High |
+| 007 | Multilingual Blog Support | 🚧 In Progress | 2025-09-09 | High |
 
 ## 🚀 Quick Reference
 
@@ -29,6 +33,7 @@ This document serves as an index for all Architecture Decision Records (ADRs) an
 - ✅ **Google Search Console**: 자동 연결 완료
 - ✅ **GitHub Pages**: 배포 최적화 완료
 - ✅ **SEO**: 메타태그 및 구조화된 데이터 설정 완료
+- 🚧 **Multilingual Support**: 다국어 지원 시스템 구현 중 (Tasks 1-6 완료)
 
 ### Key Files
 - `_config.yml` - Jekyll 메인 설정

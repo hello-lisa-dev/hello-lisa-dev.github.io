@@ -10,6 +10,9 @@ description: "AI 도구와 협업하는 새로운 개발 방식인 바이브 코
 # 다국어 지원 필드
 lang: "ko"
 translation_key: "what-is-vibe-coding"
+translations:
+  en: "/vibe-coding/2025/09/06/what-is-vibe-coding.html"
+  ko: "/바이브코딩/2025/09/06/what-is-vibe-coding.html"
 ---
 
 안녕하세요, LISA입니다! 🙂

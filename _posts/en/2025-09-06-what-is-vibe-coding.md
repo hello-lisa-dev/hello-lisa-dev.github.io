@@ -10,6 +10,9 @@ description: "Learn about Vibe Coding, a new development methodology that collab
 # Multilingual support fields
 lang: "en"
 translation_key: "what-is-vibe-coding"
+translations:
+  en: "/vibe-coding/2025/09/06/what-is-vibe-coding.html"
+  ko: "/바이브코딩/2025/09/06/what-is-vibe-coding.html"
 ---
 
 Hello, I'm LISA! 🙂

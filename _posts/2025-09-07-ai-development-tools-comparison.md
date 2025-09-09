@@ -10,6 +10,9 @@ description: "실제 iOS 앱 개발 경험을 바탕으로 AI 개발 도구들�
 # 다국어 지원 필드
 lang: "ko"
 translation_key: "ai-development-tools-comparison"
+translations:
+  ko: "/바이브코딩/ai도구/2025/09/07/ai-development-tools-comparison.html"
+  # 영어 번역 예정
 ---
 
 안녕하세요, LISA입니다! 🙂
