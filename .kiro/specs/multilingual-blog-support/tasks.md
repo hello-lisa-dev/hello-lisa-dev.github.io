@@ -63,14 +63,14 @@
   - Ensure proper HTML lang attribute setting based on content language
   - _Implements Requirements: 5.1, 5.2, 5.4_
 
-- [ ] 10. Build content switching functionality
+- [x] 10. Build content switching functionality
   - Implement JavaScript function to switch content based on language parameter
   - Add AJAX loading for translated content when available
   - Show fallback content with translation notice when translation missing
   - Update browser URL and history when language changes
   - _Implements Requirements: 1.1, 1.2, 1.4_
 
-- [ ] 11. Create multilingual sitemap generation
+- [x] 11. Create multilingual sitemap generation
   - Extend Jekyll sitemap plugin to include language annotations
   - Generate separate sitemaps for each language
   - Add proper `xhtml:link` elements for alternate language versions

@@ -4,11 +4,13 @@ remote_theme: "mmistakes/minimal-mistakes@4.27.3"
 # 플러그인 설정
 plugins:
   - jekyll-paginate
-  - jekyll-sitemap
   - jekyll-gist
   - jekyll-feed
   - jekyll-include-cache
   - jekyll-seo-tag
+
+# 사이트맵 설정 (커스텀 다국어 사이트맵 사용)
+# jekyll-sitemap 플러그인 비활성화
 
 # Jekyll이 처리할 디렉토리 설정
 include:

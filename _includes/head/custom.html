@@ -24,3 +24,17 @@
 
 {% comment %}Custom SEO and multilingual meta tags{% endcomment %}
 {% include seo.html %}
+
+{% comment %}Page translation metadata for JavaScript{% endcomment %}
+{% if page.translations %}
+<meta name="page-translations" content="{{ page.translations | jsonify | escape }}">
+{% endif %}
+
+{% comment %}Current language metadata{% endcomment %}
+{% assign current_lang = page.lang | default: site.default_language | default: 'ko' %}
+<meta name="current-language" content="{{ current_lang }}">
+
+{% comment %}Translation key for finding related translations{% endcomment %}
+{% if page.translation_key %}
+<meta name="translation-key" content="{{ page.translation_key }}">
+{% endif %}

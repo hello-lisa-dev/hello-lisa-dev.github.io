@@ -1,0 +1,35 @@
+---
+layout: null
+sitemap: false
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{% comment %}Korean posts only{% endcomment %}
+{% for post in site.posts %}
+  {% assign post_lang = post.lang | default: site.default_language | default: 'ko' %}
+  {% if post_lang == 'ko' %}
+  <url>
+    <loc>{{ site.url }}{{ post.url }}</loc>
+    {% if post.last_modified_at %}
+    <lastmod>{{ post.last_modified_at | date_to_xmlschema }}</lastmod>
+    {% elsif post.date %}
+    <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
+    {% endif %}
+  </url>
+  {% endif %}
+{% endfor %}
+
+{% comment %}Pages (default language){% endcomment %}
+{% for page in site.pages %}
+  {% unless page.name contains 'sitemap' %}
+    {% unless page.sitemap == false %}
+  <url>
+    <loc>{{ site.url }}{{ page.url }}</loc>
+    {% if page.last_modified_at %}
+    <lastmod>{{ page.last_modified_at | date_to_xmlschema }}</lastmod>
+    {% endif %}
+  </url>
+    {% endunless %}
+  {% endunless %}
+{% endfor %}
+</urlset>

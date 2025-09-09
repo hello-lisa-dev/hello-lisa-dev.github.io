@@ -26,7 +26,7 @@ Handles missing translation scenarios gracefully
     {% unless translation.url == page.url %}
     {% assign trans_lang = translation.lang | default: site.default_language %}
     <div class="translation-item">
-      <a href="{{ translation.url | relative_url }}?lang={{ trans_lang }}" class="translation-link"
+      <a href="{{ translation.url | relative_url }}" class="translation-link"
         data-lang="{{ trans_lang }}"
         title="{{ site.data.ui-text[current_lang].read_more | default: 'Read more' }} ({{ site.languages[trans_lang].name }})">
         <span class="translation-flag">{{ site.languages[trans_lang].flag }}</span>

@@ -39,42 +39,57 @@ class LanguageSwitcher {
 
   /**
    * Detect the current language from various sources
-   * Priority: URL parameter > localStorage > browser language > default
+   * Priority: URL prefix > meta tag > localStorage > browser language > default
    */
   detectLanguage() {
-    // 1. Check URL parameter (?lang=xx or ?tl=xx)
+    // 1. Check URL prefix (/ko/, /en/, /es/)
     const urlLanguage = this.getLanguageFromURL();
     if (urlLanguage && this.isValidLanguage(urlLanguage)) {
-      console.log(`Language detected from URL: ${urlLanguage}`);
+      console.log(`Language detected from URL prefix: ${urlLanguage}`);
       return urlLanguage;
     }
 
-    // 2. Check localStorage
+    // 2. Check meta tag (set by Jekyll)
+    const metaLanguage = this.getLanguageFromMeta();
+    if (metaLanguage && this.isValidLanguage(metaLanguage)) {
+      console.log(`Language detected from meta tag: ${metaLanguage}`);
+      return metaLanguage;
+    }
+
+    // 3. Check localStorage
     const storedLanguage = this.getStoredLanguage();
     if (storedLanguage && this.isValidLanguage(storedLanguage)) {
       console.log(`Language detected from localStorage: ${storedLanguage}`);
       return storedLanguage;
     }
 
-    // 3. Check browser language
+    // 4. Check browser language
     const browserLanguage = this.getBrowserLanguage();
     if (browserLanguage && this.isValidLanguage(browserLanguage)) {
       console.log(`Language detected from browser: ${browserLanguage}`);
       return browserLanguage;
     }
 
-    // 4. Fallback to default language
+    // 5. Fallback to default language
     console.log(`Using default language: ${this.defaultLanguage}`);
     return this.defaultLanguage;
   }
 
   /**
-   * Get language from URL parameters
-   * Supports both ?lang=xx and ?tl=xx formats
+   * Get language from URL prefix (/ko/, /en/, /es/)
    */
   getLanguageFromURL() {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('lang') || urlParams.get('tl');
+    const path = window.location.pathname;
+    const match = path.match(/^\/([a-z]{2})\//);
+    return match ? match[1] : null;
+  }
+
+  /**
+   * Get language from meta tag
+   */
+  getLanguageFromMeta() {
+    const metaTag = document.querySelector('meta[name="current-language"]');
+    return metaTag ? metaTag.getAttribute('content') : null;
   }
 
   /**
@@ -162,9 +177,6 @@ class LanguageSwitcher {
     // Apply to document
     this.applyLanguageToDocument(targetLanguage);
     
-    // Update URL with language parameter
-    this.updateURLWithLanguage(targetLanguage);
-    
     // Trigger language change event
     this.triggerLanguageChangeEvent(targetLanguage);
     
@@ -174,30 +186,15 @@ class LanguageSwitcher {
     return true;
   }
 
+
+
   /**
-   * Update URL with language parameter
+   * Update URL with language prefix (not used in current implementation)
    */
   updateURLWithLanguage(langCode) {
-    const url = new URL(window.location);
-    
-    // Handle category page URLs with hash fragments
-    if (url.pathname.includes('/categories/') && url.hash) {
-      // For category pages, we need to update the hash fragment for translated categories
-      this.updateCategoryHash(url, langCode);
-    }
-    
-    if (langCode === this.defaultLanguage) {
-      // Remove language parameter for default language
-      url.searchParams.delete('lang');
-      url.searchParams.delete('tl');
-    } else {
-      // Set language parameter
-      url.searchParams.set('lang', langCode);
-      url.searchParams.delete('tl'); // Remove old tl parameter if exists
-    }
-    
-    // Update URL without reloading
-    window.history.replaceState({}, '', url);
+    // This method is not used in the current language prefix implementation
+    // Language switching is handled by direct navigation to prefixed URLs
+    console.log(`Language switching to ${langCode} handled by direct navigation`);
   }
 
   /**
@@ -240,20 +237,22 @@ class LanguageSwitcher {
   }
 
   /**
-   * Reload page with language parameter
+   * Reload page with language prefix
    */
   reloadPageWithLanguage(langCode) {
-    const url = new URL(window.location);
+    const currentPath = window.location.pathname;
+    let targetPath;
     
-    if (langCode === this.defaultLanguage) {
-      url.searchParams.delete('lang');
-      url.searchParams.delete('tl');
+    // Remove current language prefix if exists
+    const languagePrefixRegex = /^\/(ko|en|es)\//;
+    if (languagePrefixRegex.test(currentPath)) {
+      targetPath = currentPath.replace(languagePrefixRegex, `/${langCode}/`);
     } else {
-      url.searchParams.set('lang', langCode);
-      url.searchParams.delete('tl');
+      // If no language prefix, add one
+      targetPath = `/${langCode}${currentPath}`;
     }
     
-    window.location.href = url.toString();
+    window.location.href = targetPath;
   }
 
   /**
