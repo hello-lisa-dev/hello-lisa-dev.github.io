@@ -40,6 +40,16 @@ sass:
     - _sass
     - assets/css
 
+# 성능 최적화 설정
+performance:
+  # 환경에 따라 자동 설정 (로컬: 원본, 프로덕션: min)
+  # GitHub Actions에서 MINIFY_ASSETS 환경변수로 제어
+  use_minified_assets: false  # 기본값: 개발 환경용
+  # 지연 로딩 활성화
+  enable_lazy_loading: true
+  # 성능 모니터링 활성화
+  enable_performance_monitoring: true
+
 # 사이트 기본 정보
 title: "LISA의 바이브 코딩 일기"
 email: hello.lisa.dev@gmail.com

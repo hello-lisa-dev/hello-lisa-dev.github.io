@@ -155,36 +155,6 @@
   margin-right: 1rem;
 }
 
-/* Dark theme support */
-.dark .language-current {
-  background: rgba(0, 0, 0, 0.8);
-  border-color: rgba(255, 255, 255, 0.2);
-  color: #fff;
-}
-
-.dark .language-current:hover {
-  background: rgba(0, 0, 0, 0.9);
-  border-color: rgba(255, 255, 255, 0.3);
-  color: #fff;
-}
-
-.dark .language-options {
-  background: #2d2d2d;
-  border-color: #555;
-  color: #fff;
-}
-
-.dark .language-option {
-  color: #fff;
-}
-
-.dark .language-option:hover {
-  background: #3d3d3d;
-}
-
-.dark .language-option:focus {
-  background: #1e3a5f;
-}
 
 /* Mobile responsive design */
 @media (max-width: 1024px) {
@@ -510,52 +480,6 @@
   color: #f39c12;
 }
 
-/* Dark theme support */
-.dark .translation-links {
-  background: #2d2d2d;
-  border-left-color: #4a9eff;
-}
-
-.dark .translation-title {
-  color: #fff;
-}
-
-.dark .translation-title i {
-  color: #4a9eff;
-}
-
-.dark .translation-link {
-  background: #3d3d3d;
-  border-color: #555;
-  color: #fff;
-}
-
-.dark .translation-link:hover {
-  background: #4a9eff;
-  border-color: #4a9eff;
-}
-
-.dark .original-language-notice {
-  border-top-color: #555;
-}
-
-.dark .original-language-notice small {
-  color: #ccc;
-}
-
-.dark .original-link {
-  color: #4a9eff;
-}
-
-.dark .translation-notice {
-  background: #3d2f00;
-  border-color: #5d4e00;
-}
-
-.dark .translation-status,
-.dark .no-translation-key {
-  color: #ffd93d;
-}
 
 /* Mobile responsive design */
 @media (max-width: 768px) {
@@ -1037,34 +961,5 @@
   
   .translation-links {
     border-left-width: 6px;
-  }
-}
-
-/* Color scheme preferences */
-@media (prefers-color-scheme: dark) {
-  .language-current {
-    background: rgba(0, 0, 0, 0.8);
-    border-color: rgba(255, 255, 255, 0.2);
-    color: #fff;
-  }
-  
-  .language-current:hover {
-    background: rgba(0, 0, 0, 0.9);
-    border-color: rgba(255, 255, 255, 0.3);
-    color: #fff;
-  }
-  
-  .language-options {
-    background: #1a1a1a;
-    border-color: #444;
-  }
-  
-  .language-option {
-    color: #e0e0e0;
-  }
-  
-  .translation-links {
-    background: #2a2a2a;
-    border-left-color: #4a9eff;
   }
 }
