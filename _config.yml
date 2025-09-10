@@ -193,6 +193,59 @@ category_translations:
     en: "jekyll"
     es: "jekyll"
 
+# 태그 번역 매핑
+tag_translations:
+  # 바이브코딩 관련 태그
+  "바이브코딩":
+    en: "vibe-coding"
+    es: "codificacion-vibe"
+  "AI개발":
+    en: "AI-development"
+    es: "desarrollo-IA"
+  "개발방식":
+    en: "development-methodology"
+    es: "metodologia-desarrollo"
+  "iOS개발":
+    en: "iOS-development"
+    es: "desarrollo-iOS"
+  "앱개발":
+    en: "app-development"
+    es: "desarrollo-aplicaciones"
+  "AI코딩":
+    en: "AI-coding"
+    es: "codificacion-IA"
+  "인공지능개발":
+    en: "artificial-intelligence-development"
+    es: "desarrollo-inteligencia-artificial"
+  "개발자도구":
+    en: "developer-tools"
+    es: "herramientas-desarrollador"
+  "2025년개발트렌드":
+    en: "2025-development-trends"
+    es: "tendencias-desarrollo-2025"
+  "한국개발자":
+    en: "korean-developer"
+    es: "desarrollador-coreano"
+  # AI 도구 관련 태그
+  "AI도구비교":
+    en: "AI-tools-comparison"
+    es: "comparacion-herramientas-IA"
+  "개발환경":
+    en: "development-environment"
+    es: "entorno-desarrollo"
+  "코딩도구":
+    en: "coding-tools"
+    es: "herramientas-codificacion"
+  "iOS앱개발":
+    en: "iOS-app-development"
+    es: "desarrollo-aplicaciones-iOS"
+  "개발자리뷰":
+    en: "developer-review"
+    es: "revision-desarrollador"
+  "2025년AI도구":
+    en: "2025-AI-tools"
+    es: "herramientas-IA-2025"
+
 # 사이트 설정
 locale: "ko-KR"
 timezone: "Asia/Seoul"

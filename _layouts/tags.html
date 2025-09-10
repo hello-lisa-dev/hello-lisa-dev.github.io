@@ -3,7 +3,7 @@ layout: archive
 ---
 
 {% comment %}
-  Custom categories layout with multilingual support
+  Custom tags layout with multilingual support
 {% endcomment %}
 
 {% assign current_lang = page.lang | default: site.default_language | default: 'ko' %}
@@ -11,21 +11,21 @@ layout: archive
 
 {{ content }}
 
-{% assign categories_max = 0 %}
-{% for category in site.categories %}
-  {% if category[1].size > categories_max %}
-    {% assign categories_max = category[1].size %}
+{% assign tags_max = 0 %}
+{% for tag in site.tags %}
+  {% if tag[1].size > tags_max %}
+    {% assign tags_max = tag[1].size %}
   {% endif %}
 {% endfor %}
 
 <ul class="taxonomy__index">
-  {% for i in (1..categories_max) reversed %}
-    {% for category in site.categories %}
-      {% if category[1].size == i %}
-        {% assign translated_category = category[0] | translate_category: current_lang %}
+  {% for i in (1..tags_max) reversed %}
+    {% for tag in site.tags %}
+      {% if tag[1].size == i %}
+        {% assign translated_tag = tag[0] | translate_tag: current_lang %}
         <li>
-          <a href="#{{ translated_category | slugify }}">
-            <strong>{{ translated_category }}</strong> <span class="taxonomy__count">{{ i }}</span>
+          <a href="#{{ translated_tag | slugify }}">
+            <strong>{{ translated_tag }}</strong> <span class="taxonomy__count">{{ i }}</span>
           </a>
         </li>
       {% endif %}
@@ -34,14 +34,14 @@ layout: archive
 </ul>
 
 {% assign entries_layout = page.entries_layout | default: 'list' %}
-{% for i in (1..categories_max) reversed %}
-  {% for category in site.categories %}
-    {% if category[1].size == i %}
-      {% assign translated_category = category[0] | translate_category: current_lang %}
-      <section id="{{ translated_category | slugify | downcase }}" class="taxonomy__section">
-        <h2 class="archive__subtitle">{{ translated_category }}</h2>
+{% for i in (1..tags_max) reversed %}
+  {% for tag in site.tags %}
+    {% if tag[1].size == i %}
+      {% assign translated_tag = tag[0] | translate_tag: current_lang %}
+      <section id="{{ translated_tag | slugify | downcase }}" class="taxonomy__section">
+        <h2 class="archive__subtitle">{{ translated_tag }}</h2>
         <div class="entries-{{ entries_layout }}">
-          {% for post in category.last %}
+          {% for post in tag.last %}
             {% comment %}Only show posts that match the current language or have no language specified{% endcomment %}
             {% assign post_lang = post.lang | default: site.default_language | default: 'ko' %}
             {% if post_lang == current_lang %}

@@ -36,10 +36,10 @@ main_en:
     key: "posts"
     children:
       - title: "Categories"
-        url: /categories/
+        url: /en/categories/
         key: "categories"
       - title: "Tags"
-        url: /tags/
+        url: /en/tags/
         key: "tags"
       - title: "By Year"
         url: /year-archive/
@@ -61,10 +61,10 @@ main_es:
     key: "posts"
     children:
       - title: "Categorías"
-        url: /categories/
+        url: /es/categories/
         key: "categories"
       - title: "Etiquetas"
-        url: /tags/
+        url: /es/tags/
         key: "tags"
       - title: "Por Año"
         url: /year-archive/

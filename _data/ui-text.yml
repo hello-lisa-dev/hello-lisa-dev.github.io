@@ -67,9 +67,11 @@ ko:
   categories:
     title: "카테고리"
     all: "모든 카테고리"
+    posts_by_category: "카테고리별 포스트"
   tags:
     title: "태그"
     all: "모든 태그"
+    posts_by_tag: "태그별 포스트"
   
   # Archive
   archive:
@@ -143,9 +145,11 @@ en:
   categories:
     title: "Categories"
     all: "All Categories"
+    posts_by_category: "Posts by Category"
   tags:
     title: "Tags"
     all: "All Tags"
+    posts_by_tag: "Posts by Tag"
   
   # Archive
   archive:
@@ -219,9 +223,11 @@ es:
   categories:
     title: "Categorías"
     all: "Todas las Categorías"
+    posts_by_category: "Publicaciones por Categoría"
   tags:
     title: "Etiquetas"
     all: "Todas las Etiquetas"
+    posts_by_tag: "Publicaciones por Etiqueta"
   
   # Archive
   archive:
