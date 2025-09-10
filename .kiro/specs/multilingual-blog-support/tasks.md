@@ -98,21 +98,21 @@
   - Add translation status tracking in post metadata
   - _Implements Requirements: 3.4, 3.5_
 
-- [ ] 15. Style multilingual components
+- [x] 15. Style multilingual components
   - Create CSS for language switcher dropdown styling
   - Add responsive design for language selector on mobile
   - Style translation availability notices and links
   - Ensure consistent styling with Minimal Mistakes theme
   - _Implements Requirements: 2.1, 2.2_
 
-- [ ] 16. Test multilingual functionality end-to-end
+- [x] 16. Test multilingual functionality end-to-end
   - Create test posts in multiple languages with proper linking
   - Test language switching across different post types and pages
   - Validate SEO tags and hreflang implementation
   - Test fallback behavior for missing translations
   - _Implements Requirements: 1.1, 1.2, 1.3, 1.4_
 
-- [ ] 17. Create first English translation of existing post
+- [x] 17. Create first English translation of existing post
   - Select "바이브 코딩이란?" post for initial English translation
   - Create properly structured English markdown file in `_posts/en/`
   - Add proper front matter with translation linking

@@ -189,26 +189,65 @@
 @media (max-width: 768px) {
   .masthead .language-switcher {
     position: relative;
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
   }
 
   .language-options {
-    position: fixed;
-    top: auto;
-    left: 1rem;
-    right: 1rem;
-    bottom: 1rem;
-    max-height: 150px;
-    border-radius: 0.5rem;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 200px;
+    border-radius: 0.375rem;
+    margin-top: 0.5rem;
+    /* Better mobile positioning */
+    transform-origin: top center;
   }
 
   .language-current {
-    min-width: 90px;
+    min-width: 85px;
     font-size: 0.75rem;
-    padding: 0.3rem 0.5rem;
+    padding: 0.375rem 0.5rem;
+    border-radius: 0.375rem;
   }
 
   .language-flag {
-    font-size: 0.9rem;
+    font-size: 0.875rem;
+  }
+
+  .language-name {
+    font-size: 0.75rem;
+  }
+
+  .language-arrow {
+    font-size: 0.625rem;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .masthead .language-switcher {
+    margin-left: 0.125rem;
+    margin-right: 0.125rem;
+  }
+
+  .language-current {
+    min-width: 75px;
+    font-size: 0.7rem;
+    padding: 0.25rem 0.375rem;
+  }
+
+  .language-flag {
+    font-size: 0.8rem;
+  }
+
+  .language-name {
+    font-size: 0.7rem;
+  }
+
+  .language-options {
+    font-size: 0.8rem;
   }
 }
 
@@ -324,8 +363,14 @@
   padding: 1.5rem;
   background: #f8f9fa;
   border-left: 4px solid #007acc;
-  border-radius: 0.25rem;
+  border-radius: 0.375rem;
   font-size: 0.9rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease;
+}
+
+.translation-links:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .translation-header {
@@ -767,5 +812,236 @@
   }
   80%, 100% {
     text-shadow: 0.25em 0 0 black, 0.5em 0 0 black;
+  }
+}
+
+/* Enhanced Minimal Mistakes Theme Integration */
+
+/* Ensure language switcher works well with theme colors */
+.masthead .language-switcher .language-current {
+  color: var(--masthead-link-color, #fff);
+  border-color: var(--masthead-link-color-hover, rgba(255, 255, 255, 0.2));
+}
+
+.masthead .language-switcher .language-current:hover {
+  color: var(--masthead-link-color-hover, #fff);
+  background: var(--masthead-link-color-hover, rgba(255, 255, 255, 0.1));
+}
+
+/* Better integration with site search */
+.masthead .search__toggle + .language-switcher {
+  margin-left: 0.5rem;
+}
+
+/* Improved focus states for accessibility */
+.language-current:focus-visible {
+  outline: 2px solid var(--link-color, #007acc);
+  outline-offset: 2px;
+  border-color: var(--link-color, #007acc);
+}
+
+.language-option:focus-visible {
+  outline: 2px solid var(--link-color, #007acc);
+  outline-offset: -2px;
+  background: var(--link-color-hover, #e3f2fd);
+}
+
+/* Enhanced animation for better UX */
+.language-options.show {
+  animation: slideInDown 0.2s ease-out;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Better spacing in different layouts */
+.layout--single .translation-links,
+.layout--posts .translation-links,
+.layout--home .translation-links {
+  margin: 1.5rem 0 2rem 0;
+}
+
+.layout--archive .translation-links {
+  margin: 1rem 0 1.5rem 0;
+}
+
+/* Improved contrast for better readability */
+.translation-notice {
+  background: linear-gradient(135deg, #fff3cd 0%, #fef7e0 100%);
+  border-left: 4px solid #f39c12;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Loading states for better UX */
+.language-switcher.loading .language-current {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.language-switcher.loading .language-current::after {
+  content: "";
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-left: 0.5rem;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Error states */
+.language-switcher.error .language-current {
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+.translation-error {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 0.375rem;
+  color: #721c24;
+  font-size: 0.9rem;
+}
+
+/* Success states for translation updates */
+.translation-success {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  border-radius: 0.375rem;
+  color: #155724;
+  font-size: 0.9rem;
+}
+
+/* Tooltip styles for language information */
+.language-tooltip {
+  position: relative;
+}
+
+.language-tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  z-index: 1001;
+  margin-bottom: 0.5rem;
+}
+
+.language-tooltip:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* RTL language support */
+[dir="rtl"] .language-switcher {
+  margin-left: 0;
+  margin-right: 1rem;
+}
+
+[dir="rtl"] .language-current {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .language-options {
+  left: auto;
+  right: 0;
+}
+
+/* Print-friendly styles */
+@media print {
+  .language-switcher {
+    display: none;
+  }
+  
+  .translation-links {
+    background: none !important;
+    border: 1px solid #000 !important;
+    box-shadow: none !important;
+  }
+  
+  .translation-link {
+    background: none !important;
+    border: 1px solid #000 !important;
+    color: #000 !important;
+  }
+}
+
+/* Prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .language-options {
+    animation: none;
+    transition: opacity 0.1s ease;
+  }
+  
+  .language-switcher.loading .language-current::after {
+    animation: none;
+    border: 2px solid currentColor;
+    border-radius: 0;
+  }
+}
+
+/* High contrast mode improvements */
+@media (prefers-contrast: high) {
+  .language-current {
+    border-width: 2px;
+    font-weight: 600;
+  }
+  
+  .language-options {
+    border-width: 2px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  }
+  
+  .translation-links {
+    border-left-width: 6px;
+  }
+}
+
+/* Color scheme preferences */
+@media (prefers-color-scheme: dark) {
+  .language-current {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .language-options {
+    background: #1a1a1a;
+    border-color: #444;
+  }
+  
+  .language-option {
+    color: #e0e0e0;
+  }
+  
+  .translation-links {
+    background: #2a2a2a;
+    border-left-color: #4a9eff;
   }
 }
