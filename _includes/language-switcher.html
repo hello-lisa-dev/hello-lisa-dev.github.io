@@ -9,7 +9,7 @@
   <!-- JavaScript-enabled version (hidden by default, shown by JS) -->
   <div class="language-dropdown js-enabled" style="display: none;">
     <!-- Current Language Button -->
-    <button class="language-current" id="languageToggle" aria-label="{{ ui_text.language_selector }}" aria-expanded="false">
+    <button class="language-current" id="languageToggle" aria-label="{{ ui_text.translations.switch_language | default: 'Switch Language' }}" aria-expanded="false">
       <span class="language-flag" id="currentFlag">{{ site.languages[current_lang].flag | default: "🌐" }}</span>
       <span class="language-name" id="currentLang">{{ site.languages[current_lang].name | default: current_lang }}</span>
       <span class="language-arrow" aria-hidden="true">▼</span>
@@ -87,6 +87,48 @@
       jsEnabled.style.display = 'block';
       jsDisabled.style.display = 'none';
     }
+    
+    // Immediately update the current language display
+    function detectCurrentLanguage() {
+      const path = window.location.pathname;
+      const urlMatch = path.match(/^\/([a-z]{2})\//);
+      if (urlMatch && ['ko', 'en', 'es'].includes(urlMatch[1])) {
+        return urlMatch[1];
+      }
+      
+      const pageLang = document.documentElement.lang;
+      if (pageLang && ['ko', 'en', 'es'].includes(pageLang)) {
+        return pageLang;
+      }
+      
+      const urlParams = new URLSearchParams(window.location.search);
+      const langParam = urlParams.get('lang');
+      if (langParam && ['ko', 'en', 'es'].includes(langParam)) {
+        return langParam;
+      }
+      
+      return 'ko';
+    }
+    
+    function updateLanguageDisplay(langCode) {
+      const languages = {
+        'ko': { name: '한국어', flag: '🇰🇷' },
+        'en': { name: 'English', flag: '🇺🇸' },
+        'es': { name: 'Español', flag: '🇪🇸' }
+      };
+      
+      const currentFlag = document.getElementById('currentFlag');
+      const currentLang = document.getElementById('currentLang');
+      
+      if (currentFlag && currentLang && languages[langCode]) {
+        currentFlag.textContent = languages[langCode].flag;
+        currentLang.textContent = languages[langCode].name;
+      }
+    }
+    
+    // Update immediately
+    const currentLanguage = detectCurrentLanguage();
+    updateLanguageDisplay(currentLanguage);
   })();
 </script>
 
@@ -501,21 +543,61 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   
   // Initialize current language display
-  if (typeof window.languageSwitcher !== 'undefined') {
-    const currentLanguage = window.languageSwitcher.getCurrentLanguage();
-    updateCurrentLanguage(currentLanguage);
-  } else {
-    // Fallback: detect from URL or use default
+  function detectCurrentLanguage() {
+    // 1. Check URL prefix (/ko/, /en/, /es/)
+    const path = window.location.pathname;
+    const urlMatch = path.match(/^\/([a-z]{2})\//);
+    if (urlMatch && ['ko', 'en', 'es'].includes(urlMatch[1])) {
+      return urlMatch[1];
+    }
+    
+    // 2. Check page lang attribute
+    const pageLang = document.documentElement.lang;
+    if (pageLang && ['ko', 'en', 'es'].includes(pageLang)) {
+      return pageLang;
+    }
+    
+    // 3. Check meta tag
+    const metaLang = document.querySelector('meta[name="language"]');
+    if (metaLang) {
+      const langContent = metaLang.getAttribute('content');
+      if (langContent && ['ko', 'en', 'es'].includes(langContent)) {
+        return langContent;
+      }
+    }
+    
+    // 4. Check URL parameter
     const urlParams = new URLSearchParams(window.location.search);
-    const langParam = urlParams.get('lang') || 'ko';
-    updateCurrentLanguage(langParam);
+    const langParam = urlParams.get('lang');
+    if (langParam && ['ko', 'en', 'es'].includes(langParam)) {
+      return langParam;
+    }
+    
+    // 5. Default to Korean
+    return 'ko';
   }
+  
+  const detectedLanguage = detectCurrentLanguage();
+  console.log('Detected current language:', detectedLanguage);
+  updateCurrentLanguage(detectedLanguage);
   
   // Listen for language change events
   document.addEventListener('languageChanged', function(e) {
     if (e.detail && e.detail.newLanguage) {
       updateCurrentLanguage(e.detail.newLanguage);
     }
+  });
+  
+  // Update UI when page loads or language changes
+  window.addEventListener('load', function() {
+    const currentLanguage = detectCurrentLanguage();
+    updateCurrentLanguage(currentLanguage);
+  });
+  
+  // Update UI when navigating back/forward
+  window.addEventListener('popstate', function() {
+    const currentLanguage = detectCurrentLanguage();
+    updateCurrentLanguage(currentLanguage);
   });
 });
 </script>

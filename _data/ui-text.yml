@@ -14,6 +14,7 @@ ko:
     categories: "카테고리"
     tags: "태그"
     year_archive: "연도별 아카이브"
+    browse_by: "분류별 보기"
   
   # Sidebar
   sidebar:
@@ -77,6 +78,10 @@ ko:
   archive:
     title: "아카이브"
     posts_in: "포스트"
+    no_posts: "포스트가 없습니다"
+    post: "포스트"
+    posts: "포스트"
+    in_language: "언어:"
 
 en:
   # Site metadata
@@ -92,6 +97,7 @@ en:
     categories: "Categories"
     tags: "Tags"
     year_archive: "Year Archive"
+    browse_by: "Browse by"
   
   # Sidebar
   sidebar:
@@ -155,6 +161,10 @@ en:
   archive:
     title: "Archive"
     posts_in: "posts in"
+    no_posts: "No posts found"
+    post: "post"
+    posts: "posts"
+    in_language: "in"
 
 es:
   # Site metadata
@@ -170,6 +180,7 @@ es:
     categories: "Categorías"
     tags: "Etiquetas"
     year_archive: "Archivo por Año"
+    browse_by: "Navegar por"
   
   # Sidebar
   sidebar:
@@ -233,3 +244,7 @@ es:
   archive:
     title: "Archivo"
     posts_in: "publicaciones en"
+    no_posts: "No se encontraron publicaciones"
+    post: "publicación"
+    posts: "publicaciones"
+    in_language: "en"

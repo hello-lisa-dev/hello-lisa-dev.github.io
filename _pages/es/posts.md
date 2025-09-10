@@ -1,6 +1,6 @@
 ---
 title: "Publicaciones"
-layout: posts
+layout: multilingual-posts
 permalink: /es/posts/
 author_profile: true
 lang: es
@@ -10,3 +10,7 @@ translations:
   en: "/en/posts/"
   es: "/es/posts/"
 ---
+
+{% comment %}
+This page shows all posts in Spanish language with category/tag navigation
+{% endcomment %}

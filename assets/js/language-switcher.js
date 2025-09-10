@@ -495,6 +495,16 @@ class LanguageSwitcher {
    * Check if translation exists for current page/post
    */
   checkTranslationExists(targetLang) {
+    // Special handling for Posts pages - they always exist
+    const currentPath = window.location.pathname;
+    if (currentPath === '/posts/' || currentPath.endsWith('/posts/')) {
+      const supportedLanguages = ['ko', 'en', 'es'];
+      if (supportedLanguages.includes(targetLang)) {
+        console.log(`Posts page translation exists for ${targetLang}`);
+        return true;
+      }
+    }
+    
     // Look for translation links in current page
     const translationLinks = document.querySelectorAll(`[data-lang="${targetLang}"]`);
     
@@ -518,6 +528,20 @@ class LanguageSwitcher {
    * Get translated path for current page/post
    */
   getTranslatedPath(currentPath, targetLang) {
+    // Special handling for Posts pages
+    if (currentPath === '/posts/' || currentPath.endsWith('/posts/')) {
+      const postsTranslations = {
+        'ko': '/posts/',
+        'en': '/en/posts/',
+        'es': '/es/posts/'
+      };
+      
+      if (postsTranslations[targetLang]) {
+        console.log(`Found Posts page translation: ${postsTranslations[targetLang]}`);
+        return postsTranslations[targetLang];
+      }
+    }
+    
     // Look for translation link with target language
     const translationLink = document.querySelector(`[data-lang="${targetLang}"]`);
     
@@ -992,6 +1016,32 @@ class LanguageSwitcher {
    */
   updateLanguageSwitcherUI(langCode) {
     const currentFlag = document.getElementById('currentFlag');
+    const currentLang = document.getElementById('currentLang');
+    
+    if (!currentFlag || !currentLang) {
+      console.warn('Language switcher UI elements not found');
+      return;
+    }
+    
+    const languages = {
+      'ko': { name: '한국어', flag: '🇰🇷' },
+      'en': { name: 'English', flag: '🇺🇸' },
+      'es': { name: 'Español', flag: '🇪🇸' }
+    };
+    
+    const langData = languages[langCode];
+    if (langData) {
+      currentFlag.textContent = langData.flag;
+      currentLang.textContent = langData.name;
+      console.log(`Updated language switcher UI to: ${langCode} (${langData.name})`);
+    }
+  }
+  
+  /**
+   * Get current language from various sources
+   */
+  getCurrentLanguage() {
+    return this.currentLanguage;
     const currentLang = document.getElementById('currentLang');
     
     if (currentFlag && currentLang) {
