@@ -1,7 +1,7 @@
 ---
 title: "Kiro 에디터 첫 경험담 - 7월부터 기다린 웨이팅이 드디어!"
-date: 2025-09-10
-last_modified_at: 2025-09-10 17:40:00 +0900
+date: 2025-09-09
+last_modified_at: 2025-09-09 17:40:00 +0900
 categories: [바이브코딩, AI도구]
 tags: [Kiro, Kiro에디터, AWS, AI개발, 웹개발, 바이브코딩, Spec모드, Cursor, Claude, Codex, Gemini, AI협업, 개발환경]
 seo_title: "Kiro 에디터 첫 경험담 - AWS의 새로운 AI 개발 도구 체험 후기"
@@ -10,9 +10,9 @@ description: "7월부터 웨이팅 걸어둔 Kiro 에디터를 드디어 사용�
 # 다국어 지원 필드
 lang: "ko"
 translation_key: "kiro-editor-first-experience"
-permalink: /ko/vibe-coding/ai-tools/2025/09/10/kiro-editor-first-experience.html
+permalink: /ko/vibe-coding/ai-tools/2025/09/09/kiro-editor-first-experience.html
 translations:
-  ko: "/ko/vibe-coding/ai-tools/2025/09/10/kiro-editor-first-experience.html"
+  ko: "/ko/vibe-coding/ai-tools/2025/09/09/kiro-editor-first-experience.html"
   # 영어 번역 예정
 ---
 

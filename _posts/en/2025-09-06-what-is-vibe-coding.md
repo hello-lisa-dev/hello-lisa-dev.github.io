@@ -17,37 +17,37 @@ translations:
   en: "/en/vibe-coding/2025/09/06/what-is-vibe-coding.html"
 ---
 
-Hello, I'm LISA! 🙂
+Hey there, I'm LISA! 🙂
 
-Today I want to talk about **Vibe Coding** that I experienced while developing my first iOS app.
+Today I want to share my experience with **Vibe Coding** that I discovered while developing my first iOS app.
 
-## What is Vibe Coding?
+## What's Vibe Coding anyway?
 
-Simply put, it's **a way to build apps together with AI**!
+Simply put, it's **working with AI to build apps together**!
 
-Traditionally, developers had to write all the code, design, and debug everything themselves, right? But with Vibe Coding, **AI creates the code, and I act as a director, saying "this looks good, fix that"**.
+You know how traditionally, developers had to write all the code, design everything, and debug stuff themselves? Well, Vibe Coding is different - **AI creates the code, and I'm more like a supervisor going "this looks good, hey can you fix that part?"**
 
 ### Characteristics of Vibe Coding
 
-1. **Collaboration with AI tools**: Working with AI friends like [Cursor](https://cursor.com/downloads), [Claude Code](https://www.anthropic.com/claude-code), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [Codex CLI](https://developers.openai.com/codex/cli/)
-2. **Build fast and improve**: Don't make perfect plans, just build quickly first!
-3. **Code review is essential**: Look at AI-generated code and check "is this right?" and request modifications
-4. **Keep iterating**: Find problems → Ask AI to fix them → Check again → Repeat!
+1. **Working with AI buddies**: Collaborating with AI tools like [Cursor](https://cursor.com/downloads), [Claude Code](https://www.anthropic.com/claude-code), [Gemini CLI](https://github.com/google-gemini/gemini-cli), [Codex CLI](https://developers.openai.com/codex/cli/)
+2. **Build fast, improve later**: Skip the perfect planning - just get something working first!
+3. **Always review the code**: Check what AI made and be like "hmm, is this right?" then ask for fixes
+4. **Keep going back and forth**: Spot issues → Ask AI to fix → Check again → Repeat the cycle!
 
-## How has the development approach changed?
+## How has development changed?
 
-AI tools have become so good these days that the way we develop has completely changed!
+AI tools got so crazy good that development is totally different now!
 
-### Old way (Traditional Development)
+### The old way (Traditional Development)
 - **Plan → Design → Code → Test → Deploy**
-- Developers had to do everything themselves
-- Start development after perfect design
-- Predictable but takes a long time
+- Developers had to do literally everything
+- You'd design everything perfectly before starting
+- Super predictable but took forever
 
-### Current way (Vibe Coding)
-- **Idea → Collaborate with AI → Review → Improve → Repeat**
-- AI codes, I review and give feedback
-- Build quickly first and improve gradually
+### The new way (Vibe Coding)
+- **Idea → Work with AI → Check it out → Make it better → Repeat**
+- AI does the coding, I give feedback and direction
+- Build something quick first, then make it awesome step by step
 - Flexible and fast, but lots of unexpected things happen 😅
 
 ## Vibe Coding: Pros and Cons
