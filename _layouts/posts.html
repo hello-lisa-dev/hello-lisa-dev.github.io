@@ -1,0 +1,221 @@
+---
+layout: archive
+---
+
+{% comment %}
+Custom posts layout with multilingual support and category/tag navigation
+{% endcomment %}
+
+{% assign current_lang = page.lang | default: site.default_language | default: 'ko' %}
+{% assign ui_text = site.data.ui-text[current_lang] | default: site.data.ui-text['ko'] %}
+
+{{ content }}
+
+<!-- Translation Links -->
+{% include translation-links.html %}
+
+<!-- Category and Tag Navigation -->
+<div class="posts-quick-nav">
+  <p class="posts-quick-nav-text">{{ ui_text.navigation.browse_by | default: "Browse by" }}:</p>
+  <div class="posts-quick-nav-links">
+    <a href="{% if current_lang == site.default_language %}/categories/{% else %}/{{ current_lang }}/categories/{% endif %}" class="posts-quick-nav-link">
+      <i class="fas fa-fw fa-folder-open" aria-hidden="true"></i>
+      {{ ui_text.categories.title | default: "Categories" }}
+    </a>
+    <a href="{% if current_lang == site.default_language %}/tags/{% else %}/{{ current_lang }}/tags/{% endif %}" class="posts-quick-nav-link">
+      <i class="fas fa-fw fa-tags" aria-hidden="true"></i>
+      {{ ui_text.tags.title | default: "Tags" }}
+    </a>
+  </div>
+</div>
+
+<!-- Posts List -->
+{% assign entries_layout = page.entries_layout | default: 'list' %}
+{% assign posts_count = 0 %}
+
+<div class="entries-{{ entries_layout }}">
+    {% for post in site.posts %}
+    {% comment %}Only show posts that match the current language{% endcomment %}
+    {% assign post_lang = post.lang | default: site.default_language | default: 'ko' %}
+    {% if post_lang == current_lang %}
+    {% assign posts_count = posts_count | plus: 1 %}
+    {% include archive-single.html type=entries_layout %}
+    {% endif %}
+    {% endfor %}
+</div>
+
+<!-- Posts Summary -->
+<div class="posts-summary">
+    <p class="posts-count">
+        <i class="fas fa-fw fa-file-alt" aria-hidden="true"></i>
+        {% if posts_count == 0 %}
+        {{ ui_text.archive.no_posts | default: "No posts found" }}
+        {% elsif posts_count == 1 %}
+        1 {{ ui_text.archive.post | default: "post" }}
+        {% else %}
+        {{ posts_count }} {{ ui_text.archive.posts | default: "posts" }}
+        {% endif %}
+        {% if current_lang != site.default_language %}
+        {{ ui_text.archive.in_language | default: "in" }} {{ site.languages[current_lang].name | default: current_lang
+        }}
+        {% endif %}
+    </p>
+</div>
+
+<style>
+    /* Posts Quick Navigation Styles */
+    .posts-quick-nav {
+        margin: 1.5rem 0;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 0.375rem;
+        border-left: 3px solid #007acc;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .posts-quick-nav-text {
+        margin: 0;
+        font-size: 0.9rem;
+        color: #666;
+        font-weight: 500;
+    }
+
+    .posts-quick-nav-links {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .posts-quick-nav-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        padding: 0.5rem 0.75rem;
+        background: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 0.25rem;
+        color: #333;
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .posts-quick-nav-link:hover {
+        background: #007acc;
+        border-color: #007acc;
+        color: #fff;
+        text-decoration: none;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0, 122, 204, 0.15);
+    }
+
+    .posts-quick-nav-link i {
+        font-size: 0.8rem;
+        opacity: 0.8;
+    }
+
+    .posts-quick-nav-link:hover i {
+        opacity: 1;
+    }
+
+    /* Posts Summary Styles */
+    .posts-summary {
+        margin: 2rem 0;
+        padding: 1rem;
+        background: #e3f2fd;
+        border-radius: 0.375rem;
+        text-align: center;
+    }
+
+    .posts-count {
+        margin: 0;
+        font-size: 0.9rem;
+        color: #1565c0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .posts-count i {
+        color: #1976d2;
+    }
+
+    /* Dark theme support */
+    @media (prefers-color-scheme: dark) {
+        .posts-quick-nav {
+            background: #2d2d2d;
+            border-left-color: #4a9eff;
+        }
+
+        .posts-quick-nav-text {
+            color: #ccc;
+        }
+
+        .posts-quick-nav-link {
+            background: #3d3d3d;
+            border-color: #555;
+            color: #fff;
+        }
+
+        .posts-quick-nav-link:hover {
+            background: #4a9eff;
+            border-color: #4a9eff;
+        }
+
+        .posts-summary {
+            background: #1e3a5f;
+        }
+
+        .posts-count {
+            color: #90caf9;
+        }
+
+        .posts-count i {
+            color: #64b5f6;
+        }
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+        .posts-quick-nav {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin: 1rem 0;
+            padding: 0.875rem;
+        }
+
+        .posts-quick-nav-links {
+            gap: 0.75rem;
+        }
+
+        .posts-quick-nav-link {
+            font-size: 0.8rem;
+            padding: 0.4rem 0.6rem;
+        }
+
+        .posts-count {
+            flex-direction: column;
+            gap: 0.25rem;
+            font-size: 0.85rem;
+        }
+    }
+
+    /* Print styles */
+    @media print {
+        .posts-quick-nav {
+            background: none;
+            border: 1px solid #ccc;
+        }
+
+        .posts-quick-nav-link {
+            background: none;
+            border: 1px solid #ccc;
+        }
+    }
+</style>

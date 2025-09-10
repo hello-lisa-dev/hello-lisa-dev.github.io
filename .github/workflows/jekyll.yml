@@ -40,6 +40,18 @@ jobs:
         with:
           ruby-version: '3.2' # Bundler 2.7.1 호환성을 위해 3.2 사용
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install minification tools
+        run: npm install -g clean-css-cli uglify-js
+      - name: Minify assets
+        run: |
+          echo "Minifying CSS and JavaScript assets..."
+          cleancss -o assets/css/language-switcher.min.css assets/css/language-switcher.css
+          uglifyjs assets/js/language-switcher.js -o assets/js/language-switcher.min.js
+          echo "Assets minified successfully!"
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
@@ -48,6 +60,7 @@ jobs:
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
         env:
           JEKYLL_ENV: production
+          MINIFY_ASSETS: true
       - name: Upload artifact
         # Automatically uploads an artifact from the './_site' directory by default
         uses: actions/upload-pages-artifact@v3

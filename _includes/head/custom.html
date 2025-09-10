@@ -1,3 +1,4 @@
+{% comment %}Custom CSS files support{% endcomment %}
 {% if page.custom_css %}
   {% for stylesheet in page.custom_css %}
     <link rel="stylesheet" href="{{ '/assets/css/' | append: stylesheet | append: '.css' | relative_url }}">
@@ -12,11 +13,24 @@
 {% comment %}Favicon 설정{% endcomment %}
 {% include head/favicon.html %}
 
-{% comment %}Open Graph 태그 (소셜 미디어 공유 최적화){% endcomment %}
-{% include head/og-tags.html %}
-
 {% comment %}Google Analytics 스크립트{% endcomment %}
 {% include head/google-analytics.html %}
 
-{% comment %}구조화된 데이터 (JSON-LD){% endcomment %}
-{% include structured-data.html %}
+{% comment %}Language Switcher CSS - handled in default.html layout{% endcomment %}
+
+{% comment %}Custom SEO and multilingual meta tags{% endcomment %}
+{% include seo.html %}
+
+{% comment %}Page translation metadata for JavaScript{% endcomment %}
+{% if page.translations %}
+<meta name="page-translations" content="{{ page.translations | jsonify | escape }}">
+{% endif %}
+
+{% comment %}Current language metadata{% endcomment %}
+{% assign current_lang = page.lang | default: site.default_language | default: 'ko' %}
+<meta name="current-language" content="{{ current_lang }}">
+
+{% comment %}Translation key for finding related translations{% endcomment %}
+{% if page.translation_key %}
+<meta name="translation-key" content="{{ page.translation_key }}">
+{% endif %}

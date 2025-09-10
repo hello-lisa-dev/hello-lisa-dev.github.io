@@ -1,16 +1,74 @@
+# Korean navigation (default)
 main:
-  - title: "Home"
+  - title: "홈"
     url: /
-  - title: "About"
+    key: "home"
+  - title: "소개"
     url: /about/
-  - title: "Posts"
+    key: "about"
+  - title: "포스트"
     url: /posts/
+    key: "posts"
     children:
-      - title: "By Category"
+      - title: "카테고리"
         url: /categories/
-      - title: "By Tag"
+        key: "categories"
+      - title: "태그"
         url: /tags/
+        key: "tags"
+      - title: "연도별"
+        url: /year-archive/
+        key: "year_archive"
+  - title: "포트폴리오"
+    url: /portfolio/
+    key: "portfolio"
+
+# English navigation
+main_en:
+  - title: "Home"
+    url: /en/
+    key: "home"
+  - title: "About"
+    url: /en/about/
+    key: "about"
+  - title: "Posts"
+    url: /en/posts/
+    key: "posts"
+    children:
+      - title: "Categories"
+        url: /en/categories/
+        key: "categories"
+      - title: "Tags"
+        url: /en/tags/
+        key: "tags"
       - title: "By Year"
         url: /year-archive/
+        key: "year_archive"
   - title: "Portfolio"
-    url: /portfolio/
+    url: /en/portfolio/
+    key: "portfolio"
+
+# Spanish navigation
+main_es:
+  - title: "Inicio"
+    url: /es/
+    key: "home"
+  - title: "Acerca de"
+    url: /es/about/
+    key: "about"
+  - title: "Publicaciones"
+    url: /es/posts/
+    key: "posts"
+    children:
+      - title: "Categorías"
+        url: /es/categories/
+        key: "categories"
+      - title: "Etiquetas"
+        url: /es/tags/
+        key: "tags"
+      - title: "Por Año"
+        url: /year-archive/
+        key: "year_archive"
+  - title: "Portafolio"
+    url: /es/portfolio/
+    key: "portfolio"

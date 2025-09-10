@@ -6,6 +6,14 @@ categories: [바이브코딩, AI도구]
 tags: [AI개발, ClaudeCode, Cursor, GeminiCLI, CodexCLI, 개발도구, 바이브코딩, AI도구비교, 개발환경, 코딩도구, iOS앱개발, 개발자리뷰, 한국개발자, 2025년AI도구]
 seo_title: "2025년 AI 개발 도구 완전 가이드 - 실제 사용 경험으로 비교하는 Cursor, Claude Code, Gemini CLI, Codex CLI"
 description: "실제 iOS 앱 개발 경험을 바탕으로 AI 개발 도구들을 비교해보세요. Claude Code, Cursor, Gemini CLI, Codex CLI의 장단점과 실제 사용 후기를 공유합니다."
+
+# 다국어 지원 필드
+lang: "ko"
+translation_key: "ai-development-tools-comparison"
+permalink: /ko/vibe-coding/ai-tools/2025/09/07/ai-development-tools-comparison.html
+translations:
+  ko: "/ko/vibe-coding/ai-tools/2025/09/07/ai-development-tools-comparison.html"
+  # 영어 번역 예정
 ---
 
 안녕하세요, LISA입니다! 🙂

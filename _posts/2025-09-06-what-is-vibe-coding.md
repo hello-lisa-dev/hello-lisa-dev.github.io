@@ -6,6 +6,14 @@ categories: [바이브코딩]
 tags: [바이브코딩, AI개발, 개발방식, iOS개발, 앱개발, AI코딩, 인공지능개발, 개발자도구, 2025년개발트렌드, 한국개발자]
 seo_title: "바이브 코딩이란? AI 시대의 새로운 개발 방식과 실제 경험담"
 description: "AI 도구와 협업하는 새로운 개발 방식인 바이브 코딩에 대해 알아보세요. 전통적인 개발과의 차이점과 실제 경험담을 공유합니다."
+
+# 다국어 지원 필드
+lang: "ko"
+translation_key: "what-is-vibe-coding"
+permalink: /ko/vibe-coding/2025/09/06/what-is-vibe-coding.html
+translations:
+  ko: "/ko/vibe-coding/2025/09/06/what-is-vibe-coding.html"
+  en: "/en/vibe-coding/2025/09/06/what-is-vibe-coding.html"
 ---
 
 안녕하세요, LISA입니다! 🙂

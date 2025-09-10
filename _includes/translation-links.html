@@ -1,0 +1,192 @@
+{% comment %}
+Translation Links Component
+Displays available translations for the current post/page
+Handles missing translation scenarios gracefully
+{% endcomment %}
+
+{% assign current_lang = page.lang | default: site.default_language %}
+{% assign current_translation_key = page.translation_key %}
+
+{% comment %}Find all posts and pages with the same translation_key{% endcomment %}
+{% if current_translation_key %}
+{% assign post_translations = site.posts | where: "translation_key", current_translation_key %}
+{% assign page_translations = site.pages | where: "translation_key", current_translation_key %}
+{% assign translations = post_translations | concat: page_translations %}
+
+{% comment %}Only show if there are multiple translations available{% endcomment %}
+{% if translations.size > 1 %}
+<div class="translation-links">
+  <div class="translation-header">
+    <h4 class="translation-title">
+      <i class="fas fa-globe" aria-hidden="true"></i>
+      {{ site.data.ui-text[current_lang].translations_available | default: "Available in other languages" }}
+    </h4>
+  </div>
+
+  <div class="translation-list">
+    {% for translation in translations %}
+    {% unless translation.url == page.url %}
+    {% assign trans_lang = translation.lang | default: site.default_language %}
+    <div class="translation-item">
+      <a href="{{ translation.url | relative_url }}" class="translation-link"
+        data-lang="{{ trans_lang }}"
+        data-fallback-url="{{ translation.url | relative_url }}"
+        title="{{ site.data.ui-text[current_lang].read_more | default: 'Read more' }} ({{ site.languages[trans_lang].name }})"
+        onclick="return handleTranslationClick(this, event);">
+        <span class="translation-flag">{{ site.languages[trans_lang].flag }}</span>
+        <span class="translation-name">{{ site.languages[trans_lang].name }}</span>
+        {% if translation.date != page.date %}
+        <span class="translation-date">({{ translation.date | date: "%Y-%m-%d" }})</span>
+        {% endif %}
+      </a>
+    </div>
+    {% endunless %}
+    {% endfor %}
+  </div>
+
+  {% comment %}Show original language indicator if current post is a translation{% endcomment %}
+  {% if current_lang != site.default_language %}
+  {% assign original_post = translations | where: "lang", site.default_language | first %}
+  {% unless original_post == null %}
+  <div class="original-language-notice">
+    <small>
+      <i class="fas fa-info-circle" aria-hidden="true"></i>
+      {{ site.data.ui-text[current_lang].original_language | default: "Original Language" }}:
+      <a href="{{ original_post.url | relative_url }}" class="original-link">
+        {{ site.languages[site.default_language].flag }} {{ site.languages[site.default_language].name }}
+      </a>
+    </small>
+  </div>
+  {% endunless %}
+  {% endif %}
+</div>
+{% endif %}
+
+{% comment %}Handle case where translation_key exists but no other translations found{% endcomment %}
+{% if translations.size == 1 and current_lang != site.default_language %}
+<div class="translation-notice">
+  <div class="translation-status">
+    <i class="fas fa-language" aria-hidden="true"></i>
+    <span>{{ site.data.ui-text[current_lang].translation_notice | default: "This post has been translated using AI"
+      }}</span>
+  </div>
+</div>
+{% endif %}
+
+{% else %}
+{% comment %}Handle posts without translation_key (legacy posts){% endcomment %}
+{% if current_lang != site.default_language %}
+<div class="translation-notice">
+  <div class="no-translation-key">
+    <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+    <span>{{ site.data.ui-text[current_lang].no_translation | default: "Translation not available" }}</span>
+  </div>
+</div>
+{% endif %}
+{% endif %}
+
+<!-- Translation link error handling -->
+<script>
+function handleTranslationClick(linkElement, event) {
+  // If JavaScript is disabled, this won't run and the link will work normally
+  try {
+    const targetLang = linkElement.getAttribute('data-lang');
+    const targetUrl = linkElement.getAttribute('data-fallback-url');
+    
+    // Check if language switcher is available
+    if (typeof window.languageSwitcher !== 'undefined') {
+      // Use the language switcher for better error handling
+      event.preventDefault();
+      
+      // Store language preference
+      window.languageSwitcher.storeLanguagePreference(targetLang);
+      
+      // Navigate with error handling
+      setTimeout(() => {
+        try {
+          window.location.href = targetUrl;
+        } catch (error) {
+          console.error('Navigation failed:', error);
+          // Fallback: try direct navigation
+          window.location = targetUrl;
+        }
+      }, 100);
+      
+      return false;
+    }
+    
+    // If language switcher is not available, allow normal link behavior
+    return true;
+    
+  } catch (error) {
+    console.error('Translation link error:', error);
+    
+    // Log error if analytics available
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'translation_link_error', {
+        'error_message': error.message,
+        'target_language': linkElement.getAttribute('data-lang'),
+        'target_url': linkElement.getAttribute('data-fallback-url')
+      });
+    }
+    
+    // Allow normal link behavior as fallback
+    return true;
+  }
+}
+
+// Enhanced error handling for translation links
+document.addEventListener('DOMContentLoaded', function() {
+  const translationLinks = document.querySelectorAll('.translation-link');
+  
+  translationLinks.forEach(link => {
+    // Add error handling for failed navigation
+    link.addEventListener('error', function(event) {
+      console.error('Translation link failed to load:', event);
+      
+      // Show user-friendly error message
+      if (typeof window.languageSwitcher !== 'undefined') {
+        const targetLang = this.getAttribute('data-lang');
+        window.languageSwitcher.handleMissingTranslation(targetLang, window.location.pathname);
+      }
+    });
+    
+    // Add loading state
+    link.addEventListener('click', function() {
+      this.style.opacity = '0.7';
+      this.style.pointerEvents = 'none';
+      
+      // Reset after 3 seconds if navigation doesn't happen
+      setTimeout(() => {
+        this.style.opacity = '';
+        this.style.pointerEvents = '';
+      }, 3000);
+    });
+  });
+});
+</script>
+
+{% comment %}Add structured data for translations{% endcomment %}
+{% if current_translation_key and translations.size > 1 %}
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "url": "{{ page.url | absolute_url }}",
+    "inLanguage": "{{ current_lang }}",
+    {% if translations.size > 1 %}
+    "translationOfWork": [
+      {% for translation in translations %}
+        {% unless translation.url == page.url %}
+        {
+          "@type": "WebPage",
+          "url": "{{ translation.url | absolute_url }}",
+          "inLanguage": "{{ translation.lang | default: site.default_language }}"
+        }{% unless forloop.last %},{% endunless %}
+        {% endunless %}
+      {% endfor %}
+    ]
+    {% endif %}
+  }
+  </script>
+{% endif %}

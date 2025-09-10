@@ -1,0 +1,179 @@
+{% comment %}
+Custom SEO include with multilingual support
+Overrides the default Minimal Mistakes SEO
+{% endcomment %}
+
+{% assign current_lang = page.lang | default: site.default_language | default: 'ko' %}
+{% assign lang_metadata = site.language_metadata[current_lang] %}
+{% assign localized_site_title = lang_metadata.site_title | default: site.title %}
+{% assign localized_site_description = lang_metadata.site_description | default: site.description %}
+
+{% comment %}Page title with language support{% endcomment %}
+{% if page.seo_title %}
+  {% assign seo_title = page.seo_title %}
+{% elsif page.title %}
+  {% assign seo_title = page.title | append: " - " | append: localized_site_title %}
+{% else %}
+  {% assign seo_title = localized_site_title %}
+{% endif %}
+
+{% comment %}Page description with language support{% endcomment %}
+{% if page.description %}
+  {% assign seo_description = page.description %}
+{% elsif page.excerpt %}
+  {% assign seo_description = page.excerpt | strip_html | truncate: 160 %}
+{% else %}
+  {% assign seo_description = localized_site_description %}
+{% endif %}
+
+<title>{{ seo_title | escape }}</title>
+<meta name="description" content="{{ seo_description | escape }}">
+<meta name="language" content="{{ current_lang }}">
+<meta http-equiv="content-language" content="{{ current_lang }}">
+<meta name="content-language" content="{{ current_lang }}">
+<meta name="dc.language" content="{{ current_lang }}">
+{% if lang_metadata.locale %}
+<meta name="locale" content="{{ lang_metadata.locale }}">
+{% endif %}
+
+{% if page.author %}
+  <meta name="author" content="{{ page.author | escape }}">
+{% elsif site.author.name %}
+  <meta name="author" content="{{ site.author.name | escape }}">
+{% endif %}
+
+{% if page.layout == 'post' %}
+  <meta property="article:author" content="{{ page.author | default: site.author.name | escape }}">
+{% endif %}
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
+<meta property="og:locale" content="{{ lang_metadata.locale | default: 'ko_KR' }}">
+<meta property="og:site_name" content="{{ localized_site_title | escape }}">
+<meta property="og:title" content="{{ page.title | default: localized_site_title | escape }}">
+<meta property="og:url" content="{{ page.url | absolute_url }}{% unless current_lang == site.default_language %}?lang={{ current_lang }}{% endunless %}">
+<meta property="og:description" content="{{ seo_description | escape }}">
+
+{% if page.image %}
+  <meta property="og:image" content="{{ page.image | absolute_url }}">
+{% elsif site.og_image %}
+  <meta property="og:image" content="{{ site.og_image | absolute_url }}">
+{% else %}
+  <meta property="og:image" content="{{ '/assets/images/og-image.jpg' | absolute_url }}">
+{% endif %}
+
+{% if page.image_alt %}
+  <meta property="og:image:alt" content="{{ page.image_alt | escape }}">
+{% endif %}
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ page.title | default: localized_site_title | escape }}">
+<meta name="twitter:description" content="{{ seo_description | escape }}">
+
+{% if page.image %}
+  <meta name="twitter:image" content="{{ page.image | absolute_url }}">
+{% elsif site.og_image %}
+  <meta name="twitter:image" content="{{ site.og_image | absolute_url }}">
+{% else %}
+  <meta name="twitter:image" content="{{ '/assets/images/og-image.jpg' | absolute_url }}">
+{% endif %}
+
+<!-- Article specific tags -->
+{% if page.layout == 'post' %}
+  <meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
+  {% if page.updated or page.last_modified_at %}
+    <meta property="article:modified_time" content="{{ page.updated | default: page.last_modified_at | date_to_xmlschema }}">
+  {% endif %}
+  {% if page.categories %}
+    {% for category in page.categories %}
+      <meta property="article:section" content="{{ category | escape }}">
+    {% endfor %}
+  {% endif %}
+  {% if page.tags %}
+    {% for tag in page.tags %}
+      <meta property="article:tag" content="{{ tag | escape }}">
+    {% endfor %}
+  {% endif %}
+{% endif %}
+
+<!-- Canonical URL -->
+<link rel="canonical" href="{{ page.url | absolute_url }}{% unless current_lang == site.default_language %}?lang={{ current_lang }}{% endunless %}">
+
+<!-- Language alternates and hreflang tags -->
+{% include hreflang-tags.html %}
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "{% if page.layout == 'post' %}BlogPosting{% elsif page.layout == 'home' %}WebSite{% else %}WebPage{% endif %}",
+  "headline": "{{ page.title | default: localized_site_title | escape }}",
+  "description": "{{ seo_description | escape }}",
+  "inLanguage": "{{ current_lang }}",
+  {% if page.image %}
+  "image": "{{ page.image | absolute_url }}",
+  {% elsif site.og_image %}
+  "image": "{{ site.og_image | absolute_url }}",
+  {% else %}
+  "image": "{{ '/assets/images/og-image.jpg' | absolute_url }}",
+  {% endif %}
+  "author": {
+    "@type": "Person",
+    "name": "{{ page.author | default: site.author.name | escape }}",
+    "url": "{{ site.url }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{ localized_site_title | escape }}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ site.url }}/assets/images/logo.png"
+    }
+  },
+  {% if page.layout == 'post' %}
+  "datePublished": "{{ page.date | date_to_xmlschema }}",
+  "dateModified": "{{ page.updated | default: page.last_modified_at | default: page.date | date_to_xmlschema }}",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ page.url | absolute_url }}"
+  },
+  {% endif %}
+  "url": "{{ page.url | absolute_url }}{% unless current_lang == site.default_language %}?lang={{ current_lang }}{% endunless %}"
+  {% if page.tags %}
+  ,"keywords": "{{ page.tags | join: ', ' | escape }}"
+  {% endif %}
+  {% comment %}Add translation information to structured data{% endcomment %}
+  {% if page.translation_key %}
+    {% assign translations = site.posts | where: "translation_key", page.translation_key %}
+    {% if translations.size > 1 %}
+      ,"workTranslation": [
+        {% for translation in translations %}
+          {% unless translation.lang == current_lang %}
+            {
+              "@type": "CreativeWork",
+              "url": "{{ translation.url | absolute_url }}?lang={{ translation.lang }}",
+              "inLanguage": "{{ translation.lang }}",
+              "name": "{{ translation.title | escape }}"
+            }{% unless forloop.last %},{% endunless %}
+          {% endunless %}
+        {% endfor %}
+      ]
+    {% endif %}
+  {% elsif page.translations %}
+    ,"workTranslation": [
+      {% for translation in page.translations %}
+        {% assign trans_lang = translation[0] %}
+        {% assign trans_url = translation[1] %}
+        {% unless trans_lang == current_lang %}
+          {
+            "@type": "CreativeWork",
+            "url": "{{ trans_url | absolute_url }}?lang={{ trans_lang }}",
+            "inLanguage": "{{ trans_lang }}"
+          }{% unless forloop.last %},{% endunless %}
+        {% endunless %}
+      {% endfor %}
+    ]
+  {% endif %}
+}
+</script>

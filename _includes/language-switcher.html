@@ -1,0 +1,576 @@
+<!-- Language Switcher Component -->
+<!-- Implements Requirements: 2.1, 2.2 - Language selector in navigation with click handlers -->
+<!-- Enhanced with graceful degradation for JavaScript disabled -->
+
+{% assign current_lang = page.lang | default: site.default_language %}
+{% assign ui_text = site.data.ui-text[current_lang] | default: site.data.ui-text[site.default_language] %}
+
+<div class="language-switcher">
+  <!-- JavaScript-enabled version (hidden by default, shown by JS) -->
+  <div class="language-dropdown js-enabled" style="display: none;">
+    <!-- Current Language Button -->
+    <button class="language-current" id="languageToggle" aria-label="{{ ui_text.translations.switch_language | default: 'Switch Language' }}" aria-expanded="false">
+      <span class="language-flag" id="currentFlag">{{ site.languages[current_lang].flag | default: "🌐" }}</span>
+      <span class="language-name" id="currentLang">{{ site.languages[current_lang].name | default: current_lang }}</span>
+      <span class="language-arrow" aria-hidden="true">▼</span>
+    </button>
+    
+    <!-- Language Options Dropdown -->
+    <div class="language-options" id="languageOptions" role="menu" aria-labelledby="languageToggle">
+      {% for lang_pair in site.languages %}
+        {% assign lang_code = lang_pair[0] %}
+        {% assign lang_data = lang_pair[1] %}
+        
+        <!-- Skip current language in dropdown -->
+        {% unless lang_code == current_lang %}
+          <button 
+            class="language-option" 
+            data-lang="{{ lang_code }}"
+            role="menuitem"
+            aria-label="{{ ui_text.language_selector }}: {{ lang_data.name }}"
+          >
+            <span class="language-flag">{{ lang_data.flag | default: "🌐" }}</span>
+            <span class="language-name">{{ lang_data.name }}</span>
+          </button>
+        {% endunless %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- No-JavaScript fallback (visible by default, hidden by JS) -->
+  <div class="language-fallback js-disabled">
+    <span class="language-current-static">
+      <span class="language-flag">{{ site.languages[current_lang].flag | default: "🌐" }}</span>
+      <span class="language-name">{{ site.languages[current_lang].name | default: current_lang }}</span>
+    </span>
+    
+    <!-- Simple links for language switching when JS is disabled -->
+    <div class="language-links">
+      {% for lang_pair in site.languages %}
+        {% assign lang_code = lang_pair[0] %}
+        {% assign lang_data = lang_pair[1] %}
+        
+        {% unless lang_code == current_lang %}
+          {% comment %}Try to find equivalent page in target language{% endcomment %}
+          {% assign target_url = "/" %}
+          
+          {% comment %}For posts, try to find translation{% endcomment %}
+          {% if page.translation_key %}
+            {% assign translations = site.posts | where: "translation_key", page.translation_key %}
+            {% assign target_translation = translations | where: "lang", lang_code | first %}
+            {% if target_translation %}
+              {% assign target_url = target_translation.url %}
+            {% endif %}
+          {% endif %}
+          
+          <a href="{{ target_url }}" 
+             class="language-link" 
+             title="{{ ui_text.language_selector }}: {{ lang_data.name }}"
+             hreflang="{{ lang_code }}">
+            <span class="language-flag">{{ lang_data.flag | default: "🌐" }}</span>
+            <span class="language-name">{{ lang_data.name }}</span>
+          </a>
+        {% endunless %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<!-- Show JS-enabled version and hide fallback when JavaScript is available -->
+<script>
+  // This runs immediately to minimize flash of unstyled content
+  (function() {
+    const jsEnabled = document.querySelector('.language-switcher .js-enabled');
+    const jsDisabled = document.querySelector('.language-switcher .js-disabled');
+    
+    if (jsEnabled && jsDisabled) {
+      jsEnabled.style.display = 'block';
+      jsDisabled.style.display = 'none';
+    }
+    
+    // Immediately update the current language display
+    function detectCurrentLanguage() {
+      const path = window.location.pathname;
+      const urlMatch = path.match(/^\/([a-z]{2})\//);
+      if (urlMatch && ['ko', 'en', 'es'].includes(urlMatch[1])) {
+        return urlMatch[1];
+      }
+      
+      const pageLang = document.documentElement.lang;
+      if (pageLang && ['ko', 'en', 'es'].includes(pageLang)) {
+        return pageLang;
+      }
+      
+      const urlParams = new URLSearchParams(window.location.search);
+      const langParam = urlParams.get('lang');
+      if (langParam && ['ko', 'en', 'es'].includes(langParam)) {
+        return langParam;
+      }
+      
+      return 'ko';
+    }
+    
+    function updateLanguageDisplay(langCode) {
+      const languages = {
+        'ko': { name: '한국어', flag: '🇰🇷' },
+        'en': { name: 'English', flag: '🇺🇸' },
+        'es': { name: 'Español', flag: '🇪🇸' }
+      };
+      
+      const currentFlag = document.getElementById('currentFlag');
+      const currentLang = document.getElementById('currentLang');
+      
+      if (currentFlag && currentLang && languages[langCode]) {
+        currentFlag.textContent = languages[langCode].flag;
+        currentLang.textContent = languages[langCode].name;
+      }
+    }
+    
+    // Update immediately
+    const currentLanguage = detectCurrentLanguage();
+    updateLanguageDisplay(currentLanguage);
+  })();
+</script>
+
+<!-- Language Switcher Styles -->
+<style>
+.language-switcher {
+  position: relative;
+  display: inline-block;
+  font-family: inherit;
+}
+
+.language-dropdown {
+  position: relative;
+}
+
+.language-current {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--background-color, #fff);
+  border: 1px solid var(--border-color, #e0e0e0);
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: var(--text-color, #333);
+  transition: all 0.2s ease;
+  min-width: 120px;
+  justify-content: space-between;
+}
+
+/* No-JavaScript fallback styles */
+.language-fallback {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.language-current-static {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--background-color, #fff);
+  border: 1px solid var(--border-color, #e0e0e0);
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--text-color, #333);
+  min-width: 120px;
+}
+
+.language-links {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.language-link {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.375rem 0.5rem;
+  background: var(--background-color, #fff);
+  border: 1px solid var(--border-color, #e0e0e0);
+  border-radius: 0.25rem;
+  text-decoration: none;
+  color: var(--text-color, #333);
+  font-size: 0.8rem;
+  transition: all 0.2s ease;
+}
+
+.language-link:hover {
+  background: var(--hover-background, #f5f5f5);
+  border-color: var(--hover-border, #ccc);
+  text-decoration: none;
+}
+
+.language-link:focus {
+  outline: 2px solid var(--focus-color, #007acc);
+  outline-offset: 2px;
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+  .language-fallback {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .language-links {
+    flex-wrap: wrap;
+  }
+  
+  .language-current-static {
+    min-width: auto;
+  }
+}
+
+.language-current:hover {
+  background: var(--hover-background-color, #f5f5f5);
+  border-color: var(--hover-border-color, #ccc);
+}
+
+.language-current:focus {
+  outline: 2px solid var(--focus-color, #007acc);
+  outline-offset: 2px;
+}
+
+.language-flag {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.language-name {
+  flex: 1;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.language-arrow {
+  font-size: 0.75rem;
+  transition: transform 0.2s ease;
+  color: var(--muted-text-color, #666);
+}
+
+.language-current[aria-expanded="true"] .language-arrow {
+  transform: rotate(180deg);
+}
+
+.language-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--background-color, #fff);
+  border: 1px solid var(--border-color, #e0e0e0);
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-0.5rem);
+  transition: all 0.2s ease;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.language-options.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.language-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: var(--text-color, #333);
+  transition: background-color 0.2s ease;
+  text-align: left;
+}
+
+.language-option:hover {
+  background: var(--hover-background-color, #f5f5f5);
+}
+
+.language-option:focus {
+  background: var(--focus-background-color, #e3f2fd);
+  outline: none;
+}
+
+.language-option .language-flag {
+  font-size: 1rem;
+}
+
+.language-option .language-name {
+  white-space: nowrap;
+}
+
+/* Minimal Mistakes Theme Integration */
+.masthead .language-switcher {
+  margin-left: 1rem;
+}
+
+.masthead .language-current {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.2);
+  color: inherit;
+}
+
+.masthead .language-current:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.masthead .language-options {
+  background: var(--background-color, #fff);
+  color: var(--text-color, #333);
+}
+
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .language-switcher {
+    position: static;
+  }
+  
+  .language-current {
+    min-width: 100px;
+    font-size: 0.8rem;
+    padding: 0.4rem 0.6rem;
+  }
+  
+  .language-options {
+    position: fixed;
+    top: auto;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    max-height: 150px;
+  }
+}
+</style>
+
+<!-- Language Switcher JavaScript -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const languageToggle = document.getElementById('languageToggle');
+  const languageOptions = document.getElementById('languageOptions');
+  const currentFlag = document.getElementById('currentFlag');
+  const currentLang = document.getElementById('currentLang');
+  
+  if (!languageToggle || !languageOptions) {
+    console.warn('Language switcher elements not found');
+    return;
+  }
+  
+  // Toggle dropdown visibility
+  function toggleDropdown() {
+    const isExpanded = languageToggle.getAttribute('aria-expanded') === 'true';
+    languageToggle.setAttribute('aria-expanded', !isExpanded);
+    languageOptions.classList.toggle('show', !isExpanded);
+  }
+  
+  // Close dropdown
+  function closeDropdown() {
+    languageToggle.setAttribute('aria-expanded', 'false');
+    languageOptions.classList.remove('show');
+  }
+  
+  // Update current language display and dropdown options
+  function updateCurrentLanguage(langCode) {
+    const languages = {
+      'ko': { name: '한국어', flag: '🇰🇷' },
+      'en': { name: 'English', flag: '🇺🇸' },
+      'es': { name: 'Español', flag: '🇪🇸' }
+    };
+    
+    const langData = languages[langCode];
+    if (langData && currentFlag && currentLang) {
+      currentFlag.textContent = langData.flag;
+      currentLang.textContent = langData.name;
+    }
+    
+    // Update dropdown options to exclude current language
+    updateDropdownOptions(langCode);
+  }
+  
+  // Update dropdown options
+  function updateDropdownOptions(currentLang) {
+    const languages = {
+      'ko': { name: '한국어', flag: '🇰🇷' },
+      'en': { name: 'English', flag: '🇺🇸' },
+      'es': { name: 'Español', flag: '🇪🇸' }
+    };
+    
+    // Clear existing options
+    languageOptions.innerHTML = '';
+    
+    // Add options for all languages except current
+    Object.keys(languages).forEach(langCode => {
+      if (langCode !== currentLang) {
+        const langData = languages[langCode];
+        const option = document.createElement('button');
+        option.className = 'language-option';
+        option.setAttribute('data-lang', langCode);
+        option.setAttribute('role', 'menuitem');
+        option.setAttribute('aria-label', `Switch to ${langData.name}`);
+        
+        option.innerHTML = `
+          <span class="language-flag">${langData.flag}</span>
+          <span class="language-name">${langData.name}</span>
+        `;
+        
+        languageOptions.appendChild(option);
+      }
+    });
+  }
+  
+  // Handle language selection
+  function handleLanguageSelection(langCode) {
+    console.log('Language selected:', langCode);
+    
+    // Update display immediately
+    updateCurrentLanguage(langCode);
+    
+    // Close dropdown
+    closeDropdown();
+    
+    // Switch language using global function
+    if (typeof window.switchLanguage === 'function') {
+      window.switchLanguage(langCode);
+    } else if (typeof window.languageSwitcher !== 'undefined') {
+      window.languageSwitcher.switchLanguage(langCode);
+    } else {
+      // Fallback: reload page with language parameter
+      const url = new URL(window.location);
+      if (langCode === 'ko') {
+        url.searchParams.delete('lang');
+      } else {
+        url.searchParams.set('lang', langCode);
+      }
+      window.location.href = url.toString();
+    }
+  }
+  
+  // Event listeners
+  languageToggle.addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleDropdown();
+  });
+  
+  // Handle language option clicks
+  languageOptions.addEventListener('click', function(e) {
+    const option = e.target.closest('.language-option');
+    if (option) {
+      e.preventDefault();
+      e.stopPropagation();
+      const langCode = option.getAttribute('data-lang');
+      if (langCode) {
+        handleLanguageSelection(langCode);
+      }
+    }
+  });
+  
+  // Handle keyboard navigation
+  languageToggle.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleDropdown();
+    } else if (e.key === 'Escape') {
+      closeDropdown();
+    }
+  });
+  
+  languageOptions.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeDropdown();
+      languageToggle.focus();
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      const option = e.target.closest('.language-option');
+      if (option) {
+        e.preventDefault();
+        const langCode = option.getAttribute('data-lang');
+        if (langCode) {
+          handleLanguageSelection(langCode);
+        }
+      }
+    }
+  });
+  
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!languageToggle.contains(e.target) && !languageOptions.contains(e.target)) {
+      closeDropdown();
+    }
+  });
+  
+  // Initialize current language display
+  function detectCurrentLanguage() {
+    // 1. Check URL prefix (/ko/, /en/, /es/)
+    const path = window.location.pathname;
+    const urlMatch = path.match(/^\/([a-z]{2})\//);
+    if (urlMatch && ['ko', 'en', 'es'].includes(urlMatch[1])) {
+      return urlMatch[1];
+    }
+    
+    // 2. Check page lang attribute
+    const pageLang = document.documentElement.lang;
+    if (pageLang && ['ko', 'en', 'es'].includes(pageLang)) {
+      return pageLang;
+    }
+    
+    // 3. Check meta tag
+    const metaLang = document.querySelector('meta[name="language"]');
+    if (metaLang) {
+      const langContent = metaLang.getAttribute('content');
+      if (langContent && ['ko', 'en', 'es'].includes(langContent)) {
+        return langContent;
+      }
+    }
+    
+    // 4. Check URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const langParam = urlParams.get('lang');
+    if (langParam && ['ko', 'en', 'es'].includes(langParam)) {
+      return langParam;
+    }
+    
+    // 5. Default to Korean
+    return 'ko';
+  }
+  
+  const detectedLanguage = detectCurrentLanguage();
+  console.log('Detected current language:', detectedLanguage);
+  updateCurrentLanguage(detectedLanguage);
+  
+  // Listen for language change events
+  document.addEventListener('languageChanged', function(e) {
+    if (e.detail && e.detail.newLanguage) {
+      updateCurrentLanguage(e.detail.newLanguage);
+    }
+  });
+  
+  // Update UI when page loads or language changes
+  window.addEventListener('load', function() {
+    const currentLanguage = detectCurrentLanguage();
+    updateCurrentLanguage(currentLanguage);
+  });
+  
+  // Update UI when navigating back/forward
+  window.addEventListener('popstate', function() {
+    const currentLanguage = detectCurrentLanguage();
+    updateCurrentLanguage(currentLanguage);
+  });
+});
+</script>

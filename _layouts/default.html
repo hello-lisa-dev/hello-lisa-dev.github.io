@@ -1,0 +1,78 @@
+---
+---
+
+{% assign current_lang = page.lang | default: site.default_language | default: 'ko' %}
+{% assign lang_metadata = site.language_metadata[current_lang] %}
+
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="{{ current_lang }}" class="no-js">
+  <head>
+    {% include head.html %}
+    {% include head/custom.html %}
+    
+    <!-- Language Switcher CSS -->
+    {% assign use_minified = site.performance.use_minified_assets %}
+    {% if jekyll.environment == 'production' and site.performance.use_minified_assets %}
+      {% assign use_minified = true %}
+    {% endif %}
+    {% if use_minified %}
+      <link rel="stylesheet" href="{{ '/assets/css/language-switcher.min.css' | relative_url }}">
+    {% else %}
+      <link rel="stylesheet" href="{{ '/assets/css/language-switcher.css' | relative_url }}">
+    {% endif %}
+  </head>
+
+  <body class="layout--{{ page.layout | default: layout.layout }}{% if page.classes or layout.classes %}{{ page.classes | default: layout.classes | join: ' ' | prepend: ' ' }}{% endif %}">
+    {% include_cached skip-links.html %}
+    {% include masthead.html %}
+
+    <div class="initial-content">
+      {{ content }}
+    </div>
+
+    {% if site.search == true %}
+      <div class="search-content">
+        {% include_cached search/search_form.html %}
+      </div>
+    {% endif %}
+
+    <div id="footer" class="page__footer">
+      <footer>
+        {% include footer/custom.html %}
+        {% include_cached footer.html %}
+      </footer>
+    </div>
+
+    {% include scripts.html %}
+    
+    <!-- Language Switcher JavaScript -->
+    {% assign use_minified = site.performance.use_minified_assets %}
+    {% if jekyll.environment == 'production' and site.performance.use_minified_assets %}
+      {% assign use_minified = true %}
+    {% endif %}
+    {% if use_minified %}
+      <!-- Production: Minified JavaScript -->
+      <script src="{{ '/assets/js/language-switcher.min.js' | relative_url }}" defer></script>
+    {% else %}
+      <!-- Development: Source JavaScript -->
+      <script src="{{ '/assets/js/language-switcher.js' | relative_url }}" defer></script>
+    {% endif %}
+    
+    <!-- Lazy Loading (if enabled) -->
+    {% if site.performance.enable_lazy_loading %}
+      <script src="{{ '/assets/js/lazy-translation-loader.js' | relative_url }}" defer></script>
+    {% endif %}
+    
+    <!-- Performance Monitoring (if enabled) -->
+    {% if site.performance.enable_performance_monitoring %}
+      <script src="{{ '/assets/js/performance-monitor.js' | relative_url }}" defer></script>
+    {% endif %}
+
+  </body>
+</html>

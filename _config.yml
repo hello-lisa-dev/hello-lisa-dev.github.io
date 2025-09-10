@@ -4,11 +4,13 @@ remote_theme: "mmistakes/minimal-mistakes@4.27.3"
 # 플러그인 설정
 plugins:
   - jekyll-paginate
-  - jekyll-sitemap
   - jekyll-gist
   - jekyll-feed
   - jekyll-include-cache
   - jekyll-seo-tag
+
+# 사이트맵 설정 (커스텀 다국어 사이트맵 사용)
+# jekyll-sitemap 플러그인 비활성화
 
 # Jekyll이 처리할 디렉토리 설정
 include:
@@ -37,6 +39,16 @@ sass:
   load_paths:
     - _sass
     - assets/css
+
+# 성능 최적화 설정
+performance:
+  # 환경에 따라 자동 설정 (로컬: 원본, 프로덕션: min)
+  # GitHub Actions에서 MINIFY_ASSETS 환경변수로 제어
+  use_minified_assets: false  # 기본값: 개발 환경용
+  # 지연 로딩 활성화
+  enable_lazy_loading: true
+  # 성능 모니터링 활성화
+  enable_performance_monitoring: true
 
 # 사이트 기본 정보
 title: "LISA의 바이브 코딩 일기"
@@ -76,7 +88,7 @@ author:
 
 # 기본 설정
 defaults:
-  # _posts
+  # Korean posts (default)
   - scope:
       path: ""
       type: posts
@@ -87,6 +99,31 @@ defaults:
       comments: true
       share: true
       related: true
+      lang: "ko"
+  # English posts
+  - scope:
+      path: "_posts/en"
+      type: posts
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: true
+      share: true
+      related: true
+      lang: "en"
+  # Spanish posts
+  - scope:
+      path: "_posts/es"
+      type: posts
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: true
+      share: true
+      related: true
+      lang: "es"
   # _pages
   - scope:
       path: "_pages"
@@ -101,6 +138,123 @@ category_archive:
 tag_archive:
   type: liquid
   path: /tags/
+
+# 다국어 설정
+languages:
+  ko:
+    name: "한국어"
+    flag: "🇰🇷"
+    default: true
+  en:
+    name: "English"
+    flag: "🇺🇸"
+  es:
+    name: "Español"
+    flag: "🇪🇸"
+
+# 기본 언어
+default_language: "ko"
+
+# 언어별 메타데이터
+language_metadata:
+  ko:
+    locale: "ko-KR"
+    direction: "ltr"
+    site_title: "LISA의 바이브 코딩 일기"
+    site_description: "이제 막 시작한 앱 개발, 출시... 아직 멀기만 한 수익화를 위한 좌충우돌 경험담"
+    author:
+      name: "LISA"
+      bio: "주니어 개발자 (iOS 개발은 처음). 바이브 코딩으로 첫 번째 iOS 앱을 개발하고 출시한 경험을 공유합니다. 앱을 통한 소소한 수익화를 꿈꾸며 좌충우돌하는 개발자의 성장 스토리."
+  en:
+    locale: "en-US"
+    direction: "ltr"
+    site_title: "LISA's Vibe Coding Journey"
+    site_description: "A beginner's journey into app development, launch, and the long road to monetization"
+    author:
+      name: "LISA"
+      bio: "Junior developer (first time with iOS development). Sharing experiences of developing and launching my first iOS app with Vibe Coding. A developer's growth story dreaming of small monetization through apps."
+  es:
+    locale: "es-ES"
+    direction: "ltr"
+    site_title: "El Viaje de Codificación Vibe de LISA"
+    site_description: "El viaje de un principiante en el desarrollo de aplicaciones, lanzamiento y el largo camino hacia la monetización"
+    author:
+      name: "LISA"
+      bio: "Desarrolladora junior (primera vez con desarrollo iOS). Compartiendo experiencias de desarrollar y lanzar mi primera aplicación iOS con Codificación Vibe. Historia de crecimiento de una desarrolladora soñando con pequeña monetización a través de aplicaciones."
+
+# 카테고리 번역 매핑
+category_translations:
+  "바이브코딩":
+    en: "vibe-coding"
+    es: "codificacion-vibe"
+  "AI도구":
+    en: "ai-tools"
+    es: "herramientas-ia"
+  "Mobile":
+    en: "mobile"
+    es: "movil"
+  "Development":
+    en: "development"
+    es: "desarrollo"
+  "Story":
+    en: "story"
+    es: "historia"
+  "Jekyll":
+    en: "jekyll"
+    es: "jekyll"
+
+# 태그 번역 매핑
+tag_translations:
+  # 바이브코딩 관련 태그
+  "바이브코딩":
+    en: "vibe-coding"
+    es: "codificacion-vibe"
+  "AI개발":
+    en: "AI-development"
+    es: "desarrollo-IA"
+  "개발방식":
+    en: "development-methodology"
+    es: "metodologia-desarrollo"
+  "iOS개발":
+    en: "iOS-development"
+    es: "desarrollo-iOS"
+  "앱개발":
+    en: "app-development"
+    es: "desarrollo-aplicaciones"
+  "AI코딩":
+    en: "AI-coding"
+    es: "codificacion-IA"
+  "인공지능개발":
+    en: "artificial-intelligence-development"
+    es: "desarrollo-inteligencia-artificial"
+  "개발자도구":
+    en: "developer-tools"
+    es: "herramientas-desarrollador"
+  "2025년개발트렌드":
+    en: "2025-development-trends"
+    es: "tendencias-desarrollo-2025"
+  "한국개발자":
+    en: "korean-developer"
+    es: "desarrollador-coreano"
+  # AI 도구 관련 태그
+  "AI도구비교":
+    en: "AI-tools-comparison"
+    es: "comparacion-herramientas-IA"
+  "개발환경":
+    en: "development-environment"
+    es: "entorno-desarrollo"
+  "코딩도구":
+    en: "coding-tools"
+    es: "herramientas-codificacion"
+  "iOS앱개발":
+    en: "iOS-app-development"
+    es: "desarrollo-aplicaciones-iOS"
+  "개발자리뷰":
+    en: "developer-review"
+    es: "revision-desarrollador"
+  "2025년AI도구":
+    en: "2025-AI-tools"
+    es: "herramientas-IA-2025"
 
 # 사이트 설정
 locale: "ko-KR"

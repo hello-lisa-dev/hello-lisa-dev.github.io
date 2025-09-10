@@ -12,6 +12,9 @@ This document serves as an index for all Architecture Decision Records (ADRs) an
 - **[ADR-005-file-structure-organization.md](./docs/ADR-005-file-structure-organization.md)** - 파일 구조 및 디렉토리 조직화
 - **[ADR-006-troubleshooting-common-issues.md](./docs/ADR-006-troubleshooting-common-issues.md)** - 일반적인 문제들 및 해결 방법
 
+### 🌐 Feature Enhancements
+- **[ADR-007-multilingual-blog-support.md](./docs/ADR-007-multilingual-blog-support.md)** - 다국어 블로그 지원 시스템 구현 (한국어/영어/스페인어)
+
 ### 📋 ADR Status Overview
 | ADR | Title | Status | Date | Priority |
 |-----|-------|--------|------|----------|
@@ -21,6 +24,7 @@ This document serves as an index for all Architecture Decision Records (ADRs) an
 | 004 | SEO Meta Tags Setup | ✅ Accepted | 2025-09-05 | Medium |
 | 005 | File Structure Organization | ✅ Accepted | 2025-09-05 | Medium |
 | 006 | Troubleshooting Common Issues | ✅ Accepted | 2025-09-05 | High |
+| 007 | Multilingual Blog Support | 🚧 In Progress | 2025-09-09 | High |
 
 ## 🚀 Quick Reference
 
@@ -29,6 +33,7 @@ This document serves as an index for all Architecture Decision Records (ADRs) an
 - ✅ **Google Search Console**: 자동 연결 완료
 - ✅ **GitHub Pages**: 배포 최적화 완료
 - ✅ **SEO**: 메타태그 및 구조화된 데이터 설정 완료
+- 🚧 **Multilingual Support**: 다국어 지원 시스템 구현 중 (Tasks 1-6 완료)
 
 ### Key Files
 - `_config.yml` - Jekyll 메인 설정
@@ -41,9 +46,9 @@ This document serves as an index for all Architecture Decision Records (ADRs) an
 - `_includes/` - 재사용 가능한 컴포넌트
 - `assets/` - 정적 에셋 (CSS, JS, 이미지)
 
-## 📝 Recent Updates (2025-09-06)
+## 📝 Recent Updates (2025-09-09)
 
-### Completed Tasks
+### Completed Tasks (2025-09-06)
 1. **Google Analytics 4 통합**
 2. **GitHub Pages 배포 최적화**
 3. **Ruby 버전 호환성 문제 해결**
@@ -53,11 +58,23 @@ This document serves as an index for all Architecture Decision Records (ADRs) an
 7. **첫 번째 블로그 포스트 작성** ("바이브 코딩이란?")
 8. **사이트 메타데이터 및 페이지 콘텐츠 업데이트**
 
+### Completed Tasks (2025-09-09)
+1. **다국어 지원 시스템 기반 구축** (Tasks 1-6)
+   - 언어 설정 및 UI 텍스트 번역
+   - 언어 감지 및 전환 로직
+   - 언어 선택 UI 컴포넌트
+   - 번역 링크 시스템
+   - 포스트 Front Matter 구조 확장
+2. **첫 번째 영어 번역** ("What is Vibe Coding?")
+3. **번역 검증 도구** 개발
+
 ### Next Steps
-1. **Sitemap 제출** (Google Search Console)
-2. **이미지 에셋 생성** (favicon, og-image 등)
-3. **두 번째 블로그 포스트 작성** (AI 개발 도구 비교)
-4. **Task Master 관련 포스트 준비**
+1. **다국어 시스템 완성** (Tasks 7-18)
+   - 카테고리 번역 시스템
+   - 콘텐츠 전환 기능
+   - SEO 최적화
+2. **추가 콘텐츠 번역**
+3. **성능 최적화 및 테스트**
 
 ## 🎯 TipSmart 개발 경험 (블로그 콘텐츠 기반)
 
@@ -91,7 +108,7 @@ This document serves as an index for all Architecture Decision Records (ADRs) an
 
 ---
 
-**문서 업데이트**: 2025-09-06  
-**버전**: 2.1 (TipSmart 개발 경험 추가)  
+**문서 업데이트**: 2025-09-09  
+**버전**: 2.2 (다국어 지원 시스템 추가)  
 **유지보수**: LISA Development Team
 

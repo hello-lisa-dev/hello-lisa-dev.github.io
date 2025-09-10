@@ -1,0 +1,56 @@
+---
+layout: archive
+---
+
+{% comment %}
+  Custom tags layout with multilingual support
+{% endcomment %}
+
+{% assign current_lang = page.lang | default: site.default_language | default: 'ko' %}
+{% assign ui_text = site.data.ui-text[current_lang] | default: site.data.ui-text['ko'] %}
+
+{{ content }}
+
+{% assign tags_max = 0 %}
+{% for tag in site.tags %}
+  {% if tag[1].size > tags_max %}
+    {% assign tags_max = tag[1].size %}
+  {% endif %}
+{% endfor %}
+
+<ul class="taxonomy__index">
+  {% for i in (1..tags_max) reversed %}
+    {% for tag in site.tags %}
+      {% if tag[1].size == i %}
+        {% assign translated_tag = tag[0] | translate_tag: current_lang %}
+        <li>
+          <a href="#{{ translated_tag | slugify }}">
+            <strong>{{ translated_tag }}</strong> <span class="taxonomy__count">{{ i }}</span>
+          </a>
+        </li>
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+</ul>
+
+{% assign entries_layout = page.entries_layout | default: 'list' %}
+{% for i in (1..tags_max) reversed %}
+  {% for tag in site.tags %}
+    {% if tag[1].size == i %}
+      {% assign translated_tag = tag[0] | translate_tag: current_lang %}
+      <section id="{{ translated_tag | slugify | downcase }}" class="taxonomy__section">
+        <h2 class="archive__subtitle">{{ translated_tag }}</h2>
+        <div class="entries-{{ entries_layout }}">
+          {% for post in tag.last %}
+            {% comment %}Only show posts that match the current language or have no language specified{% endcomment %}
+            {% assign post_lang = post.lang | default: site.default_language | default: 'ko' %}
+            {% if post_lang == current_lang %}
+              {% include archive-single.html type=entries_layout %}
+            {% endif %}
+          {% endfor %}
+        </div>
+        <a href="#page-title" class="back-to-top">{{ ui_text.buttons.back_to_top | default: "Back to Top" }} &uarr;</a>
+      </section>
+    {% endif %}
+  {% endfor %}
+{% endfor %}

@@ -3,6 +3,12 @@ layout: single
 permalink: /about/
 title: "About LISA"
 author_profile: true
+lang: ko
+translation_key: "about"
+translations:
+  ko: "/about/"
+  en: "/en/about/"
+  es: "/es/about/"
 ---
 
 # 안녕하세요, LISA입니다! 👋
