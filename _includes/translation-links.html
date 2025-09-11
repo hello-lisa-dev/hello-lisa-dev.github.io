@@ -166,27 +166,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-{% comment %}Add structured data for translations{% endcomment %}
-{% if current_translation_key and translations.size > 1 %}
-<script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "url": "{{ page.url | absolute_url }}",
-    "inLanguage": "{{ current_lang }}",
-    {% if translations.size > 1 %}
-    "translationOfWork": [
-      {% for translation in translations %}
-        {% unless translation.url == page.url %}
-        {
-          "@type": "WebPage",
-          "url": "{{ translation.url | absolute_url }}",
-          "inLanguage": "{{ translation.lang | default: site.default_language }}"
-        }{% unless forloop.last %},{% endunless %}
-        {% endunless %}
-      {% endfor %}
-    ]
-    {% endif %}
-  }
-  </script>
-{% endif %}
+{% comment %}
+번역 관계 정보는 Jekyll SEO Tag 플러그인에서 자동으로 처리됩니다.
+{% endcomment %}
