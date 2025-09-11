@@ -103,77 +103,34 @@ Overrides the default Minimal Mistakes SEO
 <!-- Language alternates and hreflang tags -->
 {% include hreflang-tags.html %}
 
-<!-- JSON-LD Structured Data -->
+{% comment %}
+Jekyll SEO Tag 플러그인에서 기본 JSON-LD를 생성하고,
+여기서는 번역 정보만 추가로 생성합니다.
+{% endcomment %}
+
+{% if page.translation_key %}
+  {% assign translations = site.posts | where: "translation_key", page.translation_key %}
+  {% if translations.size > 1 %}
+<!-- Translation Information JSON-LD -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "{% if page.layout == 'post' %}BlogPosting{% elsif page.layout == 'home' %}WebSite{% else %}WebPage{% endif %}",
-  "headline": "{{ page.title | default: localized_site_title | escape }}",
-  "description": "{{ seo_description | escape }}",
+  "@type": "WebPage",
+  "url": "{{ page.url | absolute_url }}",
   "inLanguage": "{{ current_lang }}",
-  {% if page.image %}
-  "image": "{{ page.image | absolute_url }}",
-  {% elsif site.og_image %}
-  "image": "{{ site.og_image | absolute_url }}",
-  {% else %}
-  "image": "{{ '/assets/images/og-image.jpg' | absolute_url }}",
-  {% endif %}
-  "author": {
-    "@type": "Person",
-    "name": "{{ page.author | default: site.author.name | escape }}",
-    "url": "{{ site.url }}"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "{{ localized_site_title | escape }}",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "{{ site.url }}/assets/images/logo.png"
-    }
-  },
-  {% if page.layout == 'post' %}
-  "datePublished": "{{ page.date | date_to_xmlschema }}",
-  "dateModified": "{{ page.updated | default: page.last_modified_at | default: page.date | date_to_xmlschema }}",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "{{ page.url | absolute_url }}"
-  },
-  {% endif %}
-  "url": "{{ page.url | absolute_url }}{% unless current_lang == site.default_language %}?lang={{ current_lang }}{% endunless %}"
-  {% if page.tags %}
-  ,"keywords": "{{ page.tags | join: ', ' | escape }}"
-  {% endif %}
-  {% comment %}Add translation information to structured data{% endcomment %}
-  {% if page.translation_key %}
-    {% assign translations = site.posts | where: "translation_key", page.translation_key %}
-    {% if translations.size > 1 %}
-      ,"workTranslation": [
-        {% for translation in translations %}
-          {% unless translation.lang == current_lang %}
-            {
-              "@type": "CreativeWork",
-              "url": "{{ translation.url | absolute_url }}?lang={{ translation.lang }}",
-              "inLanguage": "{{ translation.lang }}",
-              "name": "{{ translation.title | escape }}"
-            }{% unless forloop.last %},{% endunless %}
-          {% endunless %}
-        {% endfor %}
-      ]
-    {% endif %}
-  {% elsif page.translations %}
-    ,"workTranslation": [
-      {% for translation in page.translations %}
-        {% assign trans_lang = translation[0] %}
-        {% assign trans_url = translation[1] %}
-        {% unless trans_lang == current_lang %}
-          {
-            "@type": "CreativeWork",
-            "url": "{{ trans_url | absolute_url }}?lang={{ trans_lang }}",
-            "inLanguage": "{{ trans_lang }}"
-          }{% unless forloop.last %},{% endunless %}
-        {% endunless %}
-      {% endfor %}
-    ]
-  {% endif %}
+  "workTranslation": [
+    {% for translation in translations %}
+      {% unless translation.lang == current_lang %}
+        {
+          "@type": "CreativeWork",
+          "url": "{{ translation.url | absolute_url }}",
+          "inLanguage": "{{ translation.lang }}",
+          "name": "{{ translation.title | escape }}"
+        }{% unless forloop.last %},{% endunless %}
+      {% endunless %}
+    {% endfor %}
+  ]
 }
 </script>
+  {% endif %}
+{% endif %}

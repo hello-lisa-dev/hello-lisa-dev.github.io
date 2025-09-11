@@ -144,10 +144,6 @@ defaults:
       share: true
       related: true
       lang: "ko"
-      # SEO 설정
-      seo:
-        type: "WebPage"
-        image: "/assets/images/og-image.jpg"
   # English posts
   - scope:
       path: "_posts/en"
@@ -160,10 +156,6 @@ defaults:
       share: true
       related: true
       lang: "en"
-      # SEO 설정
-      seo:
-        type: "WebPage"
-        image: "/assets/images/og-image.jpg"
   # Spanish posts
   - scope:
       path: "_posts/es"
@@ -176,10 +168,6 @@ defaults:
       share: true
       related: true
       lang: "es"
-      # SEO 설정
-      seo:
-        type: "WebPage"
-        image: "/assets/images/og-image.jpg"
   # _pages
   - scope:
       path: "_pages"
@@ -187,10 +175,6 @@ defaults:
     values:
       layout: single
       author_profile: true
-      # SEO 설정
-      seo:
-        type: "WebPage"
-        image: "/assets/images/og-image.jpg"
 
 category_archive:
   type: liquid
@@ -319,6 +303,22 @@ tag_translations:
 # 사이트 설정
 locale: "ko-KR"
 timezone: "Asia/Seoul"
+
+# Jekyll SEO Tag 설정
+seo:
+  # 구조화된 데이터 활성화 (중복 제거 후)
+  json_ld: true
+  # Open Graph 이미지 설정
+  image: "/assets/images/og-image.jpg"
+  # Twitter 카드 설정
+  twitter:
+    card: "summary_large_image"
+    image: "/assets/images/og-image.jpg"
+  # 자동 메타태그 활성화
+  title: true
+  description: true
+  author: true
+  date: true
 
 # 검색 설정
 search: true
