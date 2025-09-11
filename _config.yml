@@ -8,9 +8,53 @@ plugins:
   - jekyll-feed
   - jekyll-include-cache
   - jekyll-seo-tag
+  - jekyll-sitemap
 
-# 사이트맵 설정 (커스텀 다국어 사이트맵 사용)
-# jekyll-sitemap 플러그인 비활성화
+# 사이트맵 설정
+sitemap:
+  # 기본 sitemap.xml 생성 활성화
+  changefreq: weekly
+  priority: 0.5
+  # 제외할 파일/디렉토리
+  exclude:
+    - /assets/
+    - /_site/
+    - /admin/
+    - /private/
+    - /_includes/
+    - /_layouts/
+    - /_data/
+    - /_plugins/
+    - /_scripts/
+    - /docs/
+    - /node_modules/
+    - /vendor/
+    - /.bundle/
+    - /.sass-cache/
+    - /.jekyll-cache/
+    - /.jekyll-metadata
+    - /Gemfile
+    - /Gemfile.lock
+    - /README.md
+    - /LICENSE
+    - /CHANGELOG.md
+    - /.gitignore
+    - /CLAUDE.md
+    - /ARCHITECTURE.md
+  # 페이지별 우선순위 및 변경 빈도 설정
+  defaults:
+    - scope:
+        path: ""
+        type: "pages"
+      values:
+        changefreq: monthly
+        priority: 0.3
+    - scope:
+        path: ""
+        type: "posts"
+      values:
+        changefreq: weekly
+        priority: 0.7
 
 # Jekyll이 처리할 디렉토리 설정
 include:
@@ -100,6 +144,10 @@ defaults:
       share: true
       related: true
       lang: "ko"
+      # SEO 설정
+      seo:
+        type: "WebPage"
+        image: "/assets/images/og-image.jpg"
   # English posts
   - scope:
       path: "_posts/en"
@@ -112,6 +160,10 @@ defaults:
       share: true
       related: true
       lang: "en"
+      # SEO 설정
+      seo:
+        type: "WebPage"
+        image: "/assets/images/og-image.jpg"
   # Spanish posts
   - scope:
       path: "_posts/es"
@@ -124,6 +176,10 @@ defaults:
       share: true
       related: true
       lang: "es"
+      # SEO 설정
+      seo:
+        type: "WebPage"
+        image: "/assets/images/og-image.jpg"
   # _pages
   - scope:
       path: "_pages"
@@ -131,6 +187,10 @@ defaults:
     values:
       layout: single
       author_profile: true
+      # SEO 설정
+      seo:
+        type: "WebPage"
+        image: "/assets/images/og-image.jpg"
 
 category_archive:
   type: liquid

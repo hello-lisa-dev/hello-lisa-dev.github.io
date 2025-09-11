@@ -4,6 +4,7 @@ author_profile: true
 permalink: /es/
 lang: es
 translation_key: "home"
+last_modified_at: 2025-09-10 21:00:00 +0900
 translations:
   ko: "/"
   en: "/en/"
