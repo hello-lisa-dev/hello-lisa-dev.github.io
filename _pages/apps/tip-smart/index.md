@@ -6,6 +6,7 @@ title: "🧳 TipSmart Support"
 seo_title: "TipSmart - Essential Tip Calculator for US Travelers | Support & Help"
 description: "Get help with TipSmart, the essential tip calculator for US travelers. Find answers to common questions and contact support."
 custom_css_file: tipsmart
+last_modified_at: 2025-09-10 21:00:00 +0900
 ---
 
 {% comment %}Custom SEO title override{% endcomment %}

@@ -5,6 +5,7 @@ permalink: /tip-smart-privacy/
 title: "TipSmart Privacy Policy"
 seo_title: "TipSmart Privacy Policy - Data Protection & Privacy Rights"
 description: "Comprehensive privacy policy for TipSmart tip calculator app. Learn how we protect your data and respect your privacy rights."
+last_modified_at: 2025-09-10 21:00:00 +0900
 ---
 
 **Last Updated: August 5, 2025**
