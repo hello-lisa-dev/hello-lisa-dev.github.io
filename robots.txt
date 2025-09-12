@@ -4,22 +4,5 @@
 User-agent: *
 Allow: /
 
-# Disallow admin and private areas
-Disallow: /admin/
-Disallow: /private/
-Disallow: /_site/
-Disallow: /_includes/
-Disallow: /_layouts/
-Disallow: /_data/
-
-# Allow important files
-Allow: /assets/
-Allow: /images/
-Allow: /css/
-Allow: /js/
-
-# Crawl delay (optional - be respectful to server)
-Crawl-delay: 1
-
 # Sitemap location
 Sitemap: https://hello-lisa-dev.github.io/sitemap.xml
