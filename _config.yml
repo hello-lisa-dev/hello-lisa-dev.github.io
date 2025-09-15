@@ -306,8 +306,8 @@ timezone: "Asia/Seoul"
 
 # Jekyll SEO Tag 설정
 seo:
-  # 구조화된 데이터 비활성화 (커스텀으로 관리)
-  json_ld: false
+  # 구조화된 데이터 활성화 (검증된 플러그인 100% 사용)
+  json_ld: true
   # Open Graph 이미지 설정
   image: "/assets/images/og-image.jpg"
   # Twitter 카드 설정
