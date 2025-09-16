@@ -3,7 +3,7 @@ layout: home
 author_profile: true
 lang: ko
 translation_key: "home"
-last_modified_at: 2025-09-16 17:26:43 +0900
+last_modified_at: 2025-09-16 18:20:01 +0900
 translations:
   ko: "/"
   en: "/en/"
@@ -33,7 +33,7 @@ translations:
 - **실제 출시 완료**: 앱스토어에서 다운로드 가능
 - **수익화 진행 중**: AdMob 광고와 프리미엄 구독 기능
 
-## �� 이 블로그에서 다루는 내용
+## 📝 이 블로그에서 다루는 내용
 
 ### 🎯 바이브 코딩의 현실
 - AI 도구들과의 협업 경험

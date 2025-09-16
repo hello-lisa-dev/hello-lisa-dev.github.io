@@ -148,6 +148,8 @@ defaults:
       comments: true
       share: true
       related: true
+      toc: true
+      toc_sticky: true
       lang: "ko"
   # English posts
   - scope:
@@ -160,6 +162,8 @@ defaults:
       comments: true
       share: true
       related: true
+      toc: true
+      toc_sticky: true
       lang: "en"
   # Spanish posts
   - scope:
@@ -172,6 +176,8 @@ defaults:
       comments: true
       share: true
       related: true
+      toc: true
+      toc_sticky: true
       lang: "es"
   # _pages
   - scope:
