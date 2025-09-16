@@ -91,9 +91,39 @@ CSS files should be placed in `/assets/css/` directory (e.g., `/assets/css/tipsm
 
 **📋 For detailed Google Analytics configuration, see [ARCHITECTURE.md](./ARCHITECTURE.md)**
 
-- **Status**: Configured with GA4 (Measurement ID: `G-`)
+- **Status**: Configured with GA4 (Measurement ID: `G-6BGXFPTH8H`)
 - **Implementation**: Manual setup via `_includes/head/google-analytics.html`
 - **Note**: Data collection starts after GitHub Pages deployment
+
+## Google AdSense
+
+### Setup (Configured)
+- AdSense integration implemented via custom includes
+- Publisher ID: Set in `_config.yml` under `adsense.publisher_id`
+- Responsive ad units for mobile compatibility
+
+### Implementation
+- **Head Script**: Auto-loaded via `_includes/head/custom.html`
+- **Ad Placements**:
+  - Article Top: Beginning of post content
+  - Article Middle: Automatically inserted at content midpoint
+  - Article Bottom: End of post content before related posts
+  - Sidebar: In table of contents sidebar (when enabled)
+
+### Ad Include Files
+- `_includes/adsense-article-top.html` - Top of article
+- `_includes/adsense-article-middle.html` - Middle of article
+- `_includes/adsense-article-bottom.html` - Bottom of article
+- `_includes/adsense-sidebar.html` - Sidebar placement
+
+### Configuration
+Replace `YOUR_PUBLISHER_ID` and `YOUR_AD_SLOT_ID` with actual AdSense values:
+```yaml
+# _config.yml
+adsense:
+  publisher_id: "ca-pub-YOUR_PUBLISHER_ID"
+  enabled: true
+```
 
 ## Image Assets Creation
 

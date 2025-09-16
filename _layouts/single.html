@@ -44,17 +44,36 @@ layout: default
               <header><h4 class="nav__title"><i class="fas fa-{{ page.toc_icon | default: 'file-alt' }}"></i> {{ page.toc_label | default: site.data.ui-text[site.locale].toc_label | default: "On this page" }}</h4></header>
               {% include toc.html sanitize=true html=content h_min=1 h_max=6 class="toc__menu" skip_no_ids=true %}
             </nav>
+            {% comment %}Sidebar AdSense{% endcomment %}
+            {% include adsense-sidebar.html %}
           </aside>
         {% endif %}
-        
+
         {% comment %}Add translation links at the top of content{% endcomment %}
         {% if page.layout == "single" %}
           {% include translation-links.html %}
         {% endif %}
-        
-        {{ content }}
+
+        {% comment %}Article Top AdSense{% endcomment %}
+        {% include adsense-article-top.html %}
+
+        {% assign content_words = content | strip_html | number_of_words %}
+        {% assign content_half = content_words | divided_by: 2 %}
+        {% assign content_paragraphs = content | split: '</p>' %}
+        {% assign half_point = content_paragraphs.size | divided_by: 2 %}
+
+        {% for paragraph in content_paragraphs %}
+          {{ paragraph }}{% unless forloop.last %}</p>{% endunless %}
+          {% if forloop.index == half_point %}
+            {% comment %}Article Middle AdSense{% endcomment %}
+            {% include adsense-article-middle.html %}
+          {% endif %}
+        {% endfor %}
         
         {% if page.link %}<div><a href="{{ page.link }}" class="btn btn--primary">{{ site.data.ui-text[site.locale].ext_link_label | default: "Direct Link" }}</a></div>{% endif %}
+
+        {% comment %}Article Bottom AdSense{% endcomment %}
+        {% include adsense-article-bottom.html %}
       </section>
 
       <footer class="page__meta">

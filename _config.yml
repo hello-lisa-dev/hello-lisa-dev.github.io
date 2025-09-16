@@ -107,7 +107,11 @@ analytics:
   provider: "google-gtag"
   google:
     tracking_id: "G-6BGXFPTH8H"  # 직접 설정
-    anonymize_ip: false
+
+# Google AdSense 설정
+adsense:
+  publisher_id: "ca-pub-7678791354415268"  # AdSense Publisher ID
+  enabled: true
 
 # Open Graph 설정 (소셜 미디어 공유 최적화)
 og_image: "/assets/images/og-image.jpg"
