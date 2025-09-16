@@ -442,7 +442,7 @@ const lazyLoadingCSS = `
 `;
 
 // Inject CSS
-const style = document.createElement('style');
-style.textContent = lazyLoadingCSS;
-document.head.appendChild(style);
+const lazyLoadingStyleElement = document.createElement('style');
+lazyLoadingStyleElement.textContent = lazyLoadingCSS;
+document.head.appendChild(lazyLoadingStyleElement);
 

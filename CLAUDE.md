@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+**Last Updated**: 2025-09-16 17:27:11 +0900
+
 ## Project Overview
 
 This is a Jekyll-based blog site with dual purposes:
@@ -204,10 +206,24 @@ last_modified_at: 2025-09-07 13:40:00 +0900  # Last modification timestamp
 
 ### Date Management Guidelines
 - **`date`**: Required field for post publication date
-- **`last_modified_at`**: Optional field for tracking content updates
+- **`last_modified_at`**: **REQUIRED** field for tracking content updates
 - **Format**: Use `YYYY-MM-DD HH:MM:SS ±TTTT` for precise timestamps
 - **Timezone**: Use `+0900` for Korean Standard Time (KST)
-- **Manual Updates**: Update `last_modified_at` whenever post content is modified
+- **⚠️ CRITICAL**: **ALWAYS update `last_modified_at` when modifying any content**
+
+### Last Modified At Update Rules
+**MANDATORY**: Every time you modify post content or documentation, you MUST:
+
+1. **Check current time FIRST**: Use `date '+%Y-%m-%d %H:%M:%S +0900'` command
+2. **Update `last_modified_at` field**: Use the exact timestamp from step 1
+3. **Never skip this step**: This affects sitemap.xml and SEO indexing
+
+**Examples of when to update**:
+- ✅ Content changes (text, code, images)
+- ✅ Front matter updates (title, tags, categories)
+- ✅ Formatting or structure changes
+- ✅ Adding/removing sections
+- ❌ Only formatting/whitespace changes (use judgment)
 
 ### Automatic Date Management (Advanced)
 For automatic modification tracking, consider using `jekyll-last-modified-at` plugin:
@@ -365,7 +381,7 @@ When working with content:
 - Follow existing Korean/English mixed documentation style
 - Maintain consistent front matter: `layout: single` and `author_profile: true`
 - Use `custom_css_file` or `custom_css` for page-specific styling
-- **Date Management**: Always include `date` field, optionally add `last_modified_at` for content updates
+- **Date Management**: Always include `date` field, **MANDATORY `last_modified_at` for ALL content updates**
 - **Multilingual Support**: Add `lang: "ko"` (or "en", "es") for language-aware navigation
 - **⭐ SEO/AEO CRITICAL**: Follow SEO optimization guidelines above for every post
 - **📋 ADR Documentation**: Follow ADR workflow above for technical decisions
