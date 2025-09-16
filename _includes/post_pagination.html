@@ -1,0 +1,48 @@
+{% comment %}
+Language-aware post pagination
+Only shows previous/next posts in the same language
+{% endcomment %}
+
+{% if page.lang %}
+  {% comment %}Filter posts by same language{% endcomment %}
+  {% assign same_lang_posts = site.posts | where: "lang", page.lang %}
+
+  {% comment %}Find current post position in same-language posts{% endcomment %}
+  {% for post in same_lang_posts %}
+    {% if post.url == page.url %}
+      {% assign current_index = forloop.index0 %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+
+  {% comment %}Get previous and next posts in same language{% endcomment %}
+  {% assign prev_index = current_index | minus: 1 %}
+  {% assign next_index = current_index | plus: 1 %}
+
+  {% if prev_index >= 0 %}
+    {% assign page_previous = same_lang_posts[prev_index] %}
+  {% endif %}
+
+  {% if next_index < same_lang_posts.size %}
+    {% assign page_next = same_lang_posts[next_index] %}
+  {% endif %}
+{% else %}
+  {% comment %}Fallback to default Jekyll pagination{% endcomment %}
+  {% assign page_previous = page.previous %}
+  {% assign page_next = page.next %}
+{% endif %}
+
+{% if page_previous or page_next %}
+  <nav class="pagination">
+    {% if page_previous %}
+      <a href="{{ page_previous.url | relative_url }}" class="pagination--pager" title="{{ page_previous.title | markdownify | strip_html | strip}}">{{ site.data.ui-text[site.locale].pagination_previous | default: "Previous" }}</a>
+    {% else %}
+      <a href="#" class="pagination--pager disabled">{{ site.data.ui-text[site.locale].pagination_previous | default: "Previous" }}</a>
+    {% endif %}
+    {% if page_next %}
+      <a href="{{ page_next.url | relative_url }}" class="pagination--pager" title="{{ page_next.title | markdownify | strip_html | strip}}">{{ site.data.ui-text[site.locale].pagination_next | default: "Next" }}</a>
+    {% else %}
+      <a href="#" class="pagination--pager disabled">{{ site.data.ui-text[site.locale].pagination_next | default: "Next" }}</a>
+    {% endif %}
+  </nav>
+{% endif %}

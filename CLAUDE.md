@@ -296,9 +296,12 @@ description: "Meta description under 160 characters including target keywords an
 
 When working with content:
 - **Blog content**: Use Jekyll posts in `_posts/` with proper front matter
-- **TipSmart pages**: Keep under `_pages/` with `/tip-smart/` permalinks  
+- **TipSmart pages**: Keep under `_pages/` with `/tip-smart/` permalinks
 - Follow existing Korean/English mixed documentation style
 - Maintain consistent front matter: `layout: single` and `author_profile: true`
 - Use `custom_css_file` or `custom_css` for page-specific styling
 - **Date Management**: Always include `date` field, optionally add `last_modified_at` for content updates
+- **Multilingual Support**: Add `lang: "ko"` (or "en", "es") for language-aware navigation
 - **⭐ SEO/AEO CRITICAL**: Follow SEO optimization guidelines above for every post
+
+**📋 For multilingual post navigation details, see [ADR-009](./docs/ADR-009-multilingual-post-navigation.md)**

@@ -15,6 +15,7 @@ This document serves as an index for all Architecture Decision Records (ADRs) an
 ### 🌐 Feature Enhancements
 - **[ADR-007-multilingual-blog-support.md](./docs/ADR-007-multilingual-blog-support.md)** - 다국어 블로그 지원 시스템 구현 (한국어/영어/스페인어)
 - **[ADR-008-jekyll-seo-tag-plugin-integration.md](./docs/ADR-008-jekyll-seo-tag-plugin-integration.md)** - Jekyll SEO Tag 플러그인 통합 및 JSON-LD 구조화된 데이터 설정
+- **[ADR-009-multilingual-post-navigation.md](./docs/ADR-009-multilingual-post-navigation.md)** - 다국어 포스트 네비게이션 시스템 구현 (언어별 이전/다음, 관련 포스트 분리)
 
 ### 📋 ADR Status Overview
 | ADR | Title | Status | Date | Priority |
@@ -27,6 +28,7 @@ This document serves as an index for all Architecture Decision Records (ADRs) an
 | 006 | Troubleshooting Common Issues | ✅ Accepted | 2025-09-05 | High |
 | 007 | Multilingual Blog Support | 🚧 In Progress | 2025-09-09 | High |
 | 008 | Jekyll SEO Tag Plugin Integration | ✅ Accepted | 2025-09-15 | High |
+| 009 | Multilingual Post Navigation | ✅ Accepted | 2025-09-16 | High |
 
 ## 🚀 Quick Reference
 
