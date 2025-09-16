@@ -322,6 +322,41 @@ description: "Meta description under 160 characters including target keywords an
 - **Tag Performance**: Analyze which tags drive most traffic
 - **Content Updates**: Refresh underperforming posts with new keywords
 
+## ADR (Architecture Decision Record) Workflow
+
+### When to Create ADRs
+Create ADRs for:
+- **Technical decisions** with long-term impact
+- **Problem-solving** that required investigation or debugging
+- **Feature implementations** that affect site architecture
+- **Configuration changes** that might need future reference
+
+### ADR Creation Process
+1. **Create ADR**: Write detailed ADR in `/docs/ADR-XXX-title.md`
+2. **Update ARCHITECTURE.md**: Add reference to new ADR in appropriate section
+3. **Update Status Table**: Add entry to ADR Status Overview table
+4. **Cross-reference**: Link from CLAUDE.md if relevant to future development
+
+### ADR Template Structure
+```markdown
+# ADR-XXX: Title
+
+## Status
+[Accepted/Rejected/Superseded]
+
+## Date
+YYYY-MM-DD
+
+## Context
+[Problem description and background]
+
+## Decision
+[What was decided and how it was implemented]
+
+## Consequences
+[Positive/Negative outcomes and lessons learned]
+```
+
 ## Content Guidelines
 
 When working with content:
@@ -333,5 +368,6 @@ When working with content:
 - **Date Management**: Always include `date` field, optionally add `last_modified_at` for content updates
 - **Multilingual Support**: Add `lang: "ko"` (or "en", "es") for language-aware navigation
 - **⭐ SEO/AEO CRITICAL**: Follow SEO optimization guidelines above for every post
+- **📋 ADR Documentation**: Follow ADR workflow above for technical decisions
 
 **📋 For multilingual post navigation details, see [ADR-009](./docs/ADR-009-multilingual-post-navigation.md)**
