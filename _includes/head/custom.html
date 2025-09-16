@@ -10,6 +10,9 @@
   <link rel="stylesheet" href="{{ '/assets/css/' | append: page.custom_css_file | append: '.css' | relative_url }}">
 {% endif %}
 
+{% comment %}Mobile Responsive CSS - Global{% endcomment %}
+<link rel="stylesheet" href="{{ '/assets/css/mobile-responsive.css' | relative_url }}">
+
 {% comment %}Favicon 설정{% endcomment %}
 {% include head/favicon.html %}
 
