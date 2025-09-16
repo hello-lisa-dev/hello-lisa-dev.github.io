@@ -1,0 +1,137 @@
+/* ========================================
+   Responsive Utilities
+   Based on Minimal Mistakes breakpoints
+   ======================================== */
+
+/* Breakpoint Variables (matching Minimal Mistakes) */
+:root {
+  --breakpoint-small: 600px;
+  --breakpoint-medium: 768px;
+  --breakpoint-medium-wide: 900px;
+  --breakpoint-large: 1024px;
+  --breakpoint-x-large: 1280px;
+}
+
+/* ========================================
+   Display Utilities - Mobile First Approach
+   ======================================== */
+
+/* Hide on mobile and small tablets (up to medium) */
+@media (max-width: 767px) {
+  .hide-sm {
+    display: none !important;
+  }
+}
+
+/* Hide on tablets and below (up to medium-wide) */
+@media (max-width: 899px) {
+  .hide-md {
+    display: none !important;
+  }
+}
+
+/* Hide on tablets and small desktops (up to large) */
+@media (max-width: 1023px) {
+  .hide-lg {
+    display: none !important;
+  }
+}
+
+/* Show only on mobile (small screens) */
+@media (min-width: 768px) {
+  .show-sm-only {
+    display: none !important;
+  }
+}
+
+/* Show only on tablets (medium screens) */
+.show-md-only {
+  display: none !important;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .show-md-only {
+    display: block !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .show-md-only {
+    display: none !important;
+  }
+}
+
+/* Show only on desktops (large screens and up) */
+@media (max-width: 1023px) {
+  .show-lg-up {
+    display: none !important;
+  }
+}
+
+/* ========================================
+   Layout Adjustments
+   ======================================== */
+
+/* Sidebar responsive behavior */
+@media (max-width: 1023px) {
+  .sidebar__right {
+    position: static !important;
+    width: 100% !important;
+    float: none !important;
+    margin-bottom: 2rem;
+  }
+
+  /* Adjust main content when sidebar is hidden */
+  .page__inner-wrap {
+    max-width: 100% !important;
+  }
+
+  .page__content {
+    width: 100% !important;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
+}
+
+/* Navigation and UI elements spacing on mobile */
+@media (max-width: 767px) {
+  .page__content {
+    padding: 0 1rem;
+  }
+
+  .page__inner-wrap {
+    padding: 0 1rem;
+  }
+}
+
+/* ========================================
+   Component-Specific Responsive Rules
+   ======================================== */
+
+/* Translation components - progressive enhancement */
+.translation-links,
+.translation-notice {
+  /* Show by default, hide on small screens */
+}
+
+@media (max-width: 767px) {
+  .translation-links,
+  .translation-notice {
+    display: none !important;
+  }
+}
+
+/* Table of Contents - responsive behavior */
+@media (max-width: 1023px) {
+  .toc {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 0.375rem;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .toc .nav__title {
+    margin-bottom: 0.5rem;
+  }
+}
