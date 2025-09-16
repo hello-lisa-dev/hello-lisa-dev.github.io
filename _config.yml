@@ -119,6 +119,7 @@ og_image: "/assets/images/og-image.jpg"
 # Author 정보
 author:
   name: "LISA"
+  avatar: "/assets/images/bio-photo.png"
   bio: "주니어 개발자 (iOS 개발은 처음). 바이브 코딩으로 첫 번째 iOS 앱을 개발하고 출시한 경험을 공유합니다. 앱을 통한 소소한 수익화를 꿈꾸며 좌충우돌하는 개발자의 성장 스토리."
   links:
     - label: "Email"
