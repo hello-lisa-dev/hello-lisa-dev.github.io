@@ -3,8 +3,11 @@ layout: archive
 ---
 
 {% comment %}
-  Custom categories layout with multilingual support
+  Custom categories layout with multilingual support and AdSense
 {% endcomment %}
+
+{% comment %}AdSense - Categories Top{% endcomment %}
+{% include adsense-article-top.html %}
 
 {% assign current_lang = page.lang | default: site.default_language | default: 'ko' %}
 {% assign ui_text = site.data.ui-text[current_lang] | default: site.data.ui-text['ko'] %}

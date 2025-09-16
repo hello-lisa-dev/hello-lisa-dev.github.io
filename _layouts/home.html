@@ -1,0 +1,51 @@
+---
+layout: archive
+---
+
+{% comment %}AdSense - Homepage Top{% endcomment %}
+{% include adsense-article-top.html %}
+
+{{ content }}
+
+<h3 class="archive__subtitle">{{ site.data.ui-text[site.locale].recent_posts | default: "Recent Posts" }}</h3>
+
+{% comment %}언어별 포스트 필터링{% endcomment %}
+{% assign current_lang = page.lang | default: site.default_language | default: 'ko' %}
+
+{% if paginator %}
+  {% assign all_posts = paginator.posts %}
+{% else %}
+  {% assign all_posts = site.posts %}
+{% endif %}
+
+{% comment %}현재 언어에 맞는 포스트만 필터링{% endcomment %}
+{% assign posts = all_posts | where: "lang", current_lang %}
+
+{% assign entries_layout = page.entries_layout | default: 'list' %}
+
+{% comment %}AdSense - Middle of Posts List{% endcomment %}
+{% assign total_posts = posts.size %}
+{% if total_posts > 4 %}
+  {% assign middle_index = total_posts | divided_by: 2 %}
+  <div class="entries-{{ entries_layout }}">
+    {% for post in posts limit: middle_index %}
+      {% include archive-single.html type=entries_layout %}
+    {% endfor %}
+
+    {% comment %}AdSense - Middle{% endcomment %}
+    {% include adsense-article-middle.html %}
+
+    {% for post in posts offset: middle_index %}
+      {% include archive-single.html type=entries_layout %}
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="entries-{{ entries_layout }}">
+    {% include documents-collection.html entries=posts type=entries_layout %}
+  </div>
+{% endif %}
+
+{% include paginator.html %}
+
+{% comment %}AdSense - Homepage Bottom{% endcomment %}
+{% include adsense-article-bottom.html %}
