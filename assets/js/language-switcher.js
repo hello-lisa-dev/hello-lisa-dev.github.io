@@ -1622,6 +1622,6 @@ const translationPreviewCSS = `
 `;
 
 // Inject CSS
-const style = document.createElement('style');
-style.textContent = translationPreviewCSS;
-document.head.appendChild(style);
+const translationStyleElement = document.createElement('style');
+translationStyleElement.textContent = translationPreviewCSS;
+document.head.appendChild(translationStyleElement);
